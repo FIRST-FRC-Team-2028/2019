@@ -23,4 +23,6 @@ public class Parameters {
   // number and the module. For example you with a rangefinder:
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
+
+  public static final boolean DRIVE_AVAILABLE = true;
 }

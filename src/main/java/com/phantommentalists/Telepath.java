@@ -27,7 +27,7 @@ import com.phantommentalists.subsystems.Drive;
  */
 public class Telepath extends TimedRobot {
 
-  private static Drive drive = new Drive();
+  private static Drive drive;
   public static OI oi;
 
   Command autonomousCommand;
@@ -39,6 +39,9 @@ public class Telepath extends TimedRobot {
    */
   public Telepath() {
     defaultCommand = new DefaultCommand(this);
+    if (Parameters.DRIVE_AVAILABLE) {
+      drive = new Drive();
+    }
   }
 
   /**
