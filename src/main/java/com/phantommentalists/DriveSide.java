@@ -1,6 +1,10 @@
+package com.phantommentalists;
+
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.phantommentalists.Parameters;
 
-public class DriveSide{
+public class DriveSide {
 
     /** Reference to master motor controller */
     private TalonSRX master;
@@ -18,10 +22,11 @@ public class DriveSide{
     private VictorSPX competitionFollower3;
 
     public DriveSide(boolean left, Parameters.DriveGearbox gearbox) {
+        Parameters.CanId masterCanId = null;
         if (left) {
-            Parameters.CanId masterCanId = Parameters.CanId.LEFT_MASTER_CAN_ID;
+            masterCanId = Parameters.CanId.LEFT_MASTER_CAN_ID;
         } else {
-            Parameters.CanId masterCanId = Parameters.CanId.RIGHT_MASTER_CAN_ID;
+            masterCanId = Parameters.CanId.RIGHT_MASTER_CAN_ID;
         }
         master = new TalonSRX(masterCanId.getCanId());
         if (left) {

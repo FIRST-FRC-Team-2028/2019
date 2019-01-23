@@ -8,9 +8,8 @@
 package com.phantommentalists.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import com.ctre.phoenix.motorcontroller.can.TalonSRX;
-import com.ctre.phoenix.motorcontroller.can.VictorSPX;
 import com.phantommentalists.Parameters;
+import com.phantommentalists.DriveSide;
 
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
