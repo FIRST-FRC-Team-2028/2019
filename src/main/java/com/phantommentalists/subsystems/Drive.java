@@ -8,13 +8,26 @@
 package com.phantommentalists.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import com.ctre.phoenix.motorcontroller.can.TalonSRX;
+import com.ctre.phoenix.motorcontroller.can.VictorSPX;
+import com.phantommentalists.Parameters;
 
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
  */
 public class Drive extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+
+      private DriveSide left;
+
+      private DriveSide right;
+
+  /** 
+    * Default constructor
+    */
+  public Drive() {
+      left = new DriveSide(true, Parameters.DriveGearbox.TWO_MOTOR_GEARBOX);
+      right = new DriveSide(false, Parameters.DriveGearbox.TWO_MOTOR_GEARBOX);
+  }
 
   @Override
   public void initDefaultCommand() {

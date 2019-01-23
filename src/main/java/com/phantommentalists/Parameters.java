@@ -24,5 +24,41 @@ public class Parameters {
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
 
+  /**
+   * Flag that tells the code if there is a drive system 
+   */
   public static final boolean DRIVE_AVAILABLE = true;
+
+  public enum DriveGearbox {
+    /** We're deploying on practice robot with dual CIM motor gearbox */
+    TWO_MOTOR_GEARBOX,
+
+    /** We're deploying on competition robot with four 775 motor gearbox */
+    FOUR_MOTOR_GEARBOX;
+  }
+  
+  /**
+   * Enum to hold all information about devices on the CAN bus
+   */
+  public enum CanId {
+    LEFT_MASTER_CAN_ID(10, true),
+    RIGHT_MASTER_CAN_ID(20, false);
+
+    private int canId;
+
+    private boolean inverted; 
+
+    CanId(int canId, boolean inverted) {
+      this.inverted = inverted;
+      this.canId = canId;
+    }
+
+    public int getCanId() {
+      return canId;
+    }
+
+    public boolean isInverted() {
+      return inverted;
+    }
+  }
 }
