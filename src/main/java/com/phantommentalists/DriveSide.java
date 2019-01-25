@@ -1,7 +1,9 @@
 package com.phantommentalists;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import com.phantommentalists.Parameters;
 
 public class DriveSide {
@@ -33,20 +35,32 @@ public class DriveSide {
             // This is the left side drive-train      
             switch (gearbox) {
                 case TWO_MOTOR_GEARBOX:
-                    // TODO:  Construct instances for left-side practiceFollower
+                    practiceFollower = new TalonSRX(Parameters.CanId.LEFT_2_FOLLOWER_CAN_ID.getCanId());
+                    practiceFollower.set(ControlMode.Follower, masterCanId.getCanId());
                     break;
                 case FOUR_MOTOR_GEARBOX:
-                    // TODO:  Construct instances for left-side competitionFollower1, competitionFollower2 and competitionFollower3
+                    competitionFollower1 = new VictorSPX(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_1.getCanId());
+                    competitionFollower1.set(ControlMode.Follower, masterCanId.getCanId());
+                    competitionFollower2 = new VictorSPX(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_2.getCanId());
+                    competitionFollower2.set(ControlMode.Follower, masterCanId.getCanId());
+                    competitionFollower3 = new VictorSPX(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_3.getCanId());
+                    competitionFollower3.set(ControlMode.Follower, masterCanId.getCanId());
                     break;
             }
         } else {
             // This is the right side drive-train
             switch (gearbox) {
                 case TWO_MOTOR_GEARBOX:
-                    // TODO:  Construct instances for right-side practiceFollower
+                    practiceFollower = new TalonSRX(Parameters.CanId.RIGHT_2_FOLLOWER_CAN_ID.getCanId());
+                    practiceFollower.set(ControlMode.Follower, masterCanId.getCanId());
                     break;
                 case FOUR_MOTOR_GEARBOX:
-                    // TODO:  Construct instances for right-side competitionFollower1, competitionFollower2 and competitionFollower3
+                    competitionFollower1 = new VictorSPX(Parameters.CanId.RIGHT_4_FOLLOWER_CAN_ID_1.getCanId());
+                    competitionFollower1.set(ControlMode.Follower, masterCanId.getCanId());
+                    competitionFollower2 = new VictorSPX(Parameters.CanId.RIGHT_4_FOLLOWER_CAN_ID_2.getCanId());
+                    competitionFollower2.set(ControlMode.Follower, masterCanId.getCanId());
+                    competitionFollower3 = new VictorSPX(Parameters.CanId.RIGHT_4_FOLLOWER_CAN_ID_3.getCanId());
+                    competitionFollower3.set(ControlMode.Follower, masterCanId.getCanId());
                     break;
             }        
         }
