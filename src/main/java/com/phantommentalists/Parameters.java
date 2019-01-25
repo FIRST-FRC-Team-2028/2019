@@ -24,6 +24,15 @@ public class Parameters {
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
 
+
+  public static final boolean ELEVATOR_AVAILABLE = false;
+
+  public static final boolean COMPRESSOR_AVAILABLE = false;
+
+  public static final boolean GRIPPER_AVAILABLE = false;
+  public static final double GRIPPER_INFEED_SPEED = 100;
+  public static final double GRIPPER_LAUNCH_SPEED = -300;
+
   /**
    * Flag that tells the code if there is a drive system 
    */
@@ -43,14 +52,11 @@ public class Parameters {
   public enum CanId {
     LEFT_MASTER_CAN_ID(10, true),
     RIGHT_MASTER_CAN_ID(20, false),
-    LEFT_2_FOLLOWER_CAN_ID(11, false), 
-    LEFT_4_FOLLOWER_CAN_ID_1(11, false),
-    LEFT_4_FOLLOWER_CAN_ID_2(12,false),
-    LEFT_4_FOLLOWER_CAN_ID_3(13,false),
-    RIGHT_2_FOLLOWER_CAN_ID(21, false), 
-    RIGHT_4_FOLLOWER_CAN_ID_1(21, false),
-    RIGHT_4_FOLLOWER_CAN_ID_2(22,false),
-    RIGHT_4_FOLLOWER_CAN_ID_3(23,false);
+        
+    ELEVATOR(30, false),
+    
+    CARGO_INTAKE(40, false),
+    CARGO_HANDLER(50, false);
 
     private int canId;
 
@@ -67,6 +73,42 @@ public class Parameters {
 
     public boolean isInverted() {
       return inverted;
+    }
+  }
+
+  public enum Pid {
+    ELEVATOR(0, 0, 0, 0);
+
+    private double p;
+    private double i;
+    private double d;
+    private double f;
+
+    private Pid(double p, double i, double d, double f) {
+      this.p = p;
+      this.i = i;
+      this.d = d;
+      this.f = f;
+    }
+
+    public double getP()
+    {
+      return p;
+    }
+
+    public double getI()
+    {
+      return i;
+    }
+
+    public double getD()
+    {
+      return d;
+    }
+
+    public double getF()
+    {
+      return f;
     }
   }
 }
