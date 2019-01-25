@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package com.phantommentalists;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Joystick;
@@ -28,7 +28,8 @@ public class RobotMap {
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
   public static Joystick joystick;
-  public static Joystick buttonBox;
+  public static Joystick buttonBoxLeft;
+  public static Joystick buttonBoxRight;
 
   public static TalonSRX left_drive_master;
   public static TalonSRX left_drive_slave;
@@ -45,17 +46,10 @@ public class RobotMap {
 
   public static void init() {
     joystick = new Joystick(0);
-    buttonBox = new Joystick(1);
+    buttonBoxLeft = new Joystick(1);
+    buttonBoxRight = new Joystick(2);
 
-    if(Parameters.DRIVE_AVAILABLE)
-    {
-      left_drive_master = new TalonSRX(Parameters.CanId.DRIVE_LEFT_MASTER.getCanId());
-      left_drive_slave = new TalonSRX(Parameters.CanId.DRIVE_LEFT_SLAVE.getCanId());
-      right_drive_master = new TalonSRX(Parameters.CanId.DRIVE_RIGHT_MASTER.getCanId());
-      right_drive_slave = new TalonSRX(Parameters.CanId.DRIVE_RIGHT_SLAVE.getCanId());
-      left_drive_slave.follow(left_drive_master);
-      right_drive_slave.follow(right_drive_master);
-    }
+    // Drive motors defined in DriveSide
 
     if(Parameters.GRIPPER_AVAILABLE)
     {

@@ -33,6 +33,7 @@ public class Parameters {
   public static final double GRIPPER_INFEED_SPEED = 100;
   public static final double GRIPPER_LAUNCH_SPEED = -300;
 
+
   /**
    * Flag that tells the code if there is a drive system 
    */
@@ -52,7 +53,15 @@ public class Parameters {
   public enum CanId {
     LEFT_MASTER_CAN_ID(10, true),
     RIGHT_MASTER_CAN_ID(20, false),
-        
+    LEFT_2_FOLLOWER_CAN_ID(11, false), 
+    LEFT_4_FOLLOWER_CAN_ID_1(11, false),
+    LEFT_4_FOLLOWER_CAN_ID_2(12,false),
+    LEFT_4_FOLLOWER_CAN_ID_3(13,false),
+    RIGHT_2_FOLLOWER_CAN_ID(21, false), 
+    RIGHT_4_FOLLOWER_CAN_ID_1(21, false),
+    RIGHT_4_FOLLOWER_CAN_ID_2(22,false),
+    RIGHT_4_FOLLOWER_CAN_ID_3(23,false),
+
     ELEVATOR(30, false),
     
     CARGO_INTAKE(40, false),
