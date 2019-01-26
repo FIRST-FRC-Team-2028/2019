@@ -7,6 +7,7 @@
 
 package com.phantommentalists;
 
+import com.phantommentalists.Parameters.MultiController;
 import com.phantommentalists.commands.SpinCommand;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -28,28 +29,43 @@ public class OI {
   public Joystick stick = new Joystick(0);
   public Joystick buttonBoxLeft = new Joystick(1);
   public Joystick buttonBoxRight = new Joystick(2);
-  private Parameters.MultiControllers controllerType = Parameters.MultiControllers.XBOX_CONTROLLER;
-  //private Parameters.MultiControllers controllerType = type;
-  String type = DriverStation.getInstance().getJoystickName(0);
-
+  //private Parameters.MultiController controllerType;
+  private Parameters.MultiController controllerType = Parameters.MultiController.PS_CONTROLLER;
+  
   public double getLeftStick()
   {
     switch (controllerType) {
       case LOGITECH_EXTREME:
         return stick.getRawAxis(Parameters.LOGITECH_Y_AXIS) + stick.getRawAxis(Parameters.LOGITECH_TWIST);
+      case PS_CONTROLLER:
       case XBOX_CONTROLLER:
-        return stick.getRawAxis(Parameters.XBOX_LEFT_STICK);
+        return stick.getRawAxis(Parameters.PS_LEFT_STICK);
       default:
         return 0.;
     }
   }
+
+  private MultiController numtoMC(int num)
+  {
+    System.out.println("Num2MC: "+num);
+    for (MultiController m : MultiController.values())
+    {
+      if (m.getnum() == num) 
+      {
+        return m;
+      }
+    }
+    return null;
+  }
+
   public double getRightStick()
   {
     switch (controllerType) {
       case LOGITECH_EXTREME:
         return stick.getRawAxis(Parameters.LOGITECH_Y_AXIS) - stick.getRawAxis(Parameters.LOGITECH_TWIST);
+      case PS_CONTROLLER:
       case XBOX_CONTROLLER:
-        return stick.getRawAxis(Parameters.XBOX_RIGHT_STICK);
+        return stick.getRawAxis(Parameters.PS_RIGHT_STICK);
       default:
         return 0.;
     }
@@ -60,7 +76,13 @@ public class OI {
   public OI()
   {
     button.whileHeld(new SpinCommand());
-    SmartDashboard.putString("controller type ", type);
+    //private Parameters.MultiController controllerType = type;
+    String type = DriverStation.getInstance().getJoystickName(0);
+    SmartDashboard.putString("controller name ", type);
+    SmartDashboard.putNumber("controller type",  DriverStation.getInstance().getJoystickType(0));
+    MultiController dummy=numtoMC(DriverStation.getInstance().getJoystickType(0));
+    controllerType = dummy;
+    SmartDashboard.putNumber("Current type", controllerType.getnum());
   }
 
   // There are a few additional built in buttons you can use. Additionally,
