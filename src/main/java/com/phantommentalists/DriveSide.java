@@ -65,4 +65,10 @@ public class DriveSide {
             }        
         }
     }
+
+    public double getMotorCurrentOutput() {
+        double outputCurrent =  master.getOutputCurrent();
+        System.out.println(outputCurrent);
+        return outputCurrent;
+    } 
 }
