@@ -42,10 +42,14 @@ public class Drive extends Subsystem {
     setDefaultCommand(new DefaultCommand());
   }
 
-  public void tankDrive()
+  public void spinDrive()
   {
-    System.out.println(oi.getLeftStick());
-    left.setPercentOutput(oi.getLeftStick());
-    right.setPercentOutput(oi.getRightStick());
+    left.setPercentOutput(0.5);
+    right.setPercentOutput(-0.5);
+  }
+  public void tankDrive(double lefta, double righta)
+  {
+    left.setPercentOutput(lefta);
+    right.setPercentOutput(righta);
   }
 }

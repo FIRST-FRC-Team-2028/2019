@@ -7,7 +7,11 @@
 
 package com.phantommentalists;
 
+import com.phantommentalists.commands.SpinCommand;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -30,6 +34,12 @@ public class OI {
     return stick.getRawAxis(Parameters.STICK_GET_RIGHT_Y_AXIS);
   }
   // Button button = new JoystickButton(stick, buttonNumber);
+  Button button = new JoystickButton(stick, 1);
+  
+  public OI()
+  {
+    button.whileHeld(new SpinCommand());
+  }
 
   // There are a few additional built in buttons you can use. Additionally,
   // by subclassing Button you can create custom triggers and bind those to

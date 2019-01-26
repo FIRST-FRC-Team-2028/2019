@@ -45,11 +45,11 @@ public class Telepath extends TimedRobot {
    */
   public Telepath() {
     //defaultCommand = new DefaultCommand(drive);
-    oi = new OI();
+
     if (Parameters.DRIVE_AVAILABLE) {
       drive = new Drive();
     }
-
+    oi = new OI();
   }
 
   /**
