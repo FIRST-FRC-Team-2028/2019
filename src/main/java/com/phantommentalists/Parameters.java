@@ -33,6 +33,19 @@ public class Parameters {
   public static final double GRIPPER_INFEED_SPEED = 100;
   public static final double GRIPPER_LAUNCH_SPEED = -300;
 
+  //using multiple controllers
+  public enum MultiControllers {
+    LOGITECH_EXTREME,
+    XBOX_CONTROLLER,
+    STEERING_WHEEL;
+  }
+  public static final int STICK_GET_LEFT_Y_AXIS = 1;
+  public static final int STICK_GET_RIGHT_Y_AXIS = 2;
+  public static final int LOGITECH_Y_AXIS = 1;
+  public static final int LOGITECH_TWIST = 2;
+  public static final int XBOX_LEFT_STICK = 1;
+  public static final int XBOX_RIGHT_STICK = 5;
+  
 
   /**
    * Flag that tells the code if there is a drive system 

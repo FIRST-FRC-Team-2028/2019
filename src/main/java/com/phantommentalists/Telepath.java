@@ -15,7 +15,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.phantommentalists.commands.DefaultCommand;
 import com.phantommentalists.commands.AutoCommand;
+import com.phantommentalists.subsystems.CargoIntake;
 import com.phantommentalists.subsystems.Drive;
+import com.phantommentalists.subsystems.Elevator;
+import com.phantommentalists.subsystems.Handler;
 
 
 /**
@@ -27,21 +30,26 @@ import com.phantommentalists.subsystems.Drive;
  */
 public class Telepath extends TimedRobot {
 
-  private static Drive drive;
+  private static Handler handler;
+  private static Elevator elevator;
+  private static CargoIntake cargoIntake;
+  public static Drive drive;
   public static OI oi;
 
   Command autonomousCommand;
   Command defaultCommand;
-  SendableChooser<Command> chooser = new SendableChooser<>();
+  //SendableChooser<Command> chooser = new SendableChooser<>();
 
   /**
    * Default constructor
    */
   public Telepath() {
-    defaultCommand = new DefaultCommand(this);
+    //defaultCommand = new DefaultCommand(drive);
+
     if (Parameters.DRIVE_AVAILABLE) {
       drive = new Drive();
     }
+    oi = new OI();
   }
 
   /**
@@ -58,10 +66,7 @@ public class Telepath extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    oi = new OI();
-    chooser.setDefaultOption("Default Auto", new AutoCommand(this));
     // chooser.addOption("My Auto", new MyAutoCommand());
-    SmartDashboard.putData("Auto mode", chooser);
   }
 
   /**
@@ -74,6 +79,7 @@ public class Telepath extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+
   }
 
   /**
@@ -103,7 +109,6 @@ public class Telepath extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    autonomousCommand = chooser.getSelected();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -113,9 +118,7 @@ public class Telepath extends TimedRobot {
      */
 
     // schedule the autonomous command (example)
-    if (autonomousCommand != null) {
-      autonomousCommand.start();
-    }
+
   }
 
   /**
@@ -132,9 +135,6 @@ public class Telepath extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (autonomousCommand != null) {
-      autonomousCommand.cancel();
-    }
   }
 
   /**

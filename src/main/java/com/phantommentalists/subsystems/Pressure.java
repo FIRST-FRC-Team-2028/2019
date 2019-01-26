@@ -10,7 +10,6 @@ package com.phantommentalists.subsystems;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import com.phantommentalists.Parameters;
-import com.phantommentalists.RobotMap;
 
 /**
  * Use the PCM to keep the pressure tank pressurized so the 
@@ -24,7 +23,7 @@ public class Pressure extends Subsystem {
 
   public Pressure(){
     if(Parameters.COMPRESSOR_AVAILABLE){
-      compressor=RobotMap.compressor;
+        compressor = new Compressor(0);
     }
   }
 

@@ -14,21 +14,20 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 //import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.phantommentalists.Parameters;
-import com.phantommentalists.RobotMap;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Elevator extends Subsystem
 {
     TalonSRX e_motor;
-    boolean fwdlimitclosed;
-    //Do I need the boolean?
+    //boolean fwdlimitclosed;
     double setpoint;
+    int autoMode;
 
     public Elevator()
     {
         if(Parameters.ELEVATOR_AVAILABLE)
         {
-            e_motor = RobotMap.elevator_motor;
+            e_motor = new TalonSRX(Parameters.CanId.ELEVATOR.getCanId());
             e_motor.config_kP(1, Parameters.Pid.ELEVATOR.getP(), 0);
 			e_motor.config_kI(1, Parameters.Pid.ELEVATOR.getI(), 0);
 		    e_motor.config_kD(1, Parameters.Pid.ELEVATOR.getD(), 0);
@@ -95,6 +94,16 @@ public class Elevator extends Subsystem
         return getPosition();
     }
     
+    public void setMode(int switchMode)
+    {
+        autoMode = switchMode;
+    }
+
+    public int getMode()
+    {
+        return autoMode;
+    }
+
     public void initDefaultCommand()
     {
         

@@ -9,6 +9,7 @@ package com.phantommentalists.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import com.phantommentalists.Parameters;
+import com.phantommentalists.commands.DefaultCommand;
 import com.phantommentalists.DriveSide;
 
 /**
@@ -19,6 +20,7 @@ public class Drive extends Subsystem {
       private DriveSide left;
 
       private DriveSide right;
+
 
   /** 
     * Default constructor
@@ -32,5 +34,18 @@ public class Drive extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    //setDefaultCommand(new DefaultCommand());
+    setDefaultCommand(new DefaultCommand());
+  }
+
+  public void spinDrive()
+  {
+    left.setPercentOutput(0.5);
+    right.setPercentOutput(-0.5);
+  }
+  public void tankDrive(double lefta, double righta)
+  {
+    left.setPercentOutput(lefta);
+    right.setPercentOutput(righta);
   }
 }

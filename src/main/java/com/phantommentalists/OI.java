@@ -7,7 +7,13 @@
 
 package com.phantommentalists;
 
+import com.phantommentalists.commands.SpinCommand;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -19,8 +25,43 @@ public class OI {
   //// joystick.
   // You create one by telling it which joystick it's on and which button
   // number it is.
-  Joystick stick = RobotMap.joystick;
+  public Joystick stick = new Joystick(0);
+  public Joystick buttonBoxLeft = new Joystick(1);
+  public Joystick buttonBoxRight = new Joystick(2);
+  private Parameters.MultiControllers controllerType = Parameters.MultiControllers.XBOX_CONTROLLER;
+  //private Parameters.MultiControllers controllerType = type;
+  String type = DriverStation.getInstance().getJoystickName(0);
+
+  public double getLeftStick()
+  {
+    switch (controllerType) {
+      case LOGITECH_EXTREME:
+        return stick.getRawAxis(Parameters.LOGITECH_Y_AXIS) + stick.getRawAxis(Parameters.LOGITECH_TWIST);
+      case XBOX_CONTROLLER:
+        return stick.getRawAxis(Parameters.XBOX_LEFT_STICK);
+      default:
+        return 0.;
+    }
+  }
+  public double getRightStick()
+  {
+    switch (controllerType) {
+      case LOGITECH_EXTREME:
+        return stick.getRawAxis(Parameters.LOGITECH_Y_AXIS) - stick.getRawAxis(Parameters.LOGITECH_TWIST);
+      case XBOX_CONTROLLER:
+        return stick.getRawAxis(Parameters.XBOX_RIGHT_STICK);
+      default:
+        return 0.;
+    }
+  }
   // Button button = new JoystickButton(stick, buttonNumber);
+  Button button = new JoystickButton(stick, 1);
+  
+  public OI()
+  {
+    button.whileHeld(new SpinCommand());
+    SmartDashboard.putString("controller type ", type);
+  }
 
   // There are a few additional built in buttons you can use. Additionally,
   // by subclassing Button you can create custom triggers and bind those to

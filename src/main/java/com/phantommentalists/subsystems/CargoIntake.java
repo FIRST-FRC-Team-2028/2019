@@ -14,7 +14,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.phantommentalists.Parameters;
 //import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 //import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
-import com.phantommentalists.RobotMap;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class CargoIntake extends Subsystem 
@@ -24,25 +23,20 @@ public class CargoIntake extends Subsystem
 
   public CargoIntake()
   {
-    intakeMotor = RobotMap.cargo_motor_intake;
-    intakeMotor.set(ControlMode.PercentOutput, 0);
-		intakeMotor.setNeutralMode(NeutralMode.Brake);
-    intakeMotor.setInverted(Parameters.CanId.CARGO_INTAKE.isInverted());
+    if(Parameters.GRIPPER_AVAILABLE)
+    {
+      intakeMotor = new TalonSRX(Parameters.CanId.CARGO_INTAKE.getCanId());
+      handlerMotor = new TalonSRX(Parameters.CanId.CARGO_HANDLER.getCanId());
     
-    handlerMotor = RobotMap.cargo_motor_handler;
-    //handlerMotor.set(ControlMode.PercentOutput, 0);
-    handlerMotor.follow(intakeMotor);
-		handlerMotor.setNeutralMode(NeutralMode.Brake);
-    handlerMotor.setInverted(Parameters.CanId.CARGO_HANDLER.isInverted());
+      intakeMotor.set(ControlMode.PercentOutput, 0);
+      intakeMotor.setNeutralMode(NeutralMode.Brake);
+      intakeMotor.setInverted(Parameters.CanId.CARGO_INTAKE.isInverted());
 
-    /**
-    *E_Motor.config_kP(1, Parameters.Pid.ELEVATOR.getP(), 0);
-		*E_Motor.config_kI(1, Parameters.Pid.ELEVATOR.getI(), 0);
-		*E_Motor.config_kD(1, Parameters.Pid.ELEVATOR.getD(), 0);
-		*E_Motor.config_kF(1, Parameters.Pid.ELEVATOR.getF(), 0);
-    *E_Motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 0);
-    *E_Motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
-    */
+      //handlerMotor.set(ControlMode.PercentOutput, 0);
+      handlerMotor.follow(intakeMotor);
+      handlerMotor.setNeutralMode(NeutralMode.Brake);
+      handlerMotor.setInverted(Parameters.CanId.CARGO_HANDLER.isInverted());
+    }
   }
 
   public boolean isCubeHeld()
