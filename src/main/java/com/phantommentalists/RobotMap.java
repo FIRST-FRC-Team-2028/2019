@@ -45,7 +45,7 @@ public class RobotMap {
   public static Compressor compressor;
 
   public static void init() {
-    joystick = new Joystick(0);
+    //joystick = new Joystick(0);
     buttonBoxLeft = new Joystick(1);
     buttonBoxRight = new Joystick(2);
 

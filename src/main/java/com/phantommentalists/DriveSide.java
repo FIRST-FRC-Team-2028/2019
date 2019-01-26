@@ -25,18 +25,23 @@ public class DriveSide {
 
     public DriveSide(boolean left, Parameters.DriveGearbox gearbox) {
         Parameters.CanId masterCanId = null;
+        boolean inverted;
         if (left) {
             masterCanId = Parameters.CanId.LEFT_MASTER_CAN_ID;
+            inverted = true;
         } else {
             masterCanId = Parameters.CanId.RIGHT_MASTER_CAN_ID;
+            inverted = false;
         }
         master = new TalonSRX(masterCanId.getCanId());
+        master.setInverted(inverted);
         if (left) {
             // This is the left side drive-train      
             switch (gearbox) {
                 case TWO_MOTOR_GEARBOX:
                     practiceFollower = new TalonSRX(Parameters.CanId.LEFT_2_FOLLOWER_CAN_ID.getCanId());
                     practiceFollower.set(ControlMode.Follower, masterCanId.getCanId());
+                    practiceFollower.setInverted(inverted);
                     break;
                 case FOUR_MOTOR_GEARBOX:
                     competitionFollower1 = new VictorSPX(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_1.getCanId());
@@ -64,5 +69,9 @@ public class DriveSide {
                     break;
             }        
         }
+    }
+    public void setPercentOutput(double speed)
+    {
+        master.set(ControlMode.PercentOutput, speed);
     }
 }

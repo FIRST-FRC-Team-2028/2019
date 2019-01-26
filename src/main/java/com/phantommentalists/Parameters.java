@@ -39,6 +39,10 @@ public class Parameters {
    */
   public static final boolean DRIVE_AVAILABLE = true;
 
+public static final int STICK_GET_LEFT_Y_AXIS = 1;
+
+public static final int STICK_GET_RIGHT_Y_AXIS = 5;
+
   public enum DriveGearbox {
     /** We're deploying on practice robot with dual CIM motor gearbox */
     TWO_MOTOR_GEARBOX,

@@ -9,7 +9,10 @@ package com.phantommentalists.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import com.phantommentalists.Parameters;
+import com.phantommentalists.Telepath;
+import com.phantommentalists.commands.DefaultCommand;
 import com.phantommentalists.DriveSide;
+import com.phantommentalists.OI;
 
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
@@ -20,10 +23,13 @@ public class Drive extends Subsystem {
 
       private DriveSide right;
 
+      private OI oi;
+
   /** 
     * Default constructor
     */
   public Drive() {
+      oi = Telepath.oi;
       left = new DriveSide(true, Parameters.DriveGearbox.TWO_MOTOR_GEARBOX);
       right = new DriveSide(false, Parameters.DriveGearbox.TWO_MOTOR_GEARBOX);
   }
@@ -32,5 +38,14 @@ public class Drive extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    //setDefaultCommand(new DefaultCommand());
+    setDefaultCommand(new DefaultCommand());
+  }
+
+  public void tankDrive()
+  {
+    System.out.println(oi.getLeftStick());
+    left.setPercentOutput(oi.getLeftStick());
+    right.setPercentOutput(oi.getRightStick());
   }
 }

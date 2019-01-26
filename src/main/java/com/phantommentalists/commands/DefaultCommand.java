@@ -8,29 +8,31 @@
 package com.phantommentalists.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
 import com.phantommentalists.Telepath;
+
 
 /**
  * An example command.  You can replace me with your own command.
  */
 public class DefaultCommand extends Command {
 
-  private Telepath robot;
-
-  public DefaultCommand(Telepath r) {
-    robot = r;
+  
+  public DefaultCommand() {
     // Use requires() here to declare subsystem dependencies
-    requires(robot.getDrive());
+    requires(Telepath.drive);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Telepath.drive.tankDrive();
   }
 
   // Make this return true when this Command no longer needs to run execute()
