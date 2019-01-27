@@ -26,6 +26,7 @@ public class Parameters {
 
 
   public static final boolean ELEVATOR_AVAILABLE = false;
+  public static final double ELEVATOR_ZEROING_SPEED = -0.25;
 
   public static final boolean COMPRESSOR_AVAILABLE = false;
 
@@ -49,8 +50,37 @@ public class Parameters {
     public int getnum(){
       return this.num;
     }
-
   }
+
+  public enum ElevatorPosition {
+    HATCH_LOW(900),
+    HATCH_MIDDLE(15000),
+    HATCH_HIGH(27000),
+    CARGO_LOW(1500),
+    CARGO_MIDDLE(17500),
+    CARGO_HIGH(28500),
+    HAB_ZONE_LEVEL_2(400),
+    HAB_ZONE_LEVEL_3(5000);
+
+    private int ticks;
+
+    private ElevatorPosition(int t)
+    {
+      ticks = t;
+    }
+
+    public int getSetPoint()
+    {
+      return ticks;
+    }
+  }
+
+  public enum AutoMode {
+    AUTO,
+    MANUAL,
+    ZEROING;
+  }
+
   public static final int STICK_GET_LEFT_Y_AXIS = 1;
   public static final int STICK_GET_RIGHT_Y_AXIS = 2;
   public static final int LOGITECH_Y_AXIS = 1;
