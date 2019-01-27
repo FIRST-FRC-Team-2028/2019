@@ -29,9 +29,10 @@ public class Parameters {
 
   public static final boolean COMPRESSOR_AVAILABLE = false;
 
-  public static final boolean GRIPPER_AVAILABLE = false;
-  public static final double GRIPPER_INFEED_SPEED = 100;
-  public static final double GRIPPER_LAUNCH_SPEED = -300;
+  public static final boolean INTAKE_AVAILABLE = false;
+  public static final double CARGO_INTAKE_ROLLER_SPEED = 1.0;
+  public static final double CARGO_INTAKE_DEPLOY_SPEED = 0.5;
+  public static final double CARGO_INTAKE_RETRACT_SPEED = -0.5;
 
   //using multiple controllers
   public enum MultiController {

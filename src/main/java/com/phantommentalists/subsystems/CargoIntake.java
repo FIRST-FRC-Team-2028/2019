@@ -5,76 +5,87 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package  com.phantommentalists.subsystems;
+package com.phantommentalists.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-//import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.phantommentalists.Parameters;
-//import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
-//import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class CargoIntake extends Subsystem 
-{
-  TalonSRX intakeMotor;
-  TalonSRX handlerMotor;
+import com.phantommentalists.Parameters;
+import com.phantommentalists.Parameters.CanId;
 
-  public CargoIntake()
-  {
-    if(Parameters.GRIPPER_AVAILABLE)
-    {
-      intakeMotor = new TalonSRX(Parameters.CanId.CARGO_INTAKE.getCanId());
-      handlerMotor = new TalonSRX(Parameters.CanId.CARGO_HANDLER.getCanId());
-    
-      intakeMotor.set(ControlMode.PercentOutput, 0);
-      intakeMotor.setNeutralMode(NeutralMode.Brake);
-      intakeMotor.setInverted(Parameters.CanId.CARGO_INTAKE.isInverted());
+public class CargoIntake extends Subsystem {
+  TalonSRX roller;
+  TalonSRX extender;
 
-      //handlerMotor.set(ControlMode.PercentOutput, 0);
-      handlerMotor.follow(intakeMotor);
-      handlerMotor.setNeutralMode(NeutralMode.Brake);
-      handlerMotor.setInverted(Parameters.CanId.CARGO_HANDLER.isInverted());
+  public CargoIntake() {
+    if (Parameters.INTAKE_AVAILABLE) {
+      roller = new TalonSRX(CanId.CARGO_INTAKE.getCanId());
+      extender = new TalonSRX(CanId.CARGO_HANDLER.getCanId());
+
+      roller.set(ControlMode.PercentOutput, 0.0);
+      roller.setNeutralMode(NeutralMode.Brake);
+      roller.setInverted(Parameters.CanId.CARGO_INTAKE.isInverted());
+
+      extender.set(ControlMode.PercentOutput, 0.0);
+      extender.setNeutralMode(NeutralMode.Brake);
+      extender.setInverted(Parameters.CanId.CARGO_HANDLER.isInverted());
+      extender.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 0);
+      extender.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 0);
     }
   }
 
-  public boolean isCubeHeld()
-  {
-    if(Parameters.GRIPPER_AVAILABLE)
-    {
-      return intakeMotor.getSensorCollection().isFwdLimitSwitchClosed();
-      //Limit Switch???
+  public void turnOnRollers() {
+    if (Parameters.INTAKE_AVAILABLE) {
+      roller.set(ControlMode.PercentOutput, Parameters.CARGO_INTAKE_ROLLER_SPEED);
     }
-    return true;
   }
-  
-	public void pickupCube()
-	{
-		if(Parameters.GRIPPER_AVAILABLE){
-			intakeMotor.set(ControlMode.PercentOutput, Parameters.GRIPPER_INFEED_SPEED);
-		}
-	}
 
-	public void launchCube()
-	{
-		if(Parameters.GRIPPER_AVAILABLE){
-			intakeMotor.set(ControlMode.PercentOutput, Parameters.GRIPPER_LAUNCH_SPEED);
-		}
-  }
-  
-  public void stopGripper()
-  {
-    if(Parameters.GRIPPER_AVAILABLE)
-    {
-      intakeMotor.set(ControlMode.PercentOutput, 0.);
+  public void turnOffRollers() {
+    if (Parameters.INTAKE_AVAILABLE) {
+      roller.set(ControlMode.PercentOutput, 0.0);
     }
   }
-  
+
+  public void deploy() {
+    if (Parameters.INTAKE_AVAILABLE) {
+      extender.set(ControlMode.PercentOutput, Parameters.CARGO_INTAKE_DEPLOY_SPEED);
+    }
+  }
+
+  public void retract() {
+    if (Parameters.INTAKE_AVAILABLE) {
+      extender.set(ControlMode.PercentOutput, Parameters.CARGO_INTAKE_RETRACT_SPEED);
+    }
+  }
+
+  public boolean isDeployed() {
+    if (Parameters.INTAKE_AVAILABLE) {
+      SensorCollection sc = extender.getSensorCollection();
+      if (sc != null)
+      {
+        return sc.isFwdLimitSwitchClosed();
+      }
+    }
+    return false;
+  }
+
+  public boolean isRetracted() {
+    if (Parameters.INTAKE_AVAILABLE) {
+      SensorCollection sc = extender.getSensorCollection();
+      if (sc != null)
+      {
+        return sc.isRevLimitSwitchClosed();
+      }
+    }
+    return false;
+  }
+
   @Override
-  public void initDefaultCommand() 
-  {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+  public void initDefaultCommand() {
   }
 }
