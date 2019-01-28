@@ -8,61 +8,70 @@
 package com.phantommentalists.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-//import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.phantommentalists.Parameters;
-import com.phantommentalists.RobotMap;
+import com.phantommentalists.Parameters.AutoMode;
+import com.phantommentalists.Parameters.ElevatorPosition;
+import com.phantommentalists.Parameters.Pid;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Elevator extends Subsystem
 {
-    TalonSRX e_motor;
-    boolean fwdlimitclosed;
-    //Do I need the boolean?
-    double setpoint;
+    TalonSRX upDown;
+    //boolean fwdlimitclosed;
+    ElevatorPosition setpoint;
+    boolean zeroed;
+    AutoMode mode;
 
     public Elevator()
     {
         if(Parameters.ELEVATOR_AVAILABLE)
         {
-            e_motor = RobotMap.elevator_motor;
-            e_motor.config_kP(1, Parameters.Pid.ELEVATOR.getP(), 0);
-			e_motor.config_kI(1, Parameters.Pid.ELEVATOR.getI(), 0);
-		    e_motor.config_kD(1, Parameters.Pid.ELEVATOR.getD(), 0);
-		    e_motor.config_kF(1, Parameters.Pid.ELEVATOR.getF(), 0);
-		    e_motor.set(ControlMode.Position, 0);
-            e_motor .setNeutralMode(NeutralMode.Brake);
-            e_motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 0);
-			e_motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
+            upDown = new TalonSRX(Parameters.CanId.ELEVATOR.getCanId());
+            upDown.selectProfileSlot(1, 0);
+            upDown.config_kP(1, Pid.ELEVATOR.getP(), 0);
+			upDown.config_kI(1, Pid.ELEVATOR.getI(), 0);
+		    upDown.config_kD(1, Pid.ELEVATOR.getD(), 0);
+		    upDown.config_kF(1, Pid.ELEVATOR.getF(), 0);
+		    upDown.set(ControlMode.PercentOutput, 0);
+            upDown.setNeutralMode(NeutralMode.Brake);
+            //upDown.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 0);
+            upDown.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
+            upDown.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+            zeroed = false;
+            mode = AutoMode.ZEROING;
         }
     }
 
-    public double getSetpoint()
+    public ElevatorPosition getSetpoint()
     {
         if(Parameters.ELEVATOR_AVAILABLE)
 		{
 			return setpoint;
 		}
-		return 0;
+		return ElevatorPosition.HATCH_LOW;
     }
 
     public double getPosition()
     {
         if(Parameters.ELEVATOR_AVAILABLE)
 		{
-			return e_motor.getSensorCollection().getQuadraturePosition();
+			return upDown.getSensorCollection().getQuadraturePosition();
 		}
 		return 0;
     }
 
-    public void setPosition(double switchPosition)
+    public void setPosition(ElevatorPosition switchPosition)
     {
         if(Parameters.ELEVATOR_AVAILABLE)
 		{
-			e_motor.set(ControlMode.Position, switchPosition);
+			upDown.set(ControlMode.Position, switchPosition.getSetPoint());
 			setpoint = switchPosition;
 		}
     }
@@ -71,7 +80,11 @@ public class Elevator extends Subsystem
 	{
 		if(Parameters.ELEVATOR_AVAILABLE)
 		{
-			e_motor.getSensorCollection().setQuadraturePosition(0, 0);
+            // FIX ME Double Check Logic
+            // upDown.getSensorCollection().setQuadraturePosition(0, 0);
+            zeroed = true;
+            mode = AutoMode.MANUAL;
+            upDown.setSelectedSensorPosition(0);            
 		}
     }
 
@@ -79,24 +92,86 @@ public class Elevator extends Subsystem
     {
         if(Parameters.ELEVATOR_AVAILABLE)
         {
-            e_motor.set(ControlMode.PercentOutput,0.);
+            mode = AutoMode.MANUAL;
+            upDown.set(ControlMode.PercentOutput, 0.0);
         }
     }
 
-    public double elevatorUp()
+    /**
+     * Specifies a speed the motor should turn as a percentage.
+     * 
+     * @param motorPower Speed of the motor in range -1.0 ... 0.0 ... 1.0
+     */
+    public void setPower(double motorPower)
     {
-        e_motor.set(ControlMode.PercentOutput, 0.5);
-        return getPosition();
-    }
-
-    public double elevatorDown()
-    {
-        e_motor.set(ControlMode.PercentOutput, -0.5);
-        return getPosition();
+        if (Parameters.ELEVATOR_AVAILABLE)
+        {
+            mode = AutoMode.MANUAL;
+            upDown.set(ControlMode.PercentOutput, motorPower);
+        }
     }
     
+    /**
+     * Setter for auto mode
+     * 
+     * @param AutoMode the new mode
+     */
+    public void setMode(AutoMode switchMode)
+    {
+        mode = switchMode;
+    }
+
+    /**
+     * Getter for auto mode
+     * 
+     * @return AutoMode
+     */
+    public AutoMode getMode()
+    {
+        return mode;
+    }
+
+    public boolean isZeroed()
+    {
+        if (Parameters.ELEVATOR_AVAILABLE)
+        {
+            return zeroed;
+        }
+        return false;
+    }
+
+    /**
+     * This method is called approximately 20 times per second by the
+     * Robot's teleopPeriodic() or autonomousPeriodic().  It ensures
+     * the elevator's position encoder is zeroed when the robot is first
+     * enabled (before the elevator can be moved).
+     * 
+     */
+    public void process()
+    {
+        if (Parameters.ELEVATOR_AVAILABLE)
+        {
+            if (!zeroed)
+            {
+                upDown.set(ControlMode.PercentOutput, Parameters.ELEVATOR_ZEROING_SPEED);
+                SensorCollection sc = upDown.getSensorCollection();
+                if (sc != null)
+                {
+                    if (sc.isRevLimitSwitchClosed())
+                    {
+                        upDown.set(ControlMode.PercentOutput, 0.0);
+                        zeroPosition();
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * This method intentionally blank
+     */
     public void initDefaultCommand()
     {
-        
+        // NOOP
     }
 }

@@ -70,6 +70,12 @@ public class DriveSide {
             }        
         }
     }
+
+    public double getMotorCurrentOutput() {
+        double outputCurrent =  master.getOutputCurrent();
+        System.out.println(outputCurrent);
+        return outputCurrent;
+    } 
     public void setPercentOutput(double speed)
     {
         master.set(ControlMode.PercentOutput, speed);

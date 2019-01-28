@@ -7,11 +7,14 @@
 
 package com.phantommentalists;
 
+import com.phantommentalists.Parameters.MultiController;
 import com.phantommentalists.commands.SpinCommand;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -24,14 +27,48 @@ public class OI {
   // You create one by telling it which joystick it's on and which button
   // number it is.
   public Joystick stick = new Joystick(0);
-
+  public Joystick buttonBoxLeft = new Joystick(1);
+  public Joystick buttonBoxRight = new Joystick(2);
+  //private Parameters.MultiController controllerType;
+  private Parameters.MultiController controllerType = Parameters.MultiController.PS_CONTROLLER;
+  
   public double getLeftStick()
   {
-    return stick.getRawAxis(Parameters.STICK_GET_LEFT_Y_AXIS);
+    switch (controllerType) {
+      case LOGITECH_EXTREME:
+        return stick.getRawAxis(Parameters.LOGITECH_Y_AXIS) + stick.getRawAxis(Parameters.LOGITECH_TWIST);
+      case PS_CONTROLLER:
+      case XBOX_CONTROLLER:
+        return stick.getRawAxis(Parameters.PS_LEFT_STICK);
+      default:
+        return 0.;
+    }
   }
+
+  private MultiController numtoMC(int num)
+  {
+    System.out.println("Num2MC: "+num);
+    for (MultiController m : MultiController.values())
+    {
+      if (m.getnum() == num) 
+      {
+        return m;
+      }
+    }
+    return null;
+  }
+
   public double getRightStick()
   {
-    return stick.getRawAxis(Parameters.STICK_GET_RIGHT_Y_AXIS);
+    switch (controllerType) {
+      case LOGITECH_EXTREME:
+        return stick.getRawAxis(Parameters.LOGITECH_Y_AXIS) - stick.getRawAxis(Parameters.LOGITECH_TWIST);
+      case PS_CONTROLLER:
+      case XBOX_CONTROLLER:
+        return stick.getRawAxis(Parameters.PS_RIGHT_STICK);
+      default:
+        return 0.;
+    }
   }
   // Button button = new JoystickButton(stick, buttonNumber);
   Button button = new JoystickButton(stick, 1);
@@ -39,6 +76,13 @@ public class OI {
   public OI()
   {
     button.whileHeld(new SpinCommand());
+    //private Parameters.MultiController controllerType = type;
+    String type = DriverStation.getInstance().getJoystickName(0);
+    SmartDashboard.putString("controller name ", type);
+    SmartDashboard.putNumber("controller type",  DriverStation.getInstance().getJoystickType(0));
+    MultiController dummy=numtoMC(DriverStation.getInstance().getJoystickType(0));
+    controllerType = dummy;
+    SmartDashboard.putNumber("Current type", controllerType.getnum());
   }
 
   // There are a few additional built in buttons you can use. Additionally,

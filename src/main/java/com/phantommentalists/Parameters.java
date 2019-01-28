@@ -26,24 +26,77 @@ public class Parameters {
 
 
   public static final boolean ELEVATOR_AVAILABLE = false;
+  public static final double ELEVATOR_ZEROING_SPEED = -0.25;
 
   public static final boolean COMPRESSOR_AVAILABLE = false;
 
-  public static final boolean GRIPPER_AVAILABLE = false;
-  public static final double GRIPPER_INFEED_SPEED = 100;
-  public static final double GRIPPER_LAUNCH_SPEED = -300;
+  public static final boolean INTAKE_AVAILABLE = false;
+  public static final double CARGO_INTAKE_ROLLER_SPEED = 1.0;
+  public static final double CARGO_INTAKE_DEPLOY_SPEED = 0.5;
+  public static final double CARGO_INTAKE_RETRACT_SPEED = -0.5;
 
   public static final double CAM_FILTER_LINES_ANGLE_LESSER = 30.0;
   public static final double CAM_FILTER_LINES_ANGLE_GREATER = 150.0;
   public static final double CAM_FILTER_LINES_MINIMUM_LENGTH = 40.0;
+  
+  //using multiple controllers
+  public enum MultiController {
+    LOGITECH_EXTREME(20),
+    PS_CONTROLLER(21),
+    XBOX_CONTROLLER(1),
+    STEERING_WHEEL(2);
+
+    private int num;
+    MultiController(int num){
+      this.num=num;
+    }
+
+    public int getnum(){
+      return this.num;
+    }
+  }
+
+  public enum ElevatorPosition {
+    HATCH_LOW(900),
+    HATCH_MIDDLE(15000),
+    HATCH_HIGH(27000),
+    CARGO_LOW(1500),
+    CARGO_MIDDLE(17500),
+    CARGO_HIGH(28500),
+    HAB_ZONE_LEVEL_2(400),
+    HAB_ZONE_LEVEL_3(5000);
+
+    private int ticks;
+
+    private ElevatorPosition(int t)
+    {
+      ticks = t;
+    }
+
+    public int getSetPoint()
+    {
+      return ticks;
+    }
+  }
+
+  public enum AutoMode {
+    AUTO,
+    MANUAL,
+    ZEROING;
+  }
+
+  public static final int STICK_GET_LEFT_Y_AXIS = 1;
+  public static final int STICK_GET_RIGHT_Y_AXIS = 2;
+  public static final int LOGITECH_Y_AXIS = 1;
+  public static final int LOGITECH_TWIST = 2;
+  public static final int PS_LEFT_STICK = 1;
+  public static final int PS_RIGHT_STICK = 5;
+  
+
   /**
    * Flag that tells the code if there is a drive system 
    */
   public static final boolean DRIVE_AVAILABLE = true;
-
-public static final int STICK_GET_LEFT_Y_AXIS = 1;
-
-public static final int STICK_GET_RIGHT_Y_AXIS = 5;
 
   public enum DriveGearbox {
     /** We're deploying on practice robot with dual CIM motor gearbox */
