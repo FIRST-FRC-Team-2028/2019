@@ -19,8 +19,13 @@ import com.phantommentalists.subsystems.CargoIntake;
 import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.subsystems.Elevator;
 import com.phantommentalists.subsystems.Handler;
+import org.opencv.core.*;
+import org.opencv.videoio.VideoCapture;
 
-
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSink;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -35,21 +40,28 @@ public class Telepath extends TimedRobot {
   private static CargoIntake cargoIntake;
   public static Drive drive;
   public static OI oi;
+  public CameraThread cameraThread;
 
   Command autonomousCommand;
   Command defaultCommand;
   //SendableChooser<Command> chooser = new SendableChooser<>();
+  UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture(0);
+  
+  //UsbCamera cam2 = CameraServer.getInstance().startAutomaticCapture(1);
+  VideoSink server = CameraServer.getInstance().getServer();
+  CvSink sink = CameraServer.getInstance().getVideo();
 
   /**
    * Default constructor
    */
   public Telepath() {
     //defaultCommand = new DefaultCommand(drive);
-
+    cameraThread = new CameraThread();
     if (Parameters.DRIVE_AVAILABLE) {
       drive = new Drive();
     }
     oi = new OI();
+    
   }
 
   /**
@@ -60,6 +72,7 @@ public class Telepath extends TimedRobot {
   public Drive getDrive() {
     return drive;
   }
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -67,6 +80,7 @@ public class Telepath extends TimedRobot {
   @Override
   public void robotInit() {
     RobotMap.init();
+    cameraThread.run();
     // chooser.addOption("My Auto", new MyAutoCommand());
   }
 
@@ -117,9 +131,7 @@ public class Telepath extends TimedRobot {
      * = new MyAutoCommand(); break; case "Default Auto": default:
      * autonomousCommand = new ExampleCommand(); break; }
      */
-
-    // schedule the autonomous command (example)
-
+    
   }
 
   /**

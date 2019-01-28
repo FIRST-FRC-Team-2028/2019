@@ -33,7 +33,9 @@ public class Parameters {
   public static final double GRIPPER_INFEED_SPEED = 100;
   public static final double GRIPPER_LAUNCH_SPEED = -300;
 
-
+  public static final double CAM_FILTER_LINES_ANGLE_LESSER = 30.0;
+  public static final double CAM_FILTER_LINES_ANGLE_GREATER = 150.0;
+  public static final double CAM_FILTER_LINES_MINIMUM_LENGTH = 40.0;
   /**
    * Flag that tells the code if there is a drive system 
    */
