@@ -13,13 +13,19 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-//import com.phantommentalists.commands.DefaultCommand;
-//import com.phantommentalists.commands.AutoCommand;
+import com.phantommentalists.commands.DefaultDriveCommand;
+import com.phantommentalists.commands.AutoCommand;
 import com.phantommentalists.subsystems.CargoIntake;
 import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.subsystems.Elevator;
 import com.phantommentalists.subsystems.Handler;
+import org.opencv.core.*;
+import org.opencv.videoio.VideoCapture;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSink;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -35,17 +41,24 @@ public class Telepath extends TimedRobot {
   private static CargoIntake cargoIntake;
   public static Drive drive;
   public static OI oi;
+  public CameraThread cameraThread;
 
-  //Command autonomousCommand;
-  //Command defaultDriveCommand;
-  //SendableChooser<Command> chooser = new SendableChooser<>();
+  Command autonomousCommand;
+  Command defaultCommand;
+  // SendableChooser<Command> chooser = new SendableChooser<>();
+  UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture(0);
+
+  // UsbCamera cam2 = CameraServer.getInstance().startAutomaticCapture(1);
+  VideoSink server = CameraServer.getInstance().getServer();
+  CvSink sink = CameraServer.getInstance().getVideo();
 
   /**
-   * constructor
+   * Default constructor
    */
   public Telepath() {
-    //defaultCommand = new DefaultCommand(drive);
-
+    // defaultCommand = new DefaultCommand(drive);
+    cameraThread = new CameraThread();
+    cameraThread.start();
     if (Parameters.DRIVE_AVAILABLE) {
       drive = new Drive();
     }
@@ -59,6 +72,7 @@ public class Telepath extends TimedRobot {
       cargoIntake = new CargoIntake();
     }
     oi = new OI();
+
   }
 
   /**
@@ -69,32 +83,36 @@ public class Telepath extends TimedRobot {
   public Drive getDrive() {
     return drive;
   }
+
   /**
-   * This function is run when the robot is first started up and should be
-   * used for any initialization code.
+   * This function is run when the robot is first started up and should be used
+   * for any initialization code.
    */
   @Override
   public void robotInit() {
+    //cameraThread.start();
+    
     // chooser.addOption("My Auto", new MyAutoCommand());
   }
 
   /**
-   * This function is called every robot packet, no matter the mode. Use
-   * this for items like diagnostics that you want ran during disabled,
-   * autonomous, teleoperated and test.
+   * This function is called every robot packet, no matter the mode. Use this for
+   * items like diagnostics that you want ran during disabled, autonomous,
+   * teleoperated and test.
    *
-   * <p>This runs after the mode specific periodic functions, but before
-   * LiveWindow and SmartDashboard integrated updating.
+   * <p>
+   * This runs after the mode specific periodic functions, but before LiveWindow
+   * and SmartDashboard integrated updating.
    */
   @Override
   public void robotPeriodic() {
-
+    SmartDashboard.putNumber("size", cameraThread.getSize());
   }
 
   /**
-   * This function is called once each time the robot enters Disabled mode.
-   * You can use it to reset any subsystem information you want to clear when
-   * the robot is disabled.
+   * This function is called once each time the robot enters Disabled mode. You
+   * can use it to reset any subsystem information you want to clear when the
+   * robot is disabled.
    */
   @Override
   public void disabledInit() {
@@ -107,26 +125,25 @@ public class Telepath extends TimedRobot {
 
   /**
    * This autonomous (along with the chooser code above) shows how to select
-   * between different autonomous modes using the dashboard. The sendable
-   * chooser code works with the Java SmartDashboard. If you prefer the
-   * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-   * getString code to get the auto name from the text box below the Gyro
+   * between different autonomous modes using the dashboard. The sendable chooser
+   * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
+   * remove all of the chooser code and uncomment the getString code to get the
+   * auto name from the text box below the Gyro
    *
-   * <p>You can add additional auto modes by adding additional commands to the
-   * chooser code above (like the commented example) or additional comparisons
-   * to the switch structure below with additional strings & commands.
+   * <p>
+   * You can add additional auto modes by adding additional commands to the
+   * chooser code above (like the commented example) or additional comparisons to
+   * the switch structure below with additional strings & commands.
    */
   @Override
   public void autonomousInit() {
 
     /*
-     * String autoSelected = SmartDashboard.getString("Auto Selector",
-     * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-     * = new MyAutoCommand(); break; case "Default Auto": default:
-     * autonomousCommand = new ExampleCommand(); break; }
+     * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
+     * switch(autoSelected) { case "My Auto": autonomousCommand = new
+     * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
+     * ExampleCommand(); break; }
      */
-
-    // schedule the autonomous command (example)
 
   }
 
@@ -158,6 +175,8 @@ public class Telepath extends TimedRobot {
    * This function is called periodically during test mode.
    */
   @Override
-  public void testPeriodic() {
+  public void testPeriodic() 
+  {
   }
+
 }
