@@ -16,10 +16,10 @@ import com.phantommentalists.Telepath;
 /**
  * An example command.  You can replace me with your own command.
  */
-public class DefaultCommand extends Command {
+public class DefaultDriveCommand extends Command {
 
   public OI oi = Telepath.oi;
-  public DefaultCommand() {
+  public DefaultDriveCommand() {
     // Use requires() here to declare subsystem dependencies
     requires(Telepath.drive);
   }
