@@ -58,6 +58,7 @@ public class Telepath extends TimedRobot {
   public Telepath() {
     // defaultCommand = new DefaultCommand(drive);
     cameraThread = new CameraThread();
+    cameraThread.start();
     if (Parameters.DRIVE_AVAILABLE) {
       drive = new Drive();
     }
@@ -80,7 +81,8 @@ public class Telepath extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    cameraThread.run();
+    //cameraThread.start();
+    
     // chooser.addOption("My Auto", new MyAutoCommand());
   }
 
@@ -95,7 +97,7 @@ public class Telepath extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-
+    SmartDashboard.putNumber("size", cameraThread.getSize());
   }
 
   /**
