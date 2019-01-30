@@ -121,6 +121,22 @@ public class Parameters {
     FOUR_MOTOR_GEARBOX;
   }
   
+  /** Enum to hold all information about pneumatic solenoids */
+  public enum PneumaticChannel {
+    HANDLER_CREATE_VACUUM(1),
+    HANDLER_RELEASE_VACUUM(2);
+
+    private int channel;
+
+    private PneumaticChannel(int ch) {
+      channel = ch;
+    }
+
+    public int getChannel() {
+      return channel;
+    }
+  }
+
   /**
    * Enum to hold all information about devices on the CAN bus
    */
