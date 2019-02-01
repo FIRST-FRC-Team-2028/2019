@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * Add your docs here.
  */
-public class CargoHandler {
+public class CargoHandler extends Subsystem{
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
@@ -31,5 +31,9 @@ public class CargoHandler {
   public boolean isCargoHeld() {
     // FIX ME: Get current state from sensor
     return false;
+  }
+
+  @Override
+  protected void initDefaultCommand() {
   }
 }

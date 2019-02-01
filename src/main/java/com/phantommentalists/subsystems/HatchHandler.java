@@ -10,6 +10,8 @@ package com.phantommentalists.subsystems;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.phantommentalists.Parameters;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -19,10 +21,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class HatchHandler extends Subsystem {
 
-  
   private DoubleSolenoid suction;
   public HatchHandler() {
-    suction = new DoubleSolenoid(PneumaticChannel.HANDLER_CREATE_VACUUM.getChannel(), PneumaticChannel.HANDLER_RELEASE_VACUUM.getChannel());
+    suction = new DoubleSolenoid(Parameters.PneumaticChannel.HANDLER_CREATE_VACUUM.getChannel(), Parameters.PneumaticChannel.HANDLER_RELEASE_VACUUM.getChannel());
 
   }
 
@@ -35,12 +36,12 @@ public class HatchHandler extends Subsystem {
    * Releases the vacuum on the hatch handlers
    */
   public void releaseHatch() {
-
+    suction.set(Value.kReverse);
   }
   /**
    * Applys vacuum to the hatch handlers
    */
   public void loadHatch() {
-
+    suction.set(Value.kForward);
   }
 }

@@ -7,6 +7,8 @@
 
 package com.phantommentalists.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.phantommentalists.Parameters;
 import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.Parameters.PneumaticChannel;
 
@@ -57,20 +59,6 @@ public class Handler extends Subsystem {
   }
 
   /** 
-   * Activates a solenoid to provide vacuum for the hatch handler
-   */
-  public void releaseVacuum() {
-    suction.set(Value.kReverse);
-  }
-
-  /** 
-   * Activates a solenoid to remove vacuum for the hatch handler
-   */
-  public void createVacuum() {
-    suction.set(Value.kForward);
-  }
-  
-  /** 
    * TBD
    * 
    * @param AutoMode sets the auto pilot mode for the handler
@@ -85,7 +73,6 @@ public class Handler extends Subsystem {
    */
   public void loadHatch() {
     hatchHandler.loadHatch();
-    createVacuum();
   }
 
   /**
@@ -93,7 +80,6 @@ public class Handler extends Subsystem {
    */
   public void releaseHatch() {
     hatchHandler.releaseHatch();
-    releaseVacuum();
   }
 
   /** 
