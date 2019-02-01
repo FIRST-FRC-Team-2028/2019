@@ -9,13 +9,12 @@ package com.phantommentalists.commands;
 
 import com.phantommentalists.Telepath;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.Command;
 
-public class CargoHandlerLoad extends CommandGroup {
-  public CargoHandlerLoad() {
+public class RetractCargoIntake extends Command {
+  public RetractCargoIntake() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.handler);
     requires(Telepath.cargoIntake);
   }
 
@@ -27,20 +26,19 @@ public class CargoHandlerLoad extends CommandGroup {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    //Cargo Handler turns on rollers
-    Telepath.handler.loadCargo();
+    Telepath.cargoIntake.turnOffRollers();
+    Telepath.cargoIntake.retract();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Telepath.handler.isCargoHeld();
+    return Telepath.cargoIntake.isRetracted();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Telepath.handler.stopCargoHandler();
   }
 
   // Called when another command which requires one or more of the same

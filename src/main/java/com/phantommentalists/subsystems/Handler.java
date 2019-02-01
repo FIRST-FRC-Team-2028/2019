@@ -115,6 +115,10 @@ public class Handler extends Subsystem {
     cargoHandler.loadCargo();
   }
 
+  public void stopCargoHandler() {
+    cargoHandler.stopMotor();
+  }
+
   /** 
    * Shoots the cargo into the cargo ship or rocket
    */

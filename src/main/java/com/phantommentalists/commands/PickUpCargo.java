@@ -36,13 +36,12 @@ public PickUpCargo() {
     requires(Telepath.handler);
     //Move the elevator to the zero position
     addSequential(new ZeroElevatorPosition());
-    //Deploy the Cargo Intake
-    //Run Cargo Intake rollers
-    //Run Cargo Handler rollers
-    //stop the rollers when we have a ball
+    //Deploy and runs the Cargo Intake
+    //While the Cargo Intake is being deployed, run the Cargo Handler
+    addParallel(new DeployCargoIntake());
+    //Run Cargo Handler until we have a ball
+    addSequential(new CargoHandlerLoad());
     //retract Cargo Intake
-    addParallel(new CargoHandlerLoad());
-    addSequential(new DeployCargoIntake());
-    
+    addSequential(new RetractCargoIntake());
   }
 }

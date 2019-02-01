@@ -27,12 +27,13 @@ public class DeployCargoIntake extends Command {
   @Override
   protected void execute() {
     Telepath.cargoIntake.deploy();
+    Telepath.cargoIntake.turnOnRollers();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Telepath.cargoIntake.isDeployed();
   }
 
   // Called once after isFinished returns true

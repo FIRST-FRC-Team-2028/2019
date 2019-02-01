@@ -212,4 +212,9 @@ public class Parameters {
   }
 
   public static final boolean HANDLER_AVAILABLE = false;
+
+  public static final boolean CARGO_HANDLER_AVAILABLE = false;
+  public static final double CARGO_HANDLER_INTAKE_SPEED = 1;
+  public static final double CARGO_HANDLER_SHOOT_SPEED = -1;
+  public static final int CARGO_HANDLER_SENSOR = 0;
 }
