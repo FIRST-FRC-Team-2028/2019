@@ -7,6 +7,8 @@
 
 package com.phantommentalists.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.phantommentalists.Parameters;
 import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.Parameters.PneumaticChannel;
 
@@ -28,28 +30,20 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 
 public class Handler extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
   
-  /** Handler is composed of 3 hatchHandler objects */
-  private HatchHandler hatchHandler[];
-
-  /** Handler is composed of 1 cargoHandler */
+  private HatchHandler hatchHandler;
   private CargoHandler cargoHandler;
+  private TalonSRX leadScrewMotor;  // to position HatchHandler
   
-  private DoubleSolenoid suction;
 
   /**
    * Default constructor. This method initializes all data members of the class
    */
   public Handler() {
     cargoHandler = new CargoHandler();
-    hatchHandler = new HatchHandler[3];
-    hatchHandler[0] = new HatchHandler();
-    hatchHandler[1] = new HatchHandler();
-    hatchHandler[2] = new HatchHandler();
+    hatchHandler = new HatchHandler();
 
-    suction = new DoubleSolenoid(PneumaticChannel.HANDLER_CREATE_VACUUM.getChannel(), PneumaticChannel.HANDLER_RELEASE_VACUUM.getChannel());
+    leadScrewMotor = new TalonSRX(Parameters.CanId.HATCH_LEAD_SCREW_MOTOR.getCanId());
   }
 
   /** 
@@ -65,20 +59,6 @@ public class Handler extends Subsystem {
   }
 
   /** 
-   * Activates a solenoid to provide vacuum for the hatch handler
-   */
-  public void releaseVacuum() {
-    suction.set(Value.kReverse);
-  }
-
-  /** 
-   * Activates a solenoid to remove vacuum for the hatch handler
-   */
-  public void createVacuum() {
-    suction.set(Value.kForward);
-  }
-  
-  /** 
    * TBD
    * 
    * @param AutoMode sets the auto pilot mode for the handler
@@ -92,20 +72,14 @@ public class Handler extends Subsystem {
    * Note: There is currently no way to know if a hatch handler is sealed on the hatch.
    */
   public void loadHatch() {
-    hatchHandler[0].loadHatch();
-    hatchHandler[1].loadHatch();
-    hatchHandler[2].loadHatch();
-    createVacuum();
+    hatchHandler.loadHatch();
   }
 
   /**
    * Release the vacuum for each of the 3 hatch handlers.
    */
   public void releaseHatch() {
-    hatchHandler[0].releaseHatch();
-    hatchHandler[1].releaseHatch();
-    hatchHandler[2].releaseHatch();
-    releaseVacuum();
+    hatchHandler.releaseHatch();
   }
 
   /** 

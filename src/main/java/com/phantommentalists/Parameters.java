@@ -155,7 +155,9 @@ public class Parameters {
     ELEVATOR(30, false),
     
     CARGO_INTAKE(40, false),
-    CARGO_HANDLER(50, false);
+    CARGO_HANDLER(50, false),
+
+    HATCH_LEAD_SCREW_MOTOR(60, false);
 
     private int canId;
 
@@ -217,4 +219,13 @@ public class Parameters {
   public static final double CARGO_HANDLER_INTAKE_SPEED = 1;
   public static final double CARGO_HANDLER_SHOOT_SPEED = -1;
   public static final int CARGO_HANDLER_SENSOR = 0;
+  /**
+   * PDP Channels on the practice robot.
+   */
+  public static final int PDP_LEFT_MOTOR_MASTER = 12;
+  public static final int PDP_LEFT_MOTOR_FOLLOWER = 13;
+  public static final int PDP_RIGHT_MOTOR_MASTER = 15;
+  public static final int PDP_RIGHT_MOTOR_FOLLOWER = 14;
+
+  
 }

@@ -7,20 +7,24 @@
 
 package com.phantommentalists.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.phantommentalists.Parameters;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * Add your docs here.
+ * The hatch handler loads a hatch and releases it. 
+ * It loads a hatch with vacuum.
+ * It releases a hatch with a piston.
  */
 public class HatchHandler extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
 
-  private HatchHandler hatchHandler[];
-
+  private DoubleSolenoid suction;
   public HatchHandler() {
-    hatchHandler[0] = new HatchHandler();
-    
+    suction = new DoubleSolenoid(Parameters.PneumaticChannel.HANDLER_CREATE_VACUUM.getChannel(), Parameters.PneumaticChannel.HANDLER_RELEASE_VACUUM.getChannel());
+
   }
 
   @Override
@@ -28,12 +32,16 @@ public class HatchHandler extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
-
+  /**
+   * Releases the vacuum on the hatch handlers
+   */
   public void releaseHatch() {
-
+    suction.set(Value.kReverse);
   }
-
+  /**
+   * Applys vacuum to the hatch handlers
+   */
   public void loadHatch() {
-
+    suction.set(Value.kForward);
   }
 }
