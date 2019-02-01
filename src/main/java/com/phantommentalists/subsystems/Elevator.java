@@ -29,6 +29,9 @@ public class Elevator extends Subsystem
     boolean zeroed;
     AutoMode mode;
 
+    /**
+     * Default constructor
+     */
     public Elevator()
     {
         if(Parameters.ELEVATOR_AVAILABLE)
@@ -49,6 +52,10 @@ public class Elevator extends Subsystem
         }
     }
 
+    /**
+     * This method is a generated getter for the output of a setpoint.
+     * @return ElevatorPosition output
+     */
     public ElevatorPosition getSetpoint()
     {
         if(Parameters.ELEVATOR_AVAILABLE)
@@ -58,6 +65,10 @@ public class Elevator extends Subsystem
 		return ElevatorPosition.HATCH_LOW;
     }
 
+    /**
+     * This method is a generated getter for the output of upDown.
+     * @return double output
+     */
     public double getPosition()
     {
         if(Parameters.ELEVATOR_AVAILABLE)

@@ -36,9 +36,9 @@ import edu.wpi.cscore.VideoSink;
  */
 public class Telepath extends TimedRobot {
 
-  private static Handler handler;
-  private static Elevator elevator;
-  private static CargoIntake cargoIntake;
+  public static Handler handler;
+  public static Elevator elevator;
+  public static CargoIntake cargoIntake;
   public static Drive drive;
   public static OI oi;
   public CameraThread cameraThread;
@@ -65,7 +65,7 @@ public class Telepath extends TimedRobot {
     if (Parameters.HANDLER_AVAILABLE) {
       handler = new Handler();
     }
-    if (Parameters.ELEVATOR_AVAILABLE) {
+    if (Parameters.HANDLER_AVAILABLE) {
       elevator = new Elevator();
     }
     if (Parameters.INTAKE_AVAILABLE) {
@@ -91,7 +91,6 @@ public class Telepath extends TimedRobot {
   @Override
   public void robotInit() {
     //cameraThread.start();
-    
     // chooser.addOption("My Auto", new MyAutoCommand());
   }
 
