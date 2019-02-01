@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import com.phantommentalists.commands.DefaultDriveCommand;
 import com.phantommentalists.commands.AutoCommand;
 import com.phantommentalists.subsystems.CargoIntake;
 import com.phantommentalists.subsystems.Drive;
@@ -41,13 +40,12 @@ public class Telepath extends TimedRobot {
   private static CargoIntake cargoIntake;
   public static Drive drive;
   public static OI oi;
-  public CameraThread cameraThread;
+  public static CameraThread cameraThread;
 
   Command autonomousCommand;
   Command defaultCommand;
   // SendableChooser<Command> chooser = new SendableChooser<>();
   UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture(0);
-
   // UsbCamera cam2 = CameraServer.getInstance().startAutomaticCapture(1);
   VideoSink server = CameraServer.getInstance().getServer();
   CvSink sink = CameraServer.getInstance().getVideo();
@@ -56,6 +54,9 @@ public class Telepath extends TimedRobot {
    * Default constructor
    */
   public Telepath() {
+    cam1.setResolution(480, 320);
+    cam1.setFPS(8);
+    cam1.setExposureManual(35);
     // defaultCommand = new DefaultCommand(drive);
     cameraThread = new CameraThread();
     cameraThread.start();
@@ -72,7 +73,6 @@ public class Telepath extends TimedRobot {
       cargoIntake = new CargoIntake();
     }
     oi = new OI();
-
   }
 
   /**
@@ -107,6 +107,7 @@ public class Telepath extends TimedRobot {
   @Override
   public void robotPeriodic() {
     SmartDashboard.putNumber("size", cameraThread.getSize());
+
   }
 
   /**
@@ -169,6 +170,8 @@ public class Telepath extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    SmartDashboard.putNumber("'left' x", cameraThread.getLeft().x2);
+    SmartDashboard.putNumber("'right' x", cameraThread.getRight().x2);
   }
 
   /**
@@ -177,6 +180,7 @@ public class Telepath extends TimedRobot {
   @Override
   public void testPeriodic() 
   {
+
   }
 
 }

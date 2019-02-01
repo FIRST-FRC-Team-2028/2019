@@ -47,7 +47,9 @@ public class OI {
     controllerType = dummy;
     //try
     //{
+    if(controllerType != null){
       SmartDashboard.putNumber("Current type", controllerType.getnum());
+      }
     //} catch (Exception nullException) {
      // screamAndDie("Unrecognized controller!");
     //}
