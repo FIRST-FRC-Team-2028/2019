@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import com.phantommentalists.commands.DefaultCommand;
 import com.phantommentalists.commands.AutoCommand;
 import com.phantommentalists.subsystems.CargoIntake;
 import com.phantommentalists.subsystems.Drive;
@@ -63,6 +62,15 @@ public class Telepath extends TimedRobot {
     cameraThread.start();
     if (Parameters.DRIVE_AVAILABLE) {
       drive = new Drive();
+    }
+    if (Parameters.HANDLER_AVAILABLE) {
+      handler = new Handler();
+    }
+    if (Parameters.ELEVATOR_AVAILABLE) {
+      elevator = new Elevator();
+    }
+    if (Parameters.INTAKE_AVAILABLE) {
+      cargoIntake = new CargoIntake();
     }
     oi = new OI();
   }

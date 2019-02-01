@@ -25,8 +25,6 @@ public class Parameters {
   // public static int rangefinderModule = 1;
 
 
-  public static final boolean ELEVATOR_AVAILABLE = false;
-  public static final double ELEVATOR_ZEROING_SPEED = -0.25;
 
   public static final boolean COMPRESSOR_AVAILABLE = false;
 
@@ -44,7 +42,7 @@ public class Parameters {
     LOGITECH_EXTREME(20),
     PS_CONTROLLER(21),
     XBOX_CONTROLLER(1),
-    STEERING_WHEEL(2);
+    CUBE_STEERING_WHEEL(24);  // GameCube Controller
 
     private int num;
     MultiController(int num){
@@ -55,7 +53,31 @@ public class Parameters {
       return this.num;
     }
   }
+  public static MultiController multiContFromNum(int num)
+  {
+    for (MultiController m : MultiController.values())
+    {
+      if (m.getnum() == num)
+      {
+        return m;
+      }
+    }
+    return null;
+  }
 
+  public static final int STICK_GET_LEFT_Y_AXIS = 1;
+  public static final int STICK_GET_RIGHT_Y_AXIS = 2;
+  public static final int LOGITECH_Y_AXIS = 1;
+  public static final int LOGITECH_TWIST = 2;
+  public static final int PS_LEFT_STICK = 1;
+  public static final int PS_RIGHT_STICK = 5;
+  public static final int CUBE_WHEEL_AXIS = 0;
+  public static final int CUBE_RIGHT_PADDLE = 5;
+  public static final int CUBE_RIGHT_PEDAL = 1;
+  
+  
+  public static final boolean ELEVATOR_AVAILABLE = false;
+  public static final double ELEVATOR_ZEROING_SPEED = -0.25;
   public enum ElevatorPosition {
     HATCH_LOW(900),
     HATCH_MIDDLE(15000),
@@ -85,13 +107,6 @@ public class Parameters {
     ZEROING;
   }
 
-  public static final int STICK_GET_LEFT_Y_AXIS = 1;
-  public static final int STICK_GET_RIGHT_Y_AXIS = 2;
-  public static final int LOGITECH_Y_AXIS = 1;
-  public static final int LOGITECH_TWIST = 2;
-  public static final int PS_LEFT_STICK = 1;
-  public static final int PS_RIGHT_STICK = 5;
-  
 
   /**
    * Flag that tells the code if there is a drive system 
@@ -106,6 +121,22 @@ public class Parameters {
     FOUR_MOTOR_GEARBOX;
   }
   
+  /** Enum to hold all information about pneumatic solenoids */
+  public enum PneumaticChannel {
+    HANDLER_CREATE_VACUUM(1),
+    HANDLER_RELEASE_VACUUM(2);
+
+    private int channel;
+
+    private PneumaticChannel(int ch) {
+      channel = ch;
+    }
+
+    public int getChannel() {
+      return channel;
+    }
+  }
+
   /**
    * Enum to hold all information about devices on the CAN bus
    */
@@ -179,4 +210,6 @@ public class Parameters {
       return f;
     }
   }
+
+  public static final boolean HANDLER_AVAILABLE = false;
 }

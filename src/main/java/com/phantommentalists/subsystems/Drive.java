@@ -9,7 +9,7 @@ package com.phantommentalists.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import com.phantommentalists.Parameters;
-import com.phantommentalists.commands.DefaultCommand;
+import com.phantommentalists.commands.DefaultDriveCommand;
 import com.phantommentalists.DriveSide;
 
 /**
@@ -35,7 +35,7 @@ public class Drive extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
     //setDefaultCommand(new DefaultCommand());
-    setDefaultCommand(new DefaultCommand());
+    setDefaultCommand(new DefaultDriveCommand());
   }
 
   public void spinDrive()

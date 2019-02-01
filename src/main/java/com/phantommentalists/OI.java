@@ -32,44 +32,6 @@ public class OI {
   //private Parameters.MultiController controllerType;
   private Parameters.MultiController controllerType = Parameters.MultiController.PS_CONTROLLER;
   
-  public double getLeftStick()
-  {
-    switch (controllerType) {
-      case LOGITECH_EXTREME:
-        return stick.getRawAxis(Parameters.LOGITECH_Y_AXIS) + stick.getRawAxis(Parameters.LOGITECH_TWIST);
-      case PS_CONTROLLER:
-      case XBOX_CONTROLLER:
-        return stick.getRawAxis(Parameters.PS_LEFT_STICK);
-      default:
-        return 0.;
-    }
-  }
-
-  private MultiController numtoMC(int num)
-  {
-    System.out.println("Num2MC: "+num);
-    for (MultiController m : MultiController.values())
-    {
-      if (m.getnum() == num) 
-      {
-        return m;
-      }
-    }
-    return null;
-  }
-
-  public double getRightStick()
-  {
-    switch (controllerType) {
-      case LOGITECH_EXTREME:
-        return stick.getRawAxis(Parameters.LOGITECH_Y_AXIS) - stick.getRawAxis(Parameters.LOGITECH_TWIST);
-      case PS_CONTROLLER:
-      case XBOX_CONTROLLER:
-        return stick.getRawAxis(Parameters.PS_RIGHT_STICK);
-      default:
-        return 0.;
-    }
-  }
   // Button button = new JoystickButton(stick, buttonNumber);
   Button button = new JoystickButton(stick, 1);
   
@@ -80,12 +42,110 @@ public class OI {
     String type = DriverStation.getInstance().getJoystickName(0);
     SmartDashboard.putString("controller name ", type);
     SmartDashboard.putNumber("controller type",  DriverStation.getInstance().getJoystickType(0));
-    MultiController dummy=numtoMC(DriverStation.getInstance().getJoystickType(0));
+    //MultiController dummy=numtoMC(DriverStation.getInstance().getJoystickType(0));
+    MultiController dummy=Parameters.multiContFromNum(DriverStation.getInstance().getJoystickType(0));
     controllerType = dummy;
+    //try
+    //{
     if(controllerType != null){
-    SmartDashboard.putNumber("Current type", controllerType.getnum());
+      SmartDashboard.putNumber("Current type", controllerType.getnum());
+      }
+    //} catch (Exception nullException) {
+     // screamAndDie("Unrecognized controller!");
+    //}
+  }
+  
+  private double leftTankFromThrotYaw(double throt, double yaw)
+  {
+    double rawright= throt-yaw;
+    double rawleft = throt+yaw;
+    if (Math.abs(rawleft)>1.)
+    {
+      return Math.signum(rawleft);
+    } else if (Math.abs(rawright)>1.)
+    {
+      return Math.copySign(rawleft/rawright, rawleft);
+    }else{
+      return rawleft;
     }
   }
+  private double rightTankFromThrotYaw(double throt, double yaw)
+  {
+    double rawright= throt-yaw;
+    double rawleft = throt+yaw;
+    if (Math.abs(rawright)>1.)
+    {
+      return Math.signum(rawright);
+    } else if (Math.abs(rawleft)>1.)
+    {
+      return Math.copySign(rawright/rawleft, rawright);
+    }else{
+      return rawright;
+    }
+  }
+
+  public double getLeftStick()
+  {
+    double throt;
+    double yaw;
+    switch (controllerType) {
+      case LOGITECH_EXTREME:
+        throt = stick.getRawAxis(Parameters.LOGITECH_Y_AXIS);
+        yaw   = stick.getRawAxis(Parameters.LOGITECH_TWIST);
+        //return  throt + yaw; MrG says BAD - see logitechControl.xlms
+        return leftTankFromThrotYaw(throt, yaw);
+      case CUBE_STEERING_WHEEL:
+        throt = stick.getRawAxis(Parameters.CUBE_RIGHT_PEDAL);
+        boolean pad= stick.getRawButton(Parameters.CUBE_RIGHT_PADDLE);
+        //System.out.println("paddle"+pad);
+        //SmartDashboard.putBoolean("Paddle?", pad);
+        throt    *= pad? 1.: (-1.);
+        yaw   = stick.getRawAxis(Parameters.CUBE_WHEEL_AXIS);
+        return leftTankFromThrotYaw(throt, yaw);
+      case PS_CONTROLLER:
+      case XBOX_CONTROLLER:
+        return stick.getRawAxis(Parameters.PS_LEFT_STICK);
+      default:
+        return 0.;
+    }
+  }
+  
+  public double getRightStick()
+  {
+    double throt;
+    double yaw;
+    switch (controllerType) {
+      case LOGITECH_EXTREME:
+        throt = stick.getRawAxis(Parameters.LOGITECH_Y_AXIS);
+        yaw   = stick.getRawAxis(Parameters.LOGITECH_TWIST);
+        //return throt - yaw; MrG says BAD
+        return rightTankFromThrotYaw(throt, yaw);
+      case CUBE_STEERING_WHEEL:
+        throt = stick.getRawAxis(Parameters.CUBE_RIGHT_PEDAL)
+               * (stick.getRawButton(Parameters.CUBE_RIGHT_PADDLE)?1.:-1.);
+        yaw   = stick.getRawAxis(Parameters.CUBE_WHEEL_AXIS);
+        return rightTankFromThrotYaw(throt, yaw);
+      case PS_CONTROLLER:
+      case XBOX_CONTROLLER:
+        return stick.getRawAxis(Parameters.PS_RIGHT_STICK);
+      default:
+        return 0.;
+    }
+  }
+
+  // Moved to Parameters.java with MicroController definition
+  // private MultiController numtoMC(int num)
+  // {
+  //   System.out.println("Num2MC: "+num);
+  //   for (MultiController m : MultiController.values())
+  //   {
+  //     if (m.getnum() == num) 
+  //     {
+  //       return m;
+  //     }
+  //   }
+  //   return null;
+  // }
 
   // There are a few additional built in buttons you can use. Additionally,
   // by subclassing Button you can create custom triggers and bind those to

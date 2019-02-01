@@ -18,6 +18,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Parameters.CanId;
 
+/*
+ * CargoIntake is the mechanism that pulls the cargo off the floor into the CargoHandler.
+ * It will extend and retract.
+ * It will roll the ball up to engage the CargoHandler
+ */
 public class CargoIntake extends Subsystem {
   TalonSRX roller;
   TalonSRX extender;

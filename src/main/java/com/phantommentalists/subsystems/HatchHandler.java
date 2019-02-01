@@ -12,13 +12,28 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * Add your docs here.
  */
-public class HatchGripper extends Subsystem {
+public class HatchHandler extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+
+  private HatchHandler hatchHandler[];
+
+  public HatchHandler() {
+    hatchHandler[0] = new HatchHandler();
+    
+  }
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+  }
+
+  public void releaseHatch() {
+
+  }
+
+  public void loadHatch() {
+
   }
 }
