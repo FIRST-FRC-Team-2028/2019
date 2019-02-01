@@ -33,9 +33,9 @@ public class Parameters {
   public static final double CARGO_INTAKE_DEPLOY_SPEED = 0.5;
   public static final double CARGO_INTAKE_RETRACT_SPEED = -0.5;
 
-  public static final double CAM_FILTER_LINES_ANGLE_LESSER = 30.0;
-  public static final double CAM_FILTER_LINES_ANGLE_GREATER = 150.0;
-  public static final double CAM_FILTER_LINES_MINIMUM_LENGTH = 40.0;
+  public static final double CAM_FILTER_LINES_ANGLE_LESSER = 1.0;
+  public static final double CAM_FILTER_LINES_ANGLE_GREATER = 359.0;
+  public static final double CAM_FILTER_LINES_MINIMUM_LENGTH = 1.0;
   
   //using multiple controllers
   public enum MultiController {
@@ -121,6 +121,22 @@ public class Parameters {
     FOUR_MOTOR_GEARBOX;
   }
   
+  /** Enum to hold all information about pneumatic solenoids */
+  public enum PneumaticChannel {
+    HANDLER_CREATE_VACUUM(1),
+    HANDLER_RELEASE_VACUUM(2);
+
+    private int channel;
+
+    private PneumaticChannel(int ch) {
+      channel = ch;
+    }
+
+    public int getChannel() {
+      return channel;
+    }
+  }
+
   /**
    * Enum to hold all information about devices on the CAN bus
    */
