@@ -82,7 +82,9 @@ public class OI {
     SmartDashboard.putNumber("controller type",  DriverStation.getInstance().getJoystickType(0));
     MultiController dummy=numtoMC(DriverStation.getInstance().getJoystickType(0));
     controllerType = dummy;
+    if(controllerType != null){
     SmartDashboard.putNumber("Current type", controllerType.getnum());
+    }
   }
 
   // There are a few additional built in buttons you can use. Additionally,

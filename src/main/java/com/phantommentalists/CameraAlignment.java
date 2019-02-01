@@ -64,8 +64,8 @@ public class CameraAlignment implements VisionPipeline {
 
 		// Step Filter_Lines0:
 		ArrayList<Line> filterLinesLines = findLinesOutput;
-		double filterLinesMinLength = Parameters.CAM_FILTER_LINES_MINIMUM_LENGTH;
-		double[] filterLinesAngle = {Parameters.CAM_FILTER_LINES_ANGLE_LESSER, Parameters.CAM_FILTER_LINES_ANGLE_GREATER};
+		double filterLinesMinLength = 0;
+		double[] filterLinesAngle = {29.136690647482023, 144.98293515358358};
 		filterLines(filterLinesLines, filterLinesMinLength, filterLinesAngle, filterLinesOutput);
 
 	}

@@ -43,6 +43,13 @@ public class Drive extends Subsystem {
     left.setPercentOutput(0.5);
     right.setPercentOutput(-0.5);
   }
+
+  public boolean alignDrive(double leftangle, double rightangle, double leftx, double rightx)
+  {
+     
+    return false;
+  }
+
   public void tankDrive(double lefta, double righta)
   {
     left.setPercentOutput(lefta);
