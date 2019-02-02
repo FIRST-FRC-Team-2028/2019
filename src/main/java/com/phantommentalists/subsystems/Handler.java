@@ -7,6 +7,7 @@
 
 package com.phantommentalists.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Parameters.AutoMode;
@@ -108,5 +109,25 @@ public class Handler extends Subsystem {
   public boolean isCargoHeld() {
     boolean held = cargoHandler.isCargoHeld();
     return held;
+  }
+
+  public void forwardHatch()
+  {
+    leadScrewMotor.set(ControlMode.PercentOutput, Parameters.HATCHHANDLER_MOTOR_SPEED);
+  }
+
+  public void retractHatch()
+  {
+    leadScrewMotor.set(ControlMode.PercentOutput, -Parameters.HATCHHANDLER_MOTOR_SPEED);
+  }
+
+  public boolean isHtchDeployed()
+  {
+    return true;
+  }
+
+  public boolean isHatchretracted()
+  {
+    return true;
   }
 }

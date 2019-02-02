@@ -216,6 +216,7 @@ public class Parameters {
   }
 
   public static final boolean HANDLER_AVAILABLE = false;
+  public static final double HATCHHANDLER_MOTOR_SPEED = 0;
 
   public static final boolean CARGO_HANDLER_AVAILABLE = false;
   public static final double CARGO_HANDLER_INTAKE_SPEED = 1;
@@ -228,6 +229,7 @@ public class Parameters {
   public static final int PDP_LEFT_MOTOR_FOLLOWER = 13;
   public static final int PDP_RIGHT_MOTOR_MASTER = 15;
   public static final int PDP_RIGHT_MOTOR_FOLLOWER = 14;
+
 
   
 }
