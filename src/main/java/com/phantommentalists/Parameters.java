@@ -152,12 +152,14 @@ public class Parameters {
     RIGHT_4_FOLLOWER_CAN_ID_2(22,false),
     RIGHT_4_FOLLOWER_CAN_ID_3(23,false),
 
-    ELEVATOR(30, false),
+    ELEVATOR(40, false),
     
-    CARGO_INTAKE(40, false),
+    CARGO_INTAKE(52, false),
     CARGO_HANDLER(50, false),
 
-    HATCH_LEAD_SCREW_MOTOR(60, false);
+    HATCH_LEAD_SCREW_MOTOR(51, false), 
+    LIFTER_LIFT_MOTOR(30, false), 
+    LIFTER_DRIVE_MOTOR(31, false);
 
     private int canId;
 

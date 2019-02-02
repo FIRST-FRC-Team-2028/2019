@@ -11,9 +11,9 @@ import com.phantommentalists.Telepath;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class PickUpCargo extends CommandGroup {
+public class PickUpCargoCommandGroup extends CommandGroup {
 
-public PickUpCargo() {
+public PickUpCargoCommandGroup() {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
