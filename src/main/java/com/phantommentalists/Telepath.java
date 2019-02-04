@@ -18,6 +18,8 @@ import com.phantommentalists.subsystems.CargoIntake;
 import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.subsystems.Elevator;
 import com.phantommentalists.subsystems.Handler;
+import com.phantommentalists.subsystems.PDP;
+
 import org.opencv.core.*;
 import org.opencv.videoio.VideoCapture;
 
@@ -41,6 +43,7 @@ public class Telepath extends TimedRobot {
   public static Drive drive;
   public static OI oi;
   public static CameraThread cameraThread;
+  public static PDP pdp;
 
   Command autonomousCommand;
   Command defaultCommand;
@@ -73,6 +76,7 @@ public class Telepath extends TimedRobot {
       cargoIntake = new CargoIntake();
     }
     oi = new OI();
+    pdp = new PDP();
   }
 
   /**

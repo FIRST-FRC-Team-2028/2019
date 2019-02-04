@@ -7,7 +7,6 @@
 
 package com.phantommentalists.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.phantommentalists.Parameters;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -43,5 +42,12 @@ public class HatchHandler extends Subsystem {
    */
   public void loadHatch() {
     suction.set(Value.kForward);
+  }
+
+  public boolean hasVacuum() {
+    /** 
+     * How do we sense whether vacuum is established or released?
+     */
+    return false;
   }
 }

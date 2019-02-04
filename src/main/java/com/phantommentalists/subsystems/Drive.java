@@ -7,8 +7,10 @@
 
 package com.phantommentalists.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import com.phantommentalists.Parameters;
+import com.phantommentalists.Telepath;
 import com.phantommentalists.commands.DefaultDriveCommand;
 import com.phantommentalists.DriveSide;
 
@@ -18,8 +20,9 @@ import com.phantommentalists.DriveSide;
 public class Drive extends Subsystem {
 
       private DriveSide left;
-
       private DriveSide right;
+
+      private DoubleSolenoid shifter;
 
 
   /** 
@@ -28,6 +31,7 @@ public class Drive extends Subsystem {
   public Drive() {
       left = new DriveSide(true, Parameters.DriveGearbox.TWO_MOTOR_GEARBOX);
       right = new DriveSide(false, Parameters.DriveGearbox.TWO_MOTOR_GEARBOX);
+      shifter = new DoubleSolenoid(Parameters.PneumaticChannel.DRIVE_SHIFT_HIGH.getChannel(),Parameters.PneumaticChannel.DRIVE_SHIFT_LOW.getChannel());
   }
 
   @Override
@@ -45,13 +49,33 @@ public class Drive extends Subsystem {
   }
 
   public boolean alignDrive(double leftangle, double rightangle, double leftx, double rightx)
-  {
-     
+  { 
     return false;
+  }
+
+  /* Use low gear when drive speed decreases to zero
+   *  or when current draw (load) becomes high.
+   * Use high gear when drive speed increases.
+   */
+  private void gearshift(double leftspeed, double rightspeed){
+    double amps=0;
+    for (double load: Telepath.pdp.getDriveCurrent()){
+      amps+=load;
+    }
+    if (amps > Parameters.DRIVE_SHIFT_CURRENT){
+      shifter.set(Parameters.DRIVE_LOW_GEAR);
+    }
+    else if ((Math.abs(leftspeed)+Math.abs(rightspeed))<Parameters.DRIVE_SHIFT_SPEED){
+      shifter.set(Parameters.DRIVE_LOW_GEAR);
+    }
+    else {
+      shifter.set(Parameters.DRIVE_HIGH_GEAR);
+    }
   }
 
   public void tankDrive(double lefta, double righta)
   {
+    gearshift(lefta, righta);
     left.setPercentOutput(lefta);
     right.setPercentOutput(righta);
   }

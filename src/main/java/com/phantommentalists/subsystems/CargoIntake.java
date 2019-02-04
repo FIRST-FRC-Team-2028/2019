@@ -71,6 +71,12 @@ public class CargoIntake extends Subsystem {
     }
   }
 
+  public void deployed() {
+    if (Parameters.INTAKE_AVAILABLE) {
+      extender.set(ControlMode.PercentOutput, 0.);
+    }
+  }
+
   public boolean isDeployed() {
     if (Parameters.INTAKE_AVAILABLE) {
       SensorCollection sc = extender.getSensorCollection();
@@ -96,4 +102,5 @@ public class CargoIntake extends Subsystem {
   @Override
   public void initDefaultCommand() {
   }
+
 }
