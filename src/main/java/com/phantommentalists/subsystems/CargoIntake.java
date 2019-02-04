@@ -27,6 +27,9 @@ public class CargoIntake extends Subsystem {
   TalonSRX roller;
   TalonSRX extender;
 
+  /**
+   * Default constructor
+   */
   public CargoIntake() {
     if (Parameters.INTAKE_AVAILABLE) {
       roller = new TalonSRX(CanId.CARGO_INTAKE.getCanId());

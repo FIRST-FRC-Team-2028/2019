@@ -10,38 +10,43 @@ package com.phantommentalists.subsystems;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.phantommentalists.Parameters;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * The hatch handler loads a hatch and releases it. 
- * It loads a hatch with vacuum.
- * It releases a hatch with a piston.
+ * Lifter lifts the back-end of the robot so that it can reach the Platform
+ * It uses a motor to drive the rack and pinion to lift
+ * It uses a motor to turn the wheels that pushes the robot forward
  */
-public class HatchHandler extends Subsystem {
+public class Lifter extends Subsystem {
+  // Put methods for controlling this subsystem
+  // here. Call these from Commands.
+  TalonSRX lift;
+  TalonSRX drive;
+  
+  public Lifter() {
+    lift = new TalonSRX(Parameters.CanId.LIFTER_LIFT_MOTOR.getCanId());
+    drive = new TalonSRX(Parameters.CanId.LIFTER_DRIVE_MOTOR.getCanId());
+  }
 
-  private DoubleSolenoid suction;
-  public HatchHandler() {
-    suction = new DoubleSolenoid(Parameters.PneumaticChannel.HANDLER_CREATE_VACUUM.getChannel(), Parameters.PneumaticChannel.HANDLER_RELEASE_VACUUM.getChannel());
+  public void retract(){
 
+  }
+
+  public void level1(){
+
+  }
+
+  public void level2(){
+
+  }
+
+  public void drive(){
+    
   }
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-  }
-  /**
-   * Releases the vacuum on the hatch handlers
-   */
-  public void releaseHatch() {
-    suction.set(Value.kReverse);
-  }
-  /**
-   * Applys vacuum to the hatch handlers
-   */
-  public void loadHatch() {
-    suction.set(Value.kForward);
   }
 }
