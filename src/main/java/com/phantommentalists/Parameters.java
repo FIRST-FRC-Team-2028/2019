@@ -38,6 +38,9 @@ public class Parameters {
   public static final double CAM_FILTER_LINES_ANGLE_LESSER = 1.0;
   public static final double CAM_FILTER_LINES_ANGLE_GREATER = 359.0;
   public static final double CAM_FILTER_LINES_MINIMUM_LENGTH = 1.0;
+
+  public static final int CAM_WIDTH = 346;
+  public static final int CAM_HEIGHT = 280;
   
   //using multiple controllers
   public enum MultiController {

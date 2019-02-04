@@ -57,9 +57,9 @@ public class Telepath extends TimedRobot {
    * Default constructor
    */
   public Telepath() {
-    cam1.setResolution(480, 320);
-    cam1.setFPS(8);
-    cam1.setExposureManual(35);
+    cam1.setResolution(Parameters.CAM_WIDTH, Parameters.CAM_HEIGHT);
+    cam1.setFPS(30);
+    cam1.setExposureManual(40);
     // defaultCommand = new DefaultCommand(drive);
     cameraThread = new CameraThread();
     cameraThread.start();
@@ -109,7 +109,7 @@ public class Telepath extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber("size", cameraThread.getSize());
+    //SmartDashboard.putNumber("size", cameraThread.getSize());
 
   }
 

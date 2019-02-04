@@ -8,6 +8,7 @@
 package com.phantommentalists;
 
 import com.phantommentalists.Parameters.MultiController;
+import com.phantommentalists.commands.AlignCommand;
 import com.phantommentalists.commands.SpinCommand;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -34,10 +35,11 @@ public class OI {
   
   // Button button = new JoystickButton(stick, buttonNumber);
   Button button = new JoystickButton(stick, 1);
-  
+  Button button2 = new JoystickButton(stick, 2);
   public OI()
   {
     button.whileHeld(new SpinCommand());
+    button2.whileHeld(new AlignCommand());
     //private Parameters.MultiController controllerType = type;
     String type = DriverStation.getInstance().getJoystickName(0);
     SmartDashboard.putString("controller name ", type);
