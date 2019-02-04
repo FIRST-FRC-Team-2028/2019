@@ -32,19 +32,18 @@ public class AlignCommand extends Command {
     CameraThread cam = Telepath.cameraThread;
     left = cam.getLeft();
     right = cam.getRight();
-
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    isdone = Telepath.drive.alignDrive(left.angle(), right.angle(), left.x2, right.x2);
+    Telepath.drive.alignDrive(left.angle(), right.angle(), left.x2, right.x2);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return isdone;
+    return false;
   }
 
   // Called once after isFinished returns true

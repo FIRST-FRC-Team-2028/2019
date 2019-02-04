@@ -69,6 +69,10 @@ public class CameraThread extends Thread
                         {
                             continue;
                         }
+                        if((i.y2) < 100)
+                        {
+                            continue;
+                        }
 
                         if(i.y2 < highest)
                         {
@@ -90,10 +94,10 @@ public class CameraThread extends Thread
                         
                     }
                     highperm = hightemp;
-                    if(secondhightemp.x2 != 0)
-                    {
-                        secondhighperm = secondhightemp;
-                    }
+                    // if(secondhightemp.x2 != 0)
+                    // {
+                    //     secondhighperm = secondhightemp;
+                    // }
                     highx = highest;
                     secondhighx = secondhighest;
                     System.out.println("|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| NEW FRAME |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|");
@@ -112,25 +116,25 @@ public class CameraThread extends Thread
     
     public Line getLeft()
     {
-        if(highperm.x2 > secondhighperm.x2)
-        {
-            return secondhighperm;
-        }
-        else
-        {
+        // if(highperm.x2 > secondhighperm.x2)
+        // {
+        //     return secondhighperm;
+        // }
+        // else
+        // {
             return highperm;
-        }
+        // }
     }
     public Line getRight()
     {
-        if(highperm.x2 < secondhighperm.x2)
-        {
-            return secondhighperm;
-        }
-        else
-        {
+        // if(highperm.x2 < secondhighperm.x2)
+        // {
+        //     return secondhighperm;
+        // }
+        // else
+        // {
             return highperm;
-        }
+        // }
     }
     
     public int getSize()
