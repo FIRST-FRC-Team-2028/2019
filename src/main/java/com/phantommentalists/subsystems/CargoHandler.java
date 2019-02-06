@@ -12,16 +12,21 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.phantommentalists.Parameters;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * Add your docs here.
+ * Loads cargo from cargo intake
+ * Shoots cargo
+ * sees if cargo is held
+ * 
+ * Uses rollers to load cargo
+ * Uses rollers to shoot cargo
+ * Uses a contact switch to detect if cargo is held
  */
-public class CargoHandler extends Subsystem{
+public class CargoHandler{
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  TalonSRX rollers;
-  DigitalInput cargoSensor;
+  private TalonSRX rollers;
+  private DigitalInput cargoSensor;
 
   public CargoHandler() {
     rollers = new TalonSRX(Parameters.CanId.CARGO_HANDLER.getCanId());
@@ -45,7 +50,4 @@ public class CargoHandler extends Subsystem{
     return cargoSensor.get();
   }
 
-  @Override
-  protected void initDefaultCommand() {
-  }
 }

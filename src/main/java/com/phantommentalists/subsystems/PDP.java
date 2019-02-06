@@ -8,7 +8,8 @@
 package com.phantommentalists.subsystems;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.command.Subsystem;
+//import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.phantommentalists.Parameters;
 
@@ -16,30 +17,40 @@ import com.phantommentalists.Parameters;
  * Control the distribution of power
  * Monitor the current going to motors.
  */
-public class PDP extends Subsystem {
+public class PDP {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private PowerDistributionPanel pdp;
+  private double[] driveCurrent;
 
   public PDP() {
     pdp = new PowerDistributionPanel();
+    driveCurrent = new double[8];
   }
 
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
-  }
   /**
    * Gets the drive current.
    * @return double of the drive current
    */
-  public double getDriveCurrent() {
-    double leftMasterCurrent = pdp.getCurrent(Parameters.PDP_LEFT_MOTOR_MASTER);
-    double leftFollowerCurrent = pdp.getCurrent(Parameters.PDP_LEFT_MOTOR_FOLLOWER);
-    double rightMasterCurrent = pdp.getCurrent(Parameters.PDP_RIGHT_MOTOR_MASTER);
-    double rightFollowerCurrent = pdp.getCurrent(Parameters.PDP_RIGHT_MOTOR_FOLLOWER);
+  public double[] getDriveCurrent() {
+    driveCurrent[0]  =
+        pdp.getCurrent(Parameters.CanId.LEFT_MASTER_CAN_ID.getChannel());
+    driveCurrent[1]  = 
+        pdp.getCurrent(Parameters.CanId.LEFT_2_FOLLOWER_CAN_ID.getChannel());
+    driveCurrent[2]  = 
+        pdp.getCurrent(Parameters.CanId.LEFT_2_FOLLOWER_CAN_ID.getChannel());
+    driveCurrent[3]  = 
+        pdp.getCurrent(Parameters.CanId.LEFT_2_FOLLOWER_CAN_ID.getChannel());
+    driveCurrent[4] = 
+         pdp.getCurrent(Parameters.CanId.RIGHT_MASTER_CAN_ID.getChannel());
+    driveCurrent[5] = 
+         pdp.getCurrent(Parameters.CanId.RIGHT_2_FOLLOWER_CAN_ID.getChannel());
+    driveCurrent[6] = 
+         pdp.getCurrent(Parameters.CanId.RIGHT_2_FOLLOWER_CAN_ID.getChannel());
+    driveCurrent[7] = 
+         pdp.getCurrent(Parameters.CanId.RIGHT_2_FOLLOWER_CAN_ID.getChannel());
     
-    return leftMasterCurrent + leftFollowerCurrent + rightMasterCurrent + rightFollowerCurrent;
+    SmartDashboard.putNumberArray("Drive Motor Current", driveCurrent);
+    return driveCurrent;
   }
 }

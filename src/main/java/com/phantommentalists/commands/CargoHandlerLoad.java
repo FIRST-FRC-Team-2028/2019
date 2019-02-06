@@ -16,7 +16,6 @@ public class CargoHandlerLoad extends CommandGroup {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Telepath.handler);
-    requires(Telepath.cargoIntake);
   }
 
   // Called just before this Command runs the first time
