@@ -42,6 +42,10 @@ public class Parameters {
   public static final int CAM_WIDTH = 346;
   public static final int CAM_HEIGHT = 280;
   
+  public static final boolean LIFTER_AVAILABLE = false;
+  public static final double LIFTER_LIFT_MOTOR_RETRACT_SPEED = 1.0;
+  public static final double LIFTER_LIFT_MOTOR_DEPLOY_SPEED = -0.8;
+
   //using multiple controllers
   public enum MultiController {
     LOGITECH_EXTREME(20),
@@ -161,11 +165,11 @@ public class Parameters {
    */
   public enum CanId {
     LEFT_MASTER_CAN_ID(20, true, 0),
+    LEFT_2_FOLLOWER_CAN_ID(21, true, 13), 
+    LEFT_4_FOLLOWER_CAN_ID_1(21, true, 1),
+    LEFT_4_FOLLOWER_CAN_ID_2(22,true, 2),
+    LEFT_4_FOLLOWER_CAN_ID_3(23,true, 3),
     RIGHT_MASTER_CAN_ID(10, false, 15),
-    LEFT_2_FOLLOWER_CAN_ID(21, false, 13), 
-    LEFT_4_FOLLOWER_CAN_ID_1(21, false, 1),
-    LEFT_4_FOLLOWER_CAN_ID_2(22,false, 2),
-    LEFT_4_FOLLOWER_CAN_ID_3(23,false, 3),
     RIGHT_2_FOLLOWER_CAN_ID(11, false, 14), 
     RIGHT_4_FOLLOWER_CAN_ID_1(11, false, 14),
     RIGHT_4_FOLLOWER_CAN_ID_2(12,false, 13),
@@ -252,8 +256,4 @@ public class Parameters {
   public static final double CARGO_HANDLER_INTAKE_SPEED = 1;
   public static final double CARGO_HANDLER_SHOOT_SPEED = -1;
   public static final int CARGO_HANDLER_SENSOR = 0;
-
-
-
-
 }

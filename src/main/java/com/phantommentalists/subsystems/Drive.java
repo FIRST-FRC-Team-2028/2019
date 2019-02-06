@@ -22,12 +22,9 @@ public class Drive extends Subsystem {
       private DriveSide left;
       private DriveSide right;
 
-<<<<<<< HEAD
       private DoubleSolenoid shifter;
 
-=======
       private double ratio;
->>>>>>> ad89569b5ea1137f75908a88cb389b1b3896fa24
 
   /** 
     * Default constructor
@@ -52,11 +49,6 @@ public class Drive extends Subsystem {
     right.setPercentOutput(-0.5);
   }
 
-<<<<<<< HEAD
-  public boolean alignDrive(double leftangle, double rightangle, double leftx, double rightx)
-  { 
-    return false;
-=======
   public void alignDrive(double leftangle, double rightangle, double leftx, double rightx)
   {
    
@@ -143,7 +135,6 @@ public class Drive extends Subsystem {
       right.setPercentOutput(-0.25);
     }
 
->>>>>>> ad89569b5ea1137f75908a88cb389b1b3896fa24
   }
 
   /* Use low gear when drive speed decreases to zero

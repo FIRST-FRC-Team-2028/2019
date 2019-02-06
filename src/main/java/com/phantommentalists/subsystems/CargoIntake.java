@@ -71,9 +71,9 @@ public class CargoIntake extends Subsystem {
     }
   }
 
-  public void deployed() {
+  public void stopDeploying() {
     if (Parameters.INTAKE_AVAILABLE) {
-      extender.set(ControlMode.PercentOutput, 0.);
+      extender.set(ControlMode.PercentOutput, 0.0);
     }
   }
 

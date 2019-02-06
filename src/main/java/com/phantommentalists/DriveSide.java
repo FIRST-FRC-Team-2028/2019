@@ -25,31 +25,31 @@ public class DriveSide {
 
     public DriveSide(boolean left, Parameters.DriveGearbox gearbox) {
         Parameters.CanId masterCanId = null;
-        boolean inverted;
         if (left) {
             masterCanId = Parameters.CanId.LEFT_MASTER_CAN_ID;
-            inverted = true;
         } else {
             masterCanId = Parameters.CanId.RIGHT_MASTER_CAN_ID;
-            inverted = false;
         }
         master = new TalonSRX(masterCanId.getCanId());
-        master.setInverted(inverted);
+        master.setInverted(masterCanId.isInverted());
         if (left) {
             // This is the left side drive-train      
             switch (gearbox) {
                 case TWO_MOTOR_GEARBOX:
                     practiceFollower = new TalonSRX(Parameters.CanId.LEFT_2_FOLLOWER_CAN_ID.getCanId());
                     practiceFollower.set(ControlMode.Follower, masterCanId.getCanId());
-                    practiceFollower.setInverted(inverted);
+                    practiceFollower.setInverted(Parameters.CanId.LEFT_2_FOLLOWER_CAN_ID.isInverted());
                     break;
                 case FOUR_MOTOR_GEARBOX:
                     competitionFollower1 = new VictorSPX(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_1.getCanId());
                     competitionFollower1.set(ControlMode.Follower, masterCanId.getCanId());
+                    competitionFollower1.setInverted(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_1.isInverted());
                     competitionFollower2 = new VictorSPX(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_2.getCanId());
                     competitionFollower2.set(ControlMode.Follower, masterCanId.getCanId());
+                    competitionFollower2.setInverted(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_2.isInverted());
                     competitionFollower3 = new VictorSPX(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_3.getCanId());
                     competitionFollower3.set(ControlMode.Follower, masterCanId.getCanId());
+                    competitionFollower3.setInverted(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_3.isInverted());
                     break;
             }
         } else {
