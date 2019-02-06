@@ -152,6 +152,24 @@ public class Elevator extends Subsystem
     }
 
     /**
+     * It tells if the elevator is completely down
+     * 
+     * @return boolean true if all the way down, false otherwise
+     */
+    public boolean isDown()
+    {
+        SensorCollection sc = upDown.getSensorCollection();
+        if (sc != null)
+        {
+            if (sc.isRevLimitSwitchClosed())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * This method is called approximately 20 times per second by the
      * Robot's teleopPeriodic() or autonomousPeriodic().  It ensures
      * the elevator's position encoder is zeroed when the robot is first
@@ -164,15 +182,14 @@ public class Elevator extends Subsystem
         {
             if (!zeroed)
             {
-                upDown.set(ControlMode.PercentOutput, Parameters.ELEVATOR_ZEROING_SPEED);
-                SensorCollection sc = upDown.getSensorCollection();
-                if (sc != null)
+                if (isDown())
                 {
-                    if (sc.isRevLimitSwitchClosed())
-                    {
-                        upDown.set(ControlMode.PercentOutput, 0.0);
-                        zeroPosition();
-                    }
+                    upDown.set(ControlMode.PercentOutput, 0.0);
+                    zeroPosition();
+                }
+                else
+                {
+                    upDown.set(ControlMode.PercentOutput, Parameters.ELEVATOR_ZEROING_SPEED);
                 }
             }
         }

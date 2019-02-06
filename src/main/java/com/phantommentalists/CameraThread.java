@@ -105,7 +105,8 @@ public class CameraThread extends Thread
                     System.out.println("Line count unfiltered: "+ grip.findLinesOutput().size());
                     System.out.println("Line count: " + linecount);
                 }
-            }else
+            }
+            else
             {
                 SmartDashboard.putNumber("sink2", sink.grabFrame(mat));
                 System.out.println("henlooooo2");

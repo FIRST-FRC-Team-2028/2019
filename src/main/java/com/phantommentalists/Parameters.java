@@ -255,6 +255,10 @@ public class Parameters {
   public static final double CARGO_HANDLER_SHOOT_SPEED = -1;
   public static final int CARGO_HANDLER_SENSOR = 0;
 
+public static final double LIFTER_LIFT_MOTOR_DEPLOY_SPEED = 0.4;
+
+public static final double LIFTER_LIFT_MOTOR_RETRACT_SPEED = -0.7;
+
 
 
 
