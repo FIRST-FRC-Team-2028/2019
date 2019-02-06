@@ -66,7 +66,7 @@ public class Telepath extends TimedRobot {
     if (Parameters.HANDLER_AVAILABLE) {
       handler = new Handler();
     }
-    if (Parameters.HANDLER_AVAILABLE) {
+    if (Parameters.ELEVATOR_AVAILABLE) {
       elevator = new Elevator();
     }
     if (Parameters.INTAKE_AVAILABLE) {

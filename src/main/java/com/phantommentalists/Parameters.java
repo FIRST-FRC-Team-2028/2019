@@ -37,8 +37,8 @@ public class Parameters {
   public static final double CAM_FILTER_LINES_ANGLE_GREATER = 359.0;
   public static final double CAM_FILTER_LINES_MINIMUM_LENGTH = 1.0;
 
-  public static final int CAM_WIDTH = 346;
-  public static final int CAM_HEIGHT = 280;
+  public static final int CAM_WIDTH = 170;
+  public static final int CAM_HEIGHT = 140;
   
   //using multiple controllers
   public enum MultiController {
@@ -146,11 +146,15 @@ public class Parameters {
   public enum CanId {
     LEFT_MASTER_CAN_ID(10, true),
     RIGHT_MASTER_CAN_ID(20, false),
+
     LEFT_2_FOLLOWER_CAN_ID(11, false), 
-    LEFT_4_FOLLOWER_CAN_ID_1(11, false),
+
+    LEFT_4_FOLLOWER_CAN_ID_1(11, false), 
     LEFT_4_FOLLOWER_CAN_ID_2(12,false),
     LEFT_4_FOLLOWER_CAN_ID_3(13,false),
+
     RIGHT_2_FOLLOWER_CAN_ID(21, false), 
+
     RIGHT_4_FOLLOWER_CAN_ID_1(21, false),
     RIGHT_4_FOLLOWER_CAN_ID_2(22,false),
     RIGHT_4_FOLLOWER_CAN_ID_3(23,false),
