@@ -66,8 +66,6 @@ public class Handler extends Subsystem {
     solenoid = new Solenoid(Parameters.PneumaticChannel.HANDLER_CLIMBER_ARM.getChannel());
 
     zeroed = false;
-
-    
   }
 
   /** 

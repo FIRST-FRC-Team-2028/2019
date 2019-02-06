@@ -93,8 +93,9 @@ public class OI {
     switch (controllerType) {
       case LOGITECH_EXTREME:
         throt = stick.getRawAxis(Parameters.LOGITECH_Y_AXIS);
-        yaw   = stick.getRawAxis(Parameters.LOGITECH_TWIST);
+        yaw   = -stick.getRawAxis(Parameters.LOGITECH_TWIST);
         //return  throt + yaw; MrG says BAD - see logitechControl.xlms
+        yaw *= Math.abs(yaw);  // finer control at small yaw
         return leftTankFromThrotYaw(throt, yaw);
       case CUBE_STEERING_WHEEL:
         throt = stick.getRawAxis(Parameters.CUBE_RIGHT_PEDAL);
@@ -102,7 +103,7 @@ public class OI {
         //System.out.println("paddle"+pad);
         //SmartDashboard.putBoolean("Paddle?", pad);
         throt    *= pad? 1.: (-1.);
-        yaw   = stick.getRawAxis(Parameters.CUBE_WHEEL_AXIS);
+        yaw   = -stick.getRawAxis(Parameters.CUBE_WHEEL_AXIS);
         return leftTankFromThrotYaw(throt, yaw);
       case PS_CONTROLLER:
       case XBOX_CONTROLLER:
@@ -119,13 +120,13 @@ public class OI {
     switch (controllerType) {
       case LOGITECH_EXTREME:
         throt = stick.getRawAxis(Parameters.LOGITECH_Y_AXIS);
-        yaw   = stick.getRawAxis(Parameters.LOGITECH_TWIST);
-        //return throt - yaw; MrG says BAD
+        yaw   = -stick.getRawAxis(Parameters.LOGITECH_TWIST);
+        yaw *=Math.abs(yaw);
         return rightTankFromThrotYaw(throt, yaw);
       case CUBE_STEERING_WHEEL:
         throt = stick.getRawAxis(Parameters.CUBE_RIGHT_PEDAL)
                * (stick.getRawButton(Parameters.CUBE_RIGHT_PADDLE)?1.:-1.);
-        yaw   = stick.getRawAxis(Parameters.CUBE_WHEEL_AXIS);
+        yaw   = -stick.getRawAxis(Parameters.CUBE_WHEEL_AXIS);
         return rightTankFromThrotYaw(throt, yaw);
       case PS_CONTROLLER:
       case XBOX_CONTROLLER:

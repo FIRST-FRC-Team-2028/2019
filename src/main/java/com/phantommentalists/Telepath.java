@@ -173,8 +173,10 @@ public class Telepath extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    SmartDashboard.putNumber("'left' x", cameraThread.getLeft().x2);
-    SmartDashboard.putNumber("'right' x", cameraThread.getRight().x2);
+    if (Parameters.CAMERA_AVAILABLE){
+      SmartDashboard.putNumber("'left' x", cameraThread.getLeft().x2);
+      SmartDashboard.putNumber("'right' x", cameraThread.getRight().x2);
+    }
   }
 
   /**

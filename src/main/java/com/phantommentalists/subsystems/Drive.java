@@ -9,6 +9,8 @@ package com.phantommentalists.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
 import com.phantommentalists.commands.DefaultDriveCommand;
@@ -22,19 +24,17 @@ public class Drive extends Subsystem {
       private DriveSide left;
       private DriveSide right;
 
-<<<<<<< HEAD
       private DoubleSolenoid shifter;
 
-=======
       private double ratio;
->>>>>>> ad89569b5ea1137f75908a88cb389b1b3896fa24
+      private double maxCurrent=-1.;
 
   /** 
     * Default constructor
     */
   public Drive() {
-      left = new DriveSide(true, Parameters.DriveGearbox.TWO_MOTOR_GEARBOX);
-      right = new DriveSide(false, Parameters.DriveGearbox.TWO_MOTOR_GEARBOX);
+      left = new DriveSide(true, Parameters.DRIVE_GEAR_BOX_TYPE);
+      right = new DriveSide(false, Parameters.DRIVE_GEAR_BOX_TYPE);
       shifter = new DoubleSolenoid(Parameters.PneumaticChannel.DRIVE_SHIFT_HIGH.getChannel(),Parameters.PneumaticChannel.DRIVE_SHIFT_LOW.getChannel());
   }
 
@@ -52,11 +52,6 @@ public class Drive extends Subsystem {
     right.setPercentOutput(-0.5);
   }
 
-<<<<<<< HEAD
-  public boolean alignDrive(double leftangle, double rightangle, double leftx, double rightx)
-  { 
-    return false;
-=======
   public void alignDrive(double leftangle, double rightangle, double leftx, double rightx)
   {
    
@@ -143,7 +138,6 @@ public class Drive extends Subsystem {
       right.setPercentOutput(-0.25);
     }
 
->>>>>>> ad89569b5ea1137f75908a88cb389b1b3896fa24
   }
 
   /* Use low gear when drive speed decreases to zero
@@ -152,7 +146,7 @@ public class Drive extends Subsystem {
    */
   private void gearshift(double leftspeed, double rightspeed){
     double amps=0;
-    for (double load: Telepath.pdp.getDriveCurrent()){
+    for (double load: Telepath.pdp.getDriveCurrent(Parameters.DRIVE_GEAR_BOX_TYPE)){
       amps+=load;
     }
     if (amps > Parameters.DRIVE_SHIFT_CURRENT){
@@ -164,6 +158,9 @@ public class Drive extends Subsystem {
     else {
       shifter.set(Parameters.DRIVE_HIGH_GEAR);
     }
+    SmartDashboard.putNumber("amps", amps);
+    maxCurrent=Math.max(maxCurrent, amps);
+    SmartDashboard.putNumber("Maxamps", maxCurrent);
   }
 
   public void tankDrive(double lefta, double righta)
