@@ -32,23 +32,28 @@ public class DriveSide {
         }
         master = new TalonSRX(masterCanId.getCanId());
         master.setInverted(masterCanId.isInverted());
+        master.configContinuousCurrentLimit(Parameters.DRIVE_CURRENT_LIMIT_CONTINUOUS);
+        master.configPeakCurrentLimit(Parameters.DRIVE_CURRENT_LIMIT_PEAK);
+        master.configPeakCurrentDuration(Parameters.DRIVE_CURRENT_LIMIT_PEAK_DURATION);
+        master.enableCurrentLimit(true);
         if (left) {
             // This is the left side drive-train      
             switch (gearbox) {
                 case TWO_MOTOR_GEARBOX:
                     practiceFollower = new TalonSRX(Parameters.CanId.LEFT_2_FOLLOWER_CAN_ID.getCanId());
-                    practiceFollower.set(ControlMode.Follower, masterCanId.getCanId());
+                    practiceFollower.follow(master);
                     practiceFollower.setInverted(Parameters.CanId.LEFT_2_FOLLOWER_CAN_ID.isInverted());
                     break;
                 case FOUR_MOTOR_GEARBOX:
                     competitionFollower1 = new VictorSPX(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_1.getCanId());
-                    competitionFollower1.set(ControlMode.Follower, masterCanId.getCanId());
+                    competitionFollower1.follow(master);
+                    //competitionFollower1.set(ControlMode.Follower, masterCanId.getCanId());
                     competitionFollower1.setInverted(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_1.isInverted());
                     competitionFollower2 = new VictorSPX(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_2.getCanId());
-                    competitionFollower2.set(ControlMode.Follower, masterCanId.getCanId());
+                    competitionFollower2.follow(master);
                     competitionFollower2.setInverted(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_2.isInverted());
                     competitionFollower3 = new VictorSPX(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_3.getCanId());
-                    competitionFollower3.set(ControlMode.Follower, masterCanId.getCanId());
+                    competitionFollower3.follow(master);
                     competitionFollower3.setInverted(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_3.isInverted());
                     break;
             }
@@ -57,18 +62,18 @@ public class DriveSide {
             switch (gearbox) {
                 case TWO_MOTOR_GEARBOX:
                     practiceFollower = new TalonSRX(Parameters.CanId.RIGHT_2_FOLLOWER_CAN_ID.getCanId());
-                    practiceFollower.set(ControlMode.Follower, masterCanId.getCanId());
+                    practiceFollower.follow(master);
                     practiceFollower.setInverted(Parameters.CanId.RIGHT_2_FOLLOWER_CAN_ID.isInverted());
                     break;
                 case FOUR_MOTOR_GEARBOX:
                     competitionFollower1 = new VictorSPX(Parameters.CanId.RIGHT_4_FOLLOWER_CAN_ID_1.getCanId());
-                    competitionFollower1.set(ControlMode.Follower, masterCanId.getCanId());
+                    competitionFollower1.follow(master);
                     competitionFollower1.setInverted(Parameters.CanId.RIGHT_4_FOLLOWER_CAN_ID_1.isInverted());
                     competitionFollower2 = new VictorSPX(Parameters.CanId.RIGHT_4_FOLLOWER_CAN_ID_2.getCanId());
-                    competitionFollower2.set(ControlMode.Follower, masterCanId.getCanId());
+                    competitionFollower2.follow(master);
                     competitionFollower2.setInverted(Parameters.CanId.RIGHT_4_FOLLOWER_CAN_ID_2.isInverted());
                     competitionFollower3 = new VictorSPX(Parameters.CanId.RIGHT_4_FOLLOWER_CAN_ID_3.getCanId());
-                    competitionFollower3.set(ControlMode.Follower, masterCanId.getCanId());
+                    competitionFollower3.follow(master);
                     competitionFollower3.setInverted(Parameters.CanId.RIGHT_4_FOLLOWER_CAN_ID_3.isInverted());
                     break;
             }        

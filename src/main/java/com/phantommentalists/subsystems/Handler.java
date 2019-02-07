@@ -187,7 +187,4 @@ public class Handler extends Subsystem {
   public void extendClimbingArms() {
     solenoid.set(true);
   }
-
-  
-
 }

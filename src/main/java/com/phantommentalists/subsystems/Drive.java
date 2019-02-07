@@ -146,8 +146,11 @@ public class Drive extends Subsystem {
    */
   private void gearshift(double leftspeed, double rightspeed){
     double amps=0;
+    int pdpnum=0;
     for (double load: Telepath.pdp.getDriveCurrent(Parameters.DRIVE_GEAR_BOX_TYPE)){
       amps+=load;
+      System.err.println("pdp"+pdpnum+" "+load);
+      pdpnum+=1;
     }
     if (amps > Parameters.DRIVE_SHIFT_CURRENT){
       shifter.set(Parameters.DRIVE_LOW_GEAR);

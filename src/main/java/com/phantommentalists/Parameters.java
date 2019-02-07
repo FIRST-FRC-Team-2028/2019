@@ -118,10 +118,13 @@ public class Parameters {
    * Flag that tells the code if there is a drive system 
    */
   public static final boolean DRIVE_AVAILABLE = true;
-  public static final double DRIVE_SHIFT_CURRENT = 20;
+  public static final double DRIVE_SHIFT_CURRENT = 60;
   public static final double DRIVE_SHIFT_SPEED = 0.3;
   public static final Value DRIVE_HIGH_GEAR = Value.kForward;
   public static final Value DRIVE_LOW_GEAR = Value.kReverse;
+  public static final int DRIVE_CURRENT_LIMIT_PEAK = 30;
+  public static final int DRIVE_CURRENT_LIMIT_CONTINUOUS = 20;
+  public static final int DRIVE_CURRENT_LIMIT_PEAK_DURATION = 300;
 
   public enum DriveGearbox {
     /** We're deploying on practice robot with dual CIM motor gearbox */
@@ -255,11 +258,8 @@ public class Parameters {
   public static final double CARGO_HANDLER_SHOOT_SPEED = -1;
   public static final int CARGO_HANDLER_SENSOR = 0;
 
-public static final double LIFTER_LIFT_MOTOR_DEPLOY_SPEED = 0.4;
-
-public static final double LIFTER_LIFT_MOTOR_RETRACT_SPEED = -0.7;
-
-
+  public static final double LIFTER_LIFT_MOTOR_DEPLOY_SPEED = 0.4;
+  public static final double LIFTER_LIFT_MOTOR_RETRACT_SPEED = -0.7;
 
 
 }
