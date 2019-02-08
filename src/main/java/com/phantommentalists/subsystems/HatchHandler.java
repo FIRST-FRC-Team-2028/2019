@@ -46,7 +46,7 @@ public class HatchHandler extends Subsystem {
 
   public boolean hasVacuum() {
     /** 
-     * How do we sense whether vacuum is established or released?
+     * FIXME How do we sense whether vacuum is established or released?
      */
     return false;
   }

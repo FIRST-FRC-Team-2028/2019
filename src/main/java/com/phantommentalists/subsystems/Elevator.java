@@ -69,7 +69,7 @@ public class Elevator extends Subsystem
      * This method is a generated getter for the output of upDown.
      * @return double output
      */
-    public double getPosition()
+    public int getPosition()
     {
         if(Parameters.ELEVATOR_AVAILABLE)
 		{

@@ -8,7 +8,8 @@
 package com.phantommentalists.commands;
 
 import com.phantommentalists.Telepath;
-//import com.phantommentalists.Parameters.ElevatorPosition;
+import com.phantommentalists.Parameters.ElevatorPosition;
+import com.phantommentalists.Parameters;
 //import com.phantommentalists.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -37,22 +38,18 @@ public class PickUpHatchCommandGroup extends CommandGroup {
 
     requires(Telepath.handler);
     requires(Telepath.elevator);
+    requires(Telepath.drive);
 
     //Move the elevator to the HATCH_LEVEL_1 position
-    //addSequential(Telepath.elevator.setPosition(ElevatorPosition.HATCH_LOW));
-    //FIXME make the elevator command^^
-    //To pickup the hatch the command turns on Lead Screw Motor, 
-    //Extends/deploys Lead Screw Motor, sensed by an encoder with 
-    //limit switches or current failsafes
-    //Turning on the Lead Screw Motor and deploying it runs in parallel
+    addParallel(new GoToElevatorPositionCommand(ElevatorPosition.HATCH_LOW));
+    //To pickup the hatch the command extends/deploys Hatch Handler
+    addSequential(new DeployHatchHandlerCommand());
+    //Deploying it runs in parallel with the elevator
     //Drive to hatch (sensed somehow or viewed by camera)
+    addSequential(new DriveToHatchCommand());
+    //FIXME ensure DriveToHatchCommand exists
     //Collapse vacuum cups by extending a pneumatic cylinder that pulls
     //on other pneumatic cylinders (only one solenoid operated valve is needed)
-    //Placing hatch, the command breaks the vacuum by a valve releasing 
-    //the vacuum (mechanism TBD) Similar to a solenoid operated valve, 
-    //may use a servo
-    //Stop/turn off Lead Screw Motor
-    //DO ANY COMMANDS RUN IN PARALLEL?
-
+    addSequential(new GrabHatchCommand());
   }
 }

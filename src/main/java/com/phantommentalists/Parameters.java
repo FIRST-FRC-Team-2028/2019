@@ -84,6 +84,7 @@ public class Parameters {
   
   public static final boolean ELEVATOR_AVAILABLE = false;
   public static final double ELEVATOR_ZEROING_SPEED = -0.25;
+  public static final int ELEVATOR_POSITION_ERROR = 10;
   public enum ElevatorPosition {
     HATCH_LOW(900),
     HATCH_MIDDLE(15000),

@@ -122,7 +122,12 @@ public class Handler extends Subsystem {
     hatchHandler.releaseHatch();
   }
 
-  public void forwardHatch()
+  public boolean isHatchLoaded()
+  {
+    return hatchHandler.hasVacuum();
+  }
+
+  public void deployHatchHandler()
   {
     // Need speed for lead screw motor
     leadScrewMotor.set(ControlMode.Position, Parameters.HATCHHANDLER_DEPLOY_POSITION);
@@ -156,6 +161,10 @@ public class Handler extends Subsystem {
     return false;
   }
 
+  public void stopHatchHandler()
+  {
+    leadScrewMotor.set(ControlMode.PercentOutput, 0);
+  }
   /** 
    * Get a cargo from the cargo intake
    */
