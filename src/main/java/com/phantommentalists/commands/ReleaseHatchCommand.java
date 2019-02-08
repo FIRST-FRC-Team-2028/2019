@@ -11,11 +11,15 @@ import com.phantommentalists.Telepath;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveToHatchCommand extends Command {
-  public DriveToHatchCommand() {
+public class ReleaseHatchCommand extends Command {
+  /**
+   * It releases the hatch panel onto the hatch
+   * 
+   */
+  public ReleaseHatchCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.drive);
+    requires(Telepath.handler);
   }
 
   // Called just before this Command runs the first time
@@ -26,13 +30,13 @@ public class DriveToHatchCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    //TODO use Ricky's Align method
+    Telepath.handler.releaseHatch();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return !Telepath.handler.isHatchLoaded();
   }
 
   // Called once after isFinished returns true
