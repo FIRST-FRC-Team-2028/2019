@@ -21,13 +21,13 @@ import com.phantommentalists.Parameters;
 public class Pressure extends Subsystem {
   Compressor compressor;
 
-  public Pressure(){
-    if(Parameters.COMPRESSOR_AVAILABLE){
+  public Pressure() {
+    if(Parameters.COMPRESSOR_AVAILABLE) {
         compressor = new Compressor(0);
     }
   }
 
-  public void disenable(boolean offOn){
+  public void disenable(boolean offOn) {
     compressor.setClosedLoopControl(offOn);
   }
 

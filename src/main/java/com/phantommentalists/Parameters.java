@@ -80,11 +80,23 @@ public class Parameters {
   public static final int CUBE_WHEEL_AXIS = 0;
   public static final int CUBE_RIGHT_PADDLE = 5;
   public static final int CUBE_RIGHT_PEDAL = 1;
-  
+  //buttons on Dual Arcade 0
+  public static final int BUTTON_LIFTER_RETRACT = 10;
+  public static final int BUTTON_LIFTER_DEPLOY = 9;
+  //buttons on Dual Arcade 1
+  public static final int BUTTON_UP = 7;
+  public static final int BUTTON_DOWN = 8;
+  public static final int BUTTON_HATCH_1 = 5;
+  public static final int BUTTON_CARGO_1 = 6;
+  public static final int BUTTON_HATCH_2 = 3;
+  public static final int BUTTON_CARGO_2 = 4;
+  public static final int BUTTON_HATCH_3 = 1;
+  public static final int BUTTON_CARGO_3 = 2;
   
   public static final boolean ELEVATOR_AVAILABLE = false;
   public static final double ELEVATOR_ZEROING_SPEED = -0.25;
   public static final int ELEVATOR_POSITION_ERROR = 10;
+  public static final double ELEVATOR_MANUAL_SPEED = 0.5;
   public enum ElevatorPosition {
     HATCH_LOW(900),
     HATCH_MIDDLE(15000),
@@ -259,8 +271,7 @@ public class Parameters {
   public static final double CARGO_HANDLER_SHOOT_SPEED = -1;
   public static final int CARGO_HANDLER_SENSOR = 0;
 
+  public static final boolean LIFTER_AVAILABLE = false;
   public static final double LIFTER_LIFT_MOTOR_DEPLOY_SPEED = 0.4;
   public static final double LIFTER_LIFT_MOTOR_RETRACT_SPEED = -0.7;
-
-
 }

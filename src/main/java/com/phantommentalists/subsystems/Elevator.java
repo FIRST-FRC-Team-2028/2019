@@ -18,7 +18,9 @@ import com.phantommentalists.Parameters;
 import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.Parameters.ElevatorPosition;
 import com.phantommentalists.Parameters.Pid;
+import com.phantommentalists.commands.DefaultElevatorCommand;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Elevator extends Subsystem
@@ -28,6 +30,7 @@ public class Elevator extends Subsystem
     ElevatorPosition setpoint;
     boolean zeroed;
     AutoMode mode;
+    Solenoid climbingLeg;
 
     /**
      * Default constructor
@@ -200,6 +203,6 @@ public class Elevator extends Subsystem
      */
     public void initDefaultCommand()
     {
-        // NOOP
+        setDefaultCommand(new DefaultElevatorCommand());
     }
 }

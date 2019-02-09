@@ -48,7 +48,8 @@ public class Handler extends Subsystem {
   /**
    * Default constructor. This method initializes all data members of the class
    */
-  public Handler() {
+  public Handler() 
+  {
     cargoHandler = new CargoHandler();
     hatchHandler = new HatchHandler();
 
@@ -72,7 +73,8 @@ public class Handler extends Subsystem {
    * This method intentionally left blank. Handler will not have a default command.
    */
   @Override
-  public void initDefaultCommand() {
+  public void initDefaultCommand() 
+  {
     // NOOP
   }
   /**
@@ -103,7 +105,8 @@ public class Handler extends Subsystem {
    * 
    * @param AutoMode sets the auto pilot mode for the handler
    */
-  public void setMode(AutoMode autoMode) {
+  public void setMode(AutoMode autoMode) 
+  {
 
   }
   
@@ -111,14 +114,16 @@ public class Handler extends Subsystem {
    * Create a vacuum for each of the 3 hatch handlers.
    * Note: There is currently no way to know if a hatch handler is sealed on the hatch.
    */
-  public void loadHatch() {
+  public void loadHatch() 
+  {
     hatchHandler.loadHatch();
   }
 
   /**
    * Release the vacuum for each of the 3 hatch handlers.
    */
-  public void releaseHatch() {
+  public void releaseHatch() 
+  {
     hatchHandler.releaseHatch();
   }
 
@@ -138,8 +143,10 @@ public class Handler extends Subsystem {
     leadScrewMotor.set(ControlMode.Position, Parameters.HATCHHANDLER_ZERO_POSITION);
   }
 
-  public void zeroPosition() {
-    if (Parameters.HANDLER_AVAILABLE) {
+  public void zeroPosition() 
+  {
+    if (Parameters.HANDLER_AVAILABLE) 
+    {
       zeroed = true;
       leadScrewMotor.setSelectedSensorPosition(0);
     }
@@ -168,18 +175,21 @@ public class Handler extends Subsystem {
   /** 
    * Get a cargo from the cargo intake
    */
-  public void loadCargo() {
+  public void loadCargo() 
+  {
     cargoHandler.loadCargo();
   }
 
-  public void stopCargoHandler() {
+  public void stopCargoHandler() 
+  {
     cargoHandler.stopMotor();
   }
 
   /** 
    * Shoots the cargo into the cargo ship or rocket
    */
-  public void shootCargo() {
+  public void shootCargo() 
+  {
     cargoHandler.shootCargo();
   }
 
@@ -188,12 +198,14 @@ public class Handler extends Subsystem {
    * 
    * @return boolean true if cargo held, false otherwise
    */
-  public boolean isCargoHeld() {
+  public boolean isCargoHeld() 
+  {
     boolean held = cargoHandler.isCargoHeld();
     return held;
   }
 
-  public void extendClimbingArms() {
+  public void extendClimbingArms() 
+  {
     solenoid.set(true);
   }
 }
