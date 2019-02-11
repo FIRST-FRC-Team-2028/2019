@@ -28,7 +28,7 @@ public class Parameters {
 
 
 
-  public static final boolean COMPRESSOR_AVAILABLE = false;
+  public static final boolean COMPRESSOR_AVAILABLE = true;
 
   public static final boolean INTAKE_AVAILABLE = false;
   public static final double CARGO_INTAKE_ROLLER_SPEED = 1.0;
@@ -39,8 +39,8 @@ public class Parameters {
   public static final double CAM_FILTER_LINES_ANGLE_GREATER = 359.0;
   public static final double CAM_FILTER_LINES_MINIMUM_LENGTH = 1.0;
 
-  public static final int CAM_WIDTH = 170;
-  public static final int CAM_HEIGHT = 140;
+  public static final int CAM_WIDTH = 160;
+  public static final int CAM_HEIGHT = 120;
   
   public static final boolean LIFTER_AVAILABLE = false;
   public static final double LIFTER_LIFT_MOTOR_RETRACT_SPEED = 1.0;
@@ -170,7 +170,7 @@ public class Parameters {
     LEFT_4_FOLLOWER_CAN_ID_2(22,true, 2),
     LEFT_4_FOLLOWER_CAN_ID_3(23,true, 3),
     RIGHT_MASTER_CAN_ID(10, false, 15),
-    RIGHT_2_FOLLOWER_CAN_ID(11, false, 14), 
+    RIGHT_2_FOLLOWER_CAN_ID(11, true, 14), 
     RIGHT_4_FOLLOWER_CAN_ID_1(11, false, 14),
     RIGHT_4_FOLLOWER_CAN_ID_2(12,false, 13),
     RIGHT_4_FOLLOWER_CAN_ID_3(13,false, 12),

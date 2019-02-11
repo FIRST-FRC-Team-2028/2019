@@ -10,18 +10,15 @@ package com.phantommentalists;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import com.phantommentalists.commands.AutoCommand;
+
 import com.phantommentalists.subsystems.CargoIntake;
 import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.subsystems.Elevator;
 import com.phantommentalists.subsystems.Handler;
 import com.phantommentalists.subsystems.PDP;
-
-import org.opencv.core.*;
-import org.opencv.videoio.VideoCapture;
+import com.phantommentalists.subsystems.Pressure;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.cscore.CvSink;
@@ -43,13 +40,14 @@ public class Telepath extends TimedRobot {
   public static Drive drive;
   public static OI oi;
   public static CameraThread cameraThread;
+  public static Pressure pressure;
   public static PDP pdp;
 
   Command autonomousCommand;
   Command defaultCommand;
   // SendableChooser<Command> chooser = new SendableChooser<>();
   UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture(0);
-  // UsbCamera cam2 = CameraServer.getInstance().startAutomaticCapture(1);
+  UsbCamera cam2 = CameraServer.getInstance().startAutomaticCapture(1);
   VideoSink server = CameraServer.getInstance().getServer();
   CvSink sink = CameraServer.getInstance().getVideo();
 
@@ -59,7 +57,10 @@ public class Telepath extends TimedRobot {
   public Telepath() {
     cam1.setResolution(Parameters.CAM_WIDTH, Parameters.CAM_HEIGHT);
     cam1.setFPS(30);
-    cam1.setExposureManual(40);
+    cam1.setExposureManual(25);
+
+    server.setSource(cam1);
+    sink.setSource(cam1);
     // defaultCommand = new DefaultCommand(drive);
     cameraThread = new CameraThread();
     cameraThread.start();
@@ -76,7 +77,8 @@ public class Telepath extends TimedRobot {
       cargoIntake = new CargoIntake();
     }
     oi = new OI();
-    pdp = new PDP();
+    pdp = new PDP(); 
+    pressure = new Pressure();
   }
 
   /**
@@ -110,7 +112,7 @@ public class Telepath extends TimedRobot {
   @Override
   public void robotPeriodic() {
     //SmartDashboard.putNumber("size", cameraThread.getSize());
-
+    
   }
 
   /**
@@ -175,6 +177,7 @@ public class Telepath extends TimedRobot {
     Scheduler.getInstance().run();
     SmartDashboard.putNumber("'left' x", cameraThread.getLeft().x2);
     SmartDashboard.putNumber("'right' x", cameraThread.getRight().x2);
+    pressure.disable();
   }
 
   /**

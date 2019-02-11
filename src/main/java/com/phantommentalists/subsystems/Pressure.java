@@ -23,12 +23,20 @@ public class Pressure extends Subsystem {
 
   public Pressure(){
     if(Parameters.COMPRESSOR_AVAILABLE){
-        compressor = new Compressor(0);
+        compressor = new Compressor();
     }
   }
 
   public void disenable(boolean offOn){
     compressor.setClosedLoopControl(offOn);
+  }
+  public void disable()
+  {
+    compressor.stop();
+  }
+  public void enable()
+  {
+    compressor.start();
   }
 
   @Override
