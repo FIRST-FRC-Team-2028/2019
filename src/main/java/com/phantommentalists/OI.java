@@ -9,6 +9,7 @@ package com.phantommentalists;
 
 import com.phantommentalists.Parameters.MultiController;
 import com.phantommentalists.commands.AlignCommand;
+import com.phantommentalists.commands.GoToElevatorPositionCommand;
 import com.phantommentalists.commands.SpinCommand;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -36,10 +37,27 @@ public class OI {
   // Button button = new JoystickButton(stick, buttonNumber);
   Button button = new JoystickButton(stick, 1);
   Button button2 = new JoystickButton(stick, 2);
+  Button buttonElevatorUp = new JoystickButton(buttonBoxRight, Parameters.BUTTON_UP);
+  Button buttonElevatorDown = new JoystickButton(buttonBoxRight, Parameters.BUTTON_DOWN);
+ 
+  Button buttonHatch1get = new JoystickButton(buttonBoxRight, Parameters.BUTTON_HATCH_1);
+  Button buttonCargo1get = new JoystickButton(buttonBoxRight, Parameters.BUTTON_CARGO_1);
+  Button buttonHatch2 = new JoystickButton(buttonBoxRight, Parameters.BUTTON_HATCH_2);
+  Button buttonCargo2 = new JoystickButton(buttonBoxRight, Parameters.BUTTON_CARGO_2);
+  Button buttonHatch3 = new JoystickButton(buttonBoxRight, Parameters.BUTTON_HATCH_3);
+  Button buttonCargo3 = new JoystickButton(buttonBoxRight, Parameters.BUTTON_CARGO_3);
+  public Button buttonLifterRetract = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_LIFTER_RETRACT);
+  public Button buttonLifterDeploy = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_LIFTER_DEPLOY);
   public OI()
   {
     button.whileHeld(new SpinCommand());
     button2.whileHeld(new AlignCommand());
+    buttonHatch1get.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_LOW));
+    buttonCargo1get.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_LOW));
+    buttonHatch2.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_MIDDLE));
+    buttonCargo2.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_MIDDLE));
+    buttonHatch3.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_HIGH));
+    buttonCargo3.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_HIGH));
     //private Parameters.MultiController controllerType = type;
     String type = DriverStation.getInstance().getJoystickName(0);
     SmartDashboard.putString("controller name ", type);
@@ -93,8 +111,9 @@ public class OI {
     switch (controllerType) {
       case LOGITECH_EXTREME:
         throt = stick.getRawAxis(Parameters.LOGITECH_Y_AXIS);
-        yaw   = stick.getRawAxis(Parameters.LOGITECH_TWIST);
+        yaw   = -stick.getRawAxis(Parameters.LOGITECH_TWIST);
         //return  throt + yaw; MrG says BAD - see logitechControl.xlms
+        yaw *= Math.abs(yaw);  // finer control at small yaw
         return leftTankFromThrotYaw(throt, yaw);
       case CUBE_STEERING_WHEEL:
         throt = stick.getRawAxis(Parameters.CUBE_RIGHT_PEDAL);
@@ -102,7 +121,7 @@ public class OI {
         //System.out.println("paddle"+pad);
         //SmartDashboard.putBoolean("Paddle?", pad);
         throt    *= pad? 1.: (-1.);
-        yaw   = stick.getRawAxis(Parameters.CUBE_WHEEL_AXIS);
+        yaw   = -stick.getRawAxis(Parameters.CUBE_WHEEL_AXIS);
         return leftTankFromThrotYaw(throt, yaw);
       case PS_CONTROLLER:
       case XBOX_CONTROLLER:
@@ -119,13 +138,13 @@ public class OI {
     switch (controllerType) {
       case LOGITECH_EXTREME:
         throt = stick.getRawAxis(Parameters.LOGITECH_Y_AXIS);
-        yaw   = stick.getRawAxis(Parameters.LOGITECH_TWIST);
-        //return throt - yaw; MrG says BAD
+        yaw   = -stick.getRawAxis(Parameters.LOGITECH_TWIST);
+        yaw *=Math.abs(yaw);
         return rightTankFromThrotYaw(throt, yaw);
       case CUBE_STEERING_WHEEL:
         throt = stick.getRawAxis(Parameters.CUBE_RIGHT_PEDAL)
                * (stick.getRawButton(Parameters.CUBE_RIGHT_PADDLE)?1.:-1.);
-        yaw   = stick.getRawAxis(Parameters.CUBE_WHEEL_AXIS);
+        yaw   = -stick.getRawAxis(Parameters.CUBE_WHEEL_AXIS);
         return rightTankFromThrotYaw(throt, yaw);
       case PS_CONTROLLER:
       case XBOX_CONTROLLER:
@@ -168,4 +187,12 @@ public class OI {
   // Start the command when the button is released and let it run the command
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
+
+  public Button getElevatorUp() {
+    return buttonElevatorUp;
+  }
+
+  public Button getElevatorDown() {
+    return buttonElevatorDown;
+  }
 }

@@ -9,6 +9,8 @@ package com.phantommentalists.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
 import com.phantommentalists.commands.DefaultDriveCommand;
@@ -25,13 +27,14 @@ public class Drive extends Subsystem {
       private DoubleSolenoid shifter;
 
       private double ratio;
+      private double maxCurrent=-1.;
 
   /** 
     * Default constructor
     */
   public Drive() {
-      left = new DriveSide(true, Parameters.DriveGearbox.TWO_MOTOR_GEARBOX);
-      right = new DriveSide(false, Parameters.DriveGearbox.TWO_MOTOR_GEARBOX);
+      left = new DriveSide(true, Parameters.DRIVE_GEAR_BOX_TYPE);
+      right = new DriveSide(false, Parameters.DRIVE_GEAR_BOX_TYPE);
       shifter = new DoubleSolenoid(Parameters.PneumaticChannel.DRIVE_SHIFT_HIGH.getChannel(),Parameters.PneumaticChannel.DRIVE_SHIFT_LOW.getChannel());
   }
 
@@ -104,8 +107,11 @@ public class Drive extends Subsystem {
    */
   private void gearshift(double leftspeed, double rightspeed){
     double amps=0;
-    for (double load: Telepath.pdp.getDriveCurrent()){
+    int pdpnum=0;
+    for (double load: Telepath.pdp.getDriveCurrent(Parameters.DRIVE_GEAR_BOX_TYPE)){
       amps+=load;
+      System.err.println("pdp"+pdpnum+" "+load);
+      pdpnum+=1;
     }
     if (amps > Parameters.DRIVE_SHIFT_CURRENT){
       shifter.set(Parameters.DRIVE_LOW_GEAR);
@@ -116,6 +122,9 @@ public class Drive extends Subsystem {
     else {
       shifter.set(Parameters.DRIVE_HIGH_GEAR);
     }
+    SmartDashboard.putNumber("amps", amps);
+    maxCurrent=Math.max(maxCurrent, amps);
+    SmartDashboard.putNumber("Maxamps", maxCurrent);
   }
 
   public void tankDrive(double lefta, double righta)

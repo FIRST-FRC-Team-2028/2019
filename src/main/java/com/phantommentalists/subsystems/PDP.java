@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 //import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.util.Arrays;
+
 import com.phantommentalists.Parameters;
 
 /**
@@ -32,25 +34,48 @@ public class PDP {
    * Gets the drive current.
    * @return double of the drive current
    */
-  public double[] getDriveCurrent() {
-    driveCurrent[0]  =
-        pdp.getCurrent(Parameters.CanId.LEFT_MASTER_CAN_ID.getChannel());
-    driveCurrent[1]  = 
-        pdp.getCurrent(Parameters.CanId.LEFT_2_FOLLOWER_CAN_ID.getChannel());
-    driveCurrent[2]  = 
-        pdp.getCurrent(Parameters.CanId.LEFT_2_FOLLOWER_CAN_ID.getChannel());
-    driveCurrent[3]  = 
-        pdp.getCurrent(Parameters.CanId.LEFT_2_FOLLOWER_CAN_ID.getChannel());
-    driveCurrent[4] = 
-         pdp.getCurrent(Parameters.CanId.RIGHT_MASTER_CAN_ID.getChannel());
-    driveCurrent[5] = 
-         pdp.getCurrent(Parameters.CanId.RIGHT_2_FOLLOWER_CAN_ID.getChannel());
-    driveCurrent[6] = 
-         pdp.getCurrent(Parameters.CanId.RIGHT_2_FOLLOWER_CAN_ID.getChannel());
-    driveCurrent[7] = 
-         pdp.getCurrent(Parameters.CanId.RIGHT_2_FOLLOWER_CAN_ID.getChannel());
-    
-    SmartDashboard.putNumberArray("Drive Motor Current", driveCurrent);
-    return driveCurrent;
-  }
+    public double[] getDriveCurrent(Parameters.DriveGearbox gearbox) {
+        switch (gearbox){
+          case TWO_MOTOR_GEARBOX:
+            driveCurrent[0]  =
+                pdp.getCurrent(Parameters.CanId.LEFT_MASTER_CAN_ID.getChannel());
+            driveCurrent[1]  = 
+                pdp.getCurrent(Parameters.CanId.LEFT_2_FOLLOWER_CAN_ID.getChannel());
+            driveCurrent[2]  = 
+                pdp.getCurrent(Parameters.CanId.RIGHT_MASTER_CAN_ID.getChannel());
+            driveCurrent[3] = 
+                pdp.getCurrent(Parameters.CanId.RIGHT_2_FOLLOWER_CAN_ID.getChannel());
+            SmartDashboard.putNumberArray("Drive Motor Current", Arrays.copyOfRange(driveCurrent, 0, 2));
+            SmartDashboard.putNumber("pdp_0", driveCurrent[0]);
+            return Arrays.copyOfRange(driveCurrent, 0, 4);
+          case FOUR_MOTOR_GEARBOX:
+            driveCurrent[0]  =
+                pdp.getCurrent(Parameters.CanId.LEFT_MASTER_CAN_ID.getChannel());
+            driveCurrent[1]  = 
+                pdp.getCurrent(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_1.getChannel());
+            driveCurrent[2]  = 
+                pdp.getCurrent(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_2.getChannel());
+            driveCurrent[3]  = 
+                pdp.getCurrent(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_3.getChannel());
+            driveCurrent[4] = 
+                pdp.getCurrent(Parameters.CanId.RIGHT_MASTER_CAN_ID.getChannel());
+            driveCurrent[5] = 
+                pdp.getCurrent(Parameters.CanId.RIGHT_4_FOLLOWER_CAN_ID_1.getChannel());
+            driveCurrent[6] = 
+                pdp.getCurrent(Parameters.CanId.RIGHT_4_FOLLOWER_CAN_ID_2.getChannel());
+            driveCurrent[7] = 
+                pdp.getCurrent(Parameters.CanId.RIGHT_4_FOLLOWER_CAN_ID_3.getChannel());
+            System.out.println("HERE I AM IN PDP");
+            SmartDashboard.putNumber("pdp_"+Parameters.CanId.LEFT_MASTER_CAN_ID.getChannel(), driveCurrent[0]);
+            SmartDashboard.putNumber("pdp_"+Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_1.getChannel(), driveCurrent[1]);
+            SmartDashboard.putNumber("pdp_"+Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_2.getChannel(), driveCurrent[2]);
+            SmartDashboard.putNumber("pdp_"+Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_3.getChannel(), driveCurrent[3]);
+            SmartDashboard.putNumber("pdp_"+Parameters.CanId.RIGHT_MASTER_CAN_ID.getChannel(), driveCurrent[4]);
+            SmartDashboard.putNumber("pdp_"+Parameters.CanId.RIGHT_4_FOLLOWER_CAN_ID_1.getChannel(), driveCurrent[5]);
+            SmartDashboard.putNumber("pdp_"+Parameters.CanId.RIGHT_4_FOLLOWER_CAN_ID_2.getChannel(), driveCurrent[6]);
+            SmartDashboard.putNumber("pdp_"+Parameters.CanId.RIGHT_4_FOLLOWER_CAN_ID_3.getChannel(), driveCurrent[7]);
+            SmartDashboard.putNumberArray("Drive Motor Current", driveCurrent);
+        }
+        return driveCurrent;
+    }
 }

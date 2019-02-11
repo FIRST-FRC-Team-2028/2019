@@ -17,6 +17,7 @@ import com.phantommentalists.subsystems.CargoIntake;
 import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.subsystems.Elevator;
 import com.phantommentalists.subsystems.Handler;
+import com.phantommentalists.subsystems.Lifter;
 import com.phantommentalists.subsystems.PDP;
 import com.phantommentalists.subsystems.Pressure;
 
@@ -41,6 +42,7 @@ public class Telepath extends TimedRobot {
   public static OI oi;
   public static CameraThread cameraThread;
   public static Pressure pressure;
+  public static Lifter lifter;
   public static PDP pdp;
 
   Command autonomousCommand;
@@ -70,11 +72,14 @@ public class Telepath extends TimedRobot {
     if (Parameters.HANDLER_AVAILABLE) {
       handler = new Handler();
     }
-    if (Parameters.ELEVATOR_AVAILABLE) {
+    if (Parameters.HANDLER_AVAILABLE) {
       elevator = new Elevator();
     }
     if (Parameters.INTAKE_AVAILABLE) {
       cargoIntake = new CargoIntake();
+    }
+    if (Parameters.LIFTER_AVAILABLE) {
+      lifter = new Lifter();
     }
     oi = new OI();
     pdp = new PDP(); 
@@ -175,8 +180,10 @@ public class Telepath extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    SmartDashboard.putNumber("'left' x", cameraThread.getLeft().x2);
-    SmartDashboard.putNumber("'right' x", cameraThread.getRight().x2);
+    if (Parameters.CAMERA_AVAILABLE){
+      SmartDashboard.putNumber("'left' x", cameraThread.getLeft().x2);
+      SmartDashboard.putNumber("'right' x", cameraThread.getRight().x2);
+    }
     pressure.disable();
   }
 
@@ -188,5 +195,4 @@ public class Telepath extends TimedRobot {
   {
 
   }
-
 }

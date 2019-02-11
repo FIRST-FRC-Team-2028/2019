@@ -45,9 +45,9 @@ public class CargoHandler{
   public void stopMotor() {
     rollers.set(ControlMode.PercentOutput, 0);
   }
+
   public boolean isCargoHeld() {
     // FIX ME: Get current state from sensor
     return cargoSensor.get();
   }
-
 }
