@@ -30,6 +30,14 @@ public class Pressure extends Subsystem {
   public void disenable(boolean offOn) {
     compressor.setClosedLoopControl(offOn);
   }
+  public void disable()
+  {
+    compressor.stop();
+  }
+  public void enable()
+  {
+    compressor.start();
+  }
 
   @Override
   public void initDefaultCommand() {

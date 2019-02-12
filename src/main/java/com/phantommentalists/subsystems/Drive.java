@@ -60,73 +60,39 @@ public class Drive extends Subsystem {
 
   public void alignDrive(double leftangle, double rightangle, double leftx, double rightx)
   {
-   
-    int angleint = (int)(leftangle/10);
-    System.out.println(angleint);
-    switch(angleint)
-    {
-      case 15:
-        ratio = 0.4;
-        break;
-      case 14:
-        ratio = 0.35;
-        break;
-      case 13:
-        ratio = 0.3;
-        break;
-      case 12:
-        ratio = 0.25;
-        break;
-      case 11:
-        ratio = 0.2;
-        break;
-      case 10:
-        ratio = 0.15;
-        break;
-      case 9:
-        ratio = 0;
-        break;
-      case 8:
-        ratio = 0.15;
-        break;
-      case 7:
-        ratio = 0.2;
-        break;
-      case 6:
-        ratio = 0.25;
-        break;
-      case 5:
-        ratio = 0.3;
-        break;
-      case 4:
-        ratio = 0.35;
-        break;
-      case 3:
-        ratio = 0.40;
-        break;
-      default:
-        ratio = 0;
-        break;
-    }
 
     if(leftangle > 90)
     {
-      ratio = (leftangle-90)/700;
-    }
-    else if(leftangle <= 90)
-    {
-      ratio = (90-leftangle)/700;
+        ratio = (leftangle-90)/550;
     }
 
-    if(leftx > Parameters.CAM_WIDTH/2)
+    else if(leftangle <= 90)
     {
-      left.setPercentOutput(-0.2 - ratio);
-      right.setPercentOutput(-0.2 + (ratio/2));
+        ratio = (90-leftangle)/550;
+    }
+
+    if(leftx == 0)
+    {
+      left.setPercentOutput(-0.15);
+      right.setPercentOutput(-0.15);
+    }
+    else if(leftx > Parameters.CAM_WIDTH/2)
+    {
+      if(leftx > (3*Parameters.CAM_WIDTH)/4)
+      {
+        ratio += 0.05;
+      }
+      left.setPercentOutput(-0.15 - ratio);
+      right.setPercentOutput(-0.15 + (ratio/1.5));
     }
     else if(leftx <= Parameters.CAM_WIDTH/2)
     {
-      left.setPercentOutput(-0.2 + (ratio/2));
-      right.setPercentOutput(-0.2 - ratio);
+      if(leftx < Parameters.CAM_WIDTH/4)
+      {
+        ratio += 0.05;
+      }
+      left.setPercentOutput(-0.15  + (ratio/1.5));
+      right.setPercentOutput(-0.15 - ratio);
     }
     // else if(leftx < Parameters.CAM_WIDTH/2)
     // {
@@ -138,11 +104,6 @@ public class Drive extends Subsystem {
     //   left.setPercentOutput(0.25);
     //   right.setPercentOutput(-0.3);
     // }
-    else
-    {
-      left.setPercentOutput(-0.25);
-      right.setPercentOutput(-0.25);
-    }
 
   }
 

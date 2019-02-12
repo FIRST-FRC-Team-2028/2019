@@ -20,6 +20,7 @@ public class CameraThread extends Thread
     private boolean done;
 
     private CameraAlignment grip;
+    private TapePipeline tape;
     CvSink sink;
     int count;
     Line initialization = new Line(0,0,0,0);
@@ -39,16 +40,16 @@ public class CameraThread extends Thread
     {
             Mat mat = new Mat();
             grip = new CameraAlignment();
-            double jeff = sink.grabFrame(mat,0.5);
+            tape = new TapePipeline();
+            double jeff = sink.grabFrame(mat,1);
 
             if(jeff != 0)
             {
-                System.out.println("henloo1");
-                int x=0;
                 while(true)
                 {
                     sink.grabFrame(mat);
-                    grip.process(mat);
+                    // grip.process(mat);
+                    tape.process(mat);
                     int linecount = 0;
                     int count = 0;
                     double highest = 999999.0d;
@@ -69,7 +70,7 @@ public class CameraThread extends Thread
                         {
                             continue;
                         }
-                        if((i.y2) < 100)
+                        if((i.y2) < 20)
                         {
                             continue;
                         }
@@ -82,6 +83,20 @@ public class CameraThread extends Thread
                             highest = i.y2;
                         }
 
+                        // System.out.println("Line Length: " + i.length());
+                        // System.out.println("x1: " + i.x1);
+                        // System.out.println("y1: " + i.y1);
+                        // System.out.println("x2: " + i.x2);
+                        // System.out.println("y2: " + i.y2);
+                        // System.out.println("angle: " + i.angle());
+                        // System.out.println("================NEW LINE================");
+                        // linecount++;
+                        // count++;
+                        
+                    }
+
+                    for(com.phantommentalists.TapePipeline.Line i : tape.findLinesOutput())
+                    {
                         System.out.println("Line Length: " + i.length());
                         System.out.println("x1: " + i.x1);
                         System.out.println("y1: " + i.y1);
@@ -91,8 +106,8 @@ public class CameraThread extends Thread
                         System.out.println("================NEW LINE================");
                         linecount++;
                         count++;
-                        
                     }
+
                     highperm = hightemp;
                     // if(secondhightemp.x2 != 0)
                     // {
