@@ -28,14 +28,14 @@ public class Parameters {
 
 
 
-  public static final boolean COMPRESSOR_AVAILABLE = false;
+  public static final boolean COMPRESSOR_AVAILABLE = true;
 
   public static final boolean INTAKE_AVAILABLE = false;
   public static final double CARGO_INTAKE_ROLLER_SPEED = 1.0;
   public static final double CARGO_INTAKE_DEPLOY_SPEED = 0.5;
   public static final double CARGO_INTAKE_RETRACT_SPEED = -0.5;
 
-  public static final boolean CAMERA_AVAILABLE = false;
+  public static final boolean CAMERA_AVAILABLE = true;
   public static final double CAM_FILTER_LINES_ANGLE_LESSER = 1.0;
   public static final double CAM_FILTER_LINES_ANGLE_GREATER = 359.0;
   public static final double CAM_FILTER_LINES_MINIMUM_LENGTH = 1.0;
@@ -93,7 +93,7 @@ public class Parameters {
   public static final int BUTTON_HATCH_3 = 1;
   public static final int BUTTON_CARGO_3 = 2;
   
-  public static final boolean ELEVATOR_AVAILABLE = false;
+  public static final boolean ELEVATOR_AVAILABLE = true;
   public static final double ELEVATOR_ZEROING_SPEED = -0.25;
   public static final int ELEVATOR_POSITION_ERROR = 10;
   public static final double ELEVATOR_MANUAL_SPEED = 0.5;
@@ -178,16 +178,16 @@ public class Parameters {
    * Enum to hold all information about devices on the CAN bus
    */
   public enum CanId {
-    LEFT_MASTER_CAN_ID(20, false, 0),
-    LEFT_2_FOLLOWER_CAN_ID(21, false, 13), 
-    LEFT_4_FOLLOWER_CAN_ID_1(21, false, 1),
-    LEFT_4_FOLLOWER_CAN_ID_2(22,false, 2),
-    LEFT_4_FOLLOWER_CAN_ID_3(23,false, 3),
-    RIGHT_MASTER_CAN_ID(10, true, 15),
+    LEFT_MASTER_CAN_ID(20, true, 0),
+    LEFT_2_FOLLOWER_CAN_ID(21, true, 13), 
+    LEFT_4_FOLLOWER_CAN_ID_1(21, true, 1),
+    LEFT_4_FOLLOWER_CAN_ID_2(22,true, 2),
+    LEFT_4_FOLLOWER_CAN_ID_3(23,true, 3),
+    RIGHT_MASTER_CAN_ID(10, false, 15),
     RIGHT_2_FOLLOWER_CAN_ID(11, true, 14), 
-    RIGHT_4_FOLLOWER_CAN_ID_1(11, true, 14),
-    RIGHT_4_FOLLOWER_CAN_ID_2(12,true, 13),
-    RIGHT_4_FOLLOWER_CAN_ID_3(13,true, 12),
+    RIGHT_4_FOLLOWER_CAN_ID_1(11, false, 14),
+    RIGHT_4_FOLLOWER_CAN_ID_2(12,false, 13),
+    RIGHT_4_FOLLOWER_CAN_ID_3(13,false, 12),
 
     ELEVATOR(40, false, 6),
     

@@ -24,8 +24,13 @@ public class CameraThread extends Thread
     CvSink sink;
     int count;
     Line initialization = new Line(0,0,0,0);
+    com.phantommentalists.TapePipeline.Line initialization2 = new com.phantommentalists.TapePipeline.Line(0,0,0,0);
     Line highperm;
     Line secondhighperm;
+
+    com.phantommentalists.TapePipeline.Line leftlineperm;
+    com.phantommentalists.TapePipeline.Line rightlineperm;
+
     double highx = 0;
     double secondhighx = 0;
     CameraThread()
@@ -56,7 +61,8 @@ public class CameraThread extends Thread
                     double secondhighest = 0d;
                     Line hightemp = initialization;
                     Line secondhightemp = initialization;
-
+                    com.phantommentalists.TapePipeline.Line leftlinetemp = initialization2;
+                    com.phantommentalists.TapePipeline.Line rightlinetemp = initialization2;
                     // ArrayList<Line> lines = grip.filterLinesOutput();
                     // System.out.println(grip.filterLinesOutput());
                     Runtime.getRuntime().gc();
@@ -74,7 +80,6 @@ public class CameraThread extends Thread
                         {
                             continue;
                         }
-
                         if(i.y2 < highest)
                         {
                             secondhightemp = hightemp;
@@ -82,7 +87,6 @@ public class CameraThread extends Thread
                             secondhighest = highest;
                             highest = i.y2;
                         }
-
                         // System.out.println("Line Length: " + i.length());
                         // System.out.println("x1: " + i.x1);
                         // System.out.println("y1: " + i.y1);
@@ -92,21 +96,92 @@ public class CameraThread extends Thread
                         // System.out.println("================NEW LINE================");
                         // linecount++;
                         // count++;
-                        
                     }
 
                     for(com.phantommentalists.TapePipeline.Line i : tape.findLinesOutput())
                     {
+                        
+                        if(Math.abs(i.angle()) < 35 || (Math.abs(i.angle()) > 137 && Math.abs(i.angle()) < 223)) 
+                        {
+                            continue;
+                        }
+                        int f = filtered(tape.findLinesOutput());
+                        double angle = i.angle();
+                        if (angle < 0 && angle >= -180)
+                        {
+                            angle += 180;
+                        }
+                        else if(angle < 0 && angle <= -180)
+                        {
+                            angle += 360;
+                        }
+
+                        if(leftlinetemp.x1 == initialization2.x1)
+                        {
+                            leftlinetemp = i;
+                            rightlinetemp = i;
+                        }
+
+                        if(f <= 3)
+                        {
+                            if(angle < 90)
+                            {
+                                continue;
+                            }
+                            if(i.x1 < leftlinetemp.x1)
+                            {
+                                rightlinetemp = leftlinetemp;
+                                leftlinetemp = i;
+                            }
+                        }
+                        else if(f <= 5)
+                        {
+                            if(angle < 90)
+                            {
+                                continue;
+                            }
+                            if(i.x1 < leftlinetemp.x1)
+                            {
+                                rightlinetemp = leftlinetemp;
+                                leftlinetemp = i;
+                            }
+                        }
+                        else if(f <= 7)
+                        {
+                            if(angle < 90)
+                            {
+                                continue;
+                            }
+                            else if(i.x1 < leftlinetemp.x1)
+                            {
+                                rightlinetemp = leftlinetemp;
+                                leftlinetemp = i;
+                            }
+                        }
+                        else if(f <= 9)
+                        {
+                            if(angle < 90)
+                            {
+                                continue;
+                            }
+                            if(Math.abs(Parameters.CAM_WIDTH-i.x1) < Math.abs(Parameters.CAM_WIDTH-leftlinetemp.x1))
+                            {
+                                rightlinetemp = leftlinetemp;
+                                leftlinetemp = i;
+                            }
+                        }
+
                         System.out.println("Line Length: " + i.length());
-                        System.out.println("x1: " + i.x1);
-                        System.out.println("y1: " + i.y1);
-                        System.out.println("x2: " + i.x2);
-                        System.out.println("y2: " + i.y2);
-                        System.out.println("angle: " + i.angle());
+                        System.out.println("x1: " + i.x1 + "   x2: "+ i.x2);
+                        System.out.println("y1: " + i.y1 + "   y2: " + i.y2);
+                        System.out.println("angle: " + angle);
                         System.out.println("================NEW LINE================");
                         linecount++;
                         count++;
                     }
+
+                    leftlineperm = leftlinetemp;
+                    rightlineperm = rightlinetemp;
 
                     highperm = hightemp;
                     // if(secondhightemp.x2 != 0)
@@ -119,6 +194,7 @@ public class CameraThread extends Thread
                     count = grip.findLinesOutput().size();
                     System.out.println("Line count unfiltered: "+ grip.findLinesOutput().size());
                     System.out.println("Line count: " + linecount);
+
                 }
             }
             else
@@ -129,8 +205,29 @@ public class CameraThread extends Thread
             }
 
     }
-    
-    public Line getLeft()
+    public int filtered(ArrayList<com.phantommentalists.TapePipeline.Line> fawef)
+    {
+        count = fawef.size();
+        
+        for(com.phantommentalists.TapePipeline.Line la : fawef)
+        {
+            if(Math.abs(la.angle()) < 35 || (Math.abs(la.angle()) > 137 && Math.abs(la.angle()) < 223)) 
+            {
+                count-=1;
+                continue;
+            }
+        }
+        return count;
+    }
+    public Line getLeftline()
+    {
+        return highperm;
+    }
+    public Line getRightline()
+    {
+        return secondhighperm;
+    }
+    public com.phantommentalists.TapePipeline.Line getLeft()
     {
         // if(highperm.x2 > secondhighperm.x2)
         // {
@@ -138,10 +235,11 @@ public class CameraThread extends Thread
         // }
         // else
         // {
-            return highperm;
+            // return highperm;
         // }
+        return leftlineperm;
     }
-    public Line getRight()
+    public com.phantommentalists.TapePipeline.Line getRight()
     {
         // if(highperm.x2 < secondhighperm.x2)
         // {
@@ -149,8 +247,9 @@ public class CameraThread extends Thread
         // }
         // else
         // {
-            return highperm;
+            // return highperm;
         // }
+        return rightlineperm;
     }
     
     public int getSize()

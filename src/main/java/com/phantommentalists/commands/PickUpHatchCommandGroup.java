@@ -9,7 +9,6 @@ package com.phantommentalists.commands;
 
 import com.phantommentalists.Telepath;
 import com.phantommentalists.Parameters.ElevatorPosition;
-import com.phantommentalists.Parameters;
 //import com.phantommentalists.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;

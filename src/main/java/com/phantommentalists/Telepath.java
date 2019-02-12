@@ -59,7 +59,7 @@ public class Telepath extends TimedRobot {
   public Telepath() {
     cam1.setResolution(Parameters.CAM_WIDTH, Parameters.CAM_HEIGHT);
     cam1.setFPS(30);
-    cam1.setExposureManual(25);
+    cam1.setExposureManual(16);
 
     server.setSource(cam1);
     sink.setSource(cam1);

@@ -30,8 +30,8 @@ public class AlignCommand extends Command {
   protected void initialize() {
 
     CameraThread cam = Telepath.cameraThread;
-    left = cam.getLeft();
-    right = cam.getRight();
+    left = cam.getLeftline();
+    right = cam.getRightline();
   }
 
   // Called repeatedly when this Command is scheduled to run
