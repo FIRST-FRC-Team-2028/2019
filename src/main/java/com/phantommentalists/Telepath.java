@@ -7,7 +7,11 @@
 
 package com.phantommentalists;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.GyroBase;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -46,6 +50,8 @@ public class Telepath extends TimedRobot {
   public static CameraThread cameraThread;
   public static PDP pdp;
   public static Lifter lifter;
+  public static GyroBase gyro;
+  public static PIDController liftLeveler;
 
   Command autonomousCommand;
   Command defaultCommand;
@@ -59,19 +65,21 @@ public class Telepath extends TimedRobot {
    * Default constructor
    */
   public Telepath() {
-    cam1.setResolution(Parameters.CAM_WIDTH, Parameters.CAM_HEIGHT);
-    cam1.setFPS(30);
-    cam1.setExposureManual(40);
-    // defaultCommand = new DefaultCommand(drive);
-    cameraThread = new CameraThread();
-    cameraThread.start();
+    if ( Parameters.CAMERA_AVAILABLE) {
+      cam1.setResolution(Parameters.CAM_WIDTH, Parameters.CAM_HEIGHT);
+      cam1.setFPS(30);
+      cam1.setExposureManual(40);
+      // defaultCommand = new DefaultCommand(drive);
+      cameraThread = new CameraThread();
+      cameraThread.start();
+    }
     if (Parameters.DRIVE_AVAILABLE) {
       drive = new Drive();
     }
     if (Parameters.HANDLER_AVAILABLE) {
       handler = new Handler();
     }
-    if (Parameters.HANDLER_AVAILABLE) {
+    if (Parameters.ELEVATOR_AVAILABLE) {
       elevator = new Elevator();
     }
     if (Parameters.INTAKE_AVAILABLE) {
@@ -79,6 +87,10 @@ public class Telepath extends TimedRobot {
     }
     if (Parameters.LIFTER_AVAILABLE) {
       lifter = new Lifter();
+    }
+    if (Parameters.GYRO_AVAILABLE) {
+      gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
+      liftLeveler = new PIDController(Parameters.LIFT_LEVELER_Kp, Parameters.LIFT_LEVELER_Ki, Parameters.LIFT_LEVELER_Kd, gyro, lifter);
     }
     oi = new OI();
     pdp = new PDP();

@@ -27,15 +27,24 @@ public class Parameters {
   // public static int rangefinderModule = 1;
 
 
-
-  public static final boolean COMPRESSOR_AVAILABLE = false;
-
-  public static final boolean INTAKE_AVAILABLE = false;
-  public static final double CARGO_INTAKE_ROLLER_SPEED = 1.0;
-  public static final double CARGO_INTAKE_DEPLOY_SPEED = 0.5;
-  public static final double CARGO_INTAKE_RETRACT_SPEED = -0.5;
-
+/**
+   * Flag that tells the code systems exist 
+   */
+  public static final boolean DRIVE_AVAILABLE = true;
   public static final boolean CAMERA_AVAILABLE = false;
+  public static final boolean INTAKE_AVAILABLE = false;
+  public static final boolean COMPRESSOR_AVAILABLE = false;
+  public static final boolean ELEVATOR_AVAILABLE = false;
+  public static final boolean HANDLER_AVAILABLE = false;
+  public static final boolean CARGO_HANDLER_AVAILABLE = false;
+  public static final boolean LIFTER_AVAILABLE = false;
+  public static final boolean GYRO_AVAILABLE = false;
+  public static final boolean BUTTONBOX_AVAILABLE = false;
+  
+  public static final double CARGO_INTAKE_ROLLER_SPEED = 1.0;
+  public static final Value CARGO_INTAKE_EXTEND = Value.kForward;
+  public static final Value CARGO_INTAKE_RETRACT = Value.kReverse;
+
   public static final double CAM_FILTER_LINES_ANGLE_LESSER = 1.0;
   public static final double CAM_FILTER_LINES_ANGLE_GREATER = 359.0;
   public static final double CAM_FILTER_LINES_MINIMUM_LENGTH = 1.0;
@@ -93,7 +102,6 @@ public class Parameters {
   public static final int BUTTON_HATCH_3 = 1;
   public static final int BUTTON_CARGO_3 = 2;
   
-  public static final boolean ELEVATOR_AVAILABLE = false;
   public static final double ELEVATOR_ZEROING_SPEED = -0.25;
   public static final int ELEVATOR_POSITION_ERROR = 10;
   public static final double ELEVATOR_MANUAL_SPEED = 0.5;
@@ -127,17 +135,16 @@ public class Parameters {
   }
 
 
-  /**
-   * Flag that tells the code if there is a drive system 
-   */
-  public static final boolean DRIVE_AVAILABLE = true;
   public static final double DRIVE_SHIFT_CURRENT = 60;
-  public static final double DRIVE_SHIFT_SPEED = 0.3;
+  public static final double DRIVE_SHIFT_SPEED = 0.35;
+  public static final double DRIVE_LEFT_RIGHT_SPEED_DIFF = 0.4;
   public static final Value DRIVE_HIGH_GEAR = Value.kForward;
   public static final Value DRIVE_LOW_GEAR = Value.kReverse;
   public static final int DRIVE_CURRENT_LIMIT_PEAK = 30;
   public static final int DRIVE_CURRENT_LIMIT_CONTINUOUS = 20;
   public static final int DRIVE_CURRENT_LIMIT_PEAK_DURATION = 300;
+  public static final boolean DRIVE_SHIFTER_ENABLE = true;
+  public static final double DRIVE_SHIFT_TIME_INTERVAL = 1.0;
 
   public enum DriveGearbox {
     /** We're deploying on practice robot with dual CIM motor gearbox */
@@ -154,7 +161,9 @@ public class Parameters {
     HANDLER_RELEASE_VACUUM(2),
     DRIVE_SHIFT_HIGH(3), 
     DRIVE_SHIFT_LOW(4), 
-    HANDLER_CLIMBER_ARM(5);
+    HANDLER_CLIMBER_ARM(5),
+    CARGO_INTAKE_EXTENDER(6),
+    CARGO_INTAKE_EXTENDER_RETRACT(7);
 
     private int channel;
 
@@ -196,9 +205,7 @@ public class Parameters {
 
     HATCH_LEAD_SCREW_MOTOR(51, false, 5), 
     LIFTER_LIFT_MOTOR(30, false, 4), 
-    LIFTER_DRIVE_MOTOR(31, false, 11),
-    
-    HANDLER_VACUUM_EXTEND_RETRACT(60, false, 9);
+    LIFTER_DRIVE_MOTOR(31, false, 11);
 
     private int canId;
     private int pdpChannel;
@@ -260,18 +267,29 @@ public class Parameters {
     }
   }
 
-  public static final boolean HANDLER_AVAILABLE = false;
-  public static final double HATCHHANDLER_MOTOR_SPEED = 0;
+  public static final double HATCHHANDLER_MOTOR_SPEED = 0.0;
   public static final int HATCHHANDLER_ZERO_POSITION = 0;
   public static final double HATCHHANDLER_DEPLOY_POSITION = 10;
   public static final double HATCHHANDLER_ZEROING_SPEED = 0;
 
-  public static final boolean CARGO_HANDLER_AVAILABLE = false;
-  public static final double CARGO_HANDLER_INTAKE_SPEED = 1;
-  public static final double CARGO_HANDLER_SHOOT_SPEED = -1;
+  public static final double CARGO_HANDLER_INTAKE_SPEED = 1.0;
+  public static final double CARGO_HANDLER_SHOOT_SPEED = -1.0;
   public static final int CARGO_HANDLER_SENSOR = 0;
 
-  public static final boolean LIFTER_AVAILABLE = false;
-  public static final double LIFTER_LIFT_MOTOR_DEPLOY_SPEED = 0.4;
+  //public static final double LIFTER_LIFT_MOTOR_DEPLOY_SPEED = 0.4;
+  /**
+   * 80/1 is the gear ratio of the elevator
+   * 49/1 is the gear ratio of the lifter
+   * To approximatley match the lifter speed to the elevator speed
+   * use the ratio of gear ratios and the elevator speed
+   */
+  public static final double LIFTER_LIFT_MOTOR_DEPLOY_SPEED = ELEVATOR_MANUAL_SPEED * 80/49;
   public static final double LIFTER_LIFT_MOTOR_RETRACT_SPEED = -0.7;
+  public static final double LIFT_DEPLOY_TIME = 3.0;
+  public static final double LIFTER_LIFT_MOTOR_VARIATION = 0.2;
+
+  public static final double LIFT_LEVELER_Kp = 0.2;
+  public static final double LIFT_LEVELER_Ki = 0.0;
+  public static final double LIFT_LEVELER_Kd = 0.0;
+  public static final double LIFT_LEVELER_TOLERANCE = 3.0;
 }

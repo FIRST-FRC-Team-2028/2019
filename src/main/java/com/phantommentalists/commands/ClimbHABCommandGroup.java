@@ -7,16 +7,20 @@
 
 package com.phantommentalists.commands;
 
-import com.phantommentalists.Telepath;
-import com.phantommentalists.Parameters.ElevatorPosition;
+import com.phantommentalists.Parameters;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class PickUpHatchCommandGroup extends CommandGroup {
+public class ClimbHABCommandGroup extends CommandGroup {
   /**
-   * Add your docs here.
+   * Extend Climbing Arm
+   * Deploy Lifter
+   * Lift the robot to the height of the HAB
+   * Drive Lifter until the center of gravity and two wheels are over the HAB
+   * Retract Lifter and raise the elevator
+   * Drive until the robot is completley over HAB
    */
-  public PickUpHatchCommandGroup() {
+  public ClimbHABCommandGroup() {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -34,20 +38,16 @@ public class PickUpHatchCommandGroup extends CommandGroup {
     // a CommandGroup containing them would require both the chassis and the
     // arm.
 
-    requires(Telepath.handler);
-    requires(Telepath.elevator);
-    requires(Telepath.drive);
-
-    //Move the elevator to the HATCH_LEVEL_1 position
-    addParallel(new GoToElevatorPositionCommand(ElevatorPosition.HATCH_LOW));
-    //To pickup the hatch the command extends/deploys Hatch Handler
-    addSequential(new DeployHatchHandlerCommand());
-    //Deploying it runs in parallel with the elevator
-    //Drive to hatch (sensed somehow or viewed by camera)
-    addSequential(new DriveToHatchCommand());
-    //FIXME ensure DriveToHatchCommand exists
-    //Collapse vacuum cups by extending a pneumatic cylinder that pulls
-    //on other pneumatic cylinders (only one solenoid operated valve is needed)
-    addSequential(new GrabHatchCommand());
+    //Raise the elevator to HAB height
+    addSequential(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HAB_ZONE_LEVEL_3));
+    //Extend Climbing Arm
+    addSequential(new ExtendClimbingArmCommand());
+    //Deploy Lifter
+    addSequential(new DeployLifterCommand());
+    //Lift the robot to the height of the HAB
+    addSequential(new LiftRobotCommand());
+    //Drive Lifter until the center of gravity and two wheels are over the HAB
+    //Retract Lifter and raise the elevator
+    //Drive until the robot is completley over HAB
   }
 }
