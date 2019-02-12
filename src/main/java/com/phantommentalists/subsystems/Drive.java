@@ -153,4 +153,14 @@ public class Drive extends Subsystem {
     left.setPercentOutput(lefta);
     right.setPercentOutput(righta);
   }
+
+  public void process() {
+    left.process();
+    right.process();
+    SmartDashboard.putNumber("Drive: Total Current", getAllMotorCurrent());
+  }
+
+  public double getAllMotorCurrent() {
+    return left.getMotorCurrentOutput() + right.getMotorCurrentOutput();
+  }
 }

@@ -159,6 +159,7 @@ public class Elevator extends Subsystem
      */
     public boolean isDown()
     {
+        /*  
         SensorCollection sc = upDown.getSensorCollection();
         if (sc != null)
         {
@@ -166,6 +167,13 @@ public class Elevator extends Subsystem
             {
                 return true;
             }
+        }
+        return false; */
+        
+        Double current = upDown.getOutputCurrent();
+        //FIXME Make sure 2.0 is a good threshold
+        if (current >= 2.0) {
+            return true;
         }
         return false;
     }

@@ -176,6 +176,21 @@ public class Telepath extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
+    if (Parameters.DRIVE_AVAILABLE) {
+      drive.process();
+    }
+    if (Parameters.HANDLER_AVAILABLE) {
+      handler.process();
+    }
+    if (Parameters.ELEVATOR_AVAILABLE) {
+      elevator.process();
+    }
+    if (Parameters.INTAKE_AVAILABLE) {
+      cargoIntake.process();
+    }
+    if (Parameters.LIFTER_AVAILABLE) {
+      lifter.process();
+    }
   }
 
   @Override

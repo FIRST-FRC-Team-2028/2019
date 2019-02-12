@@ -30,6 +30,15 @@ public class PDP {
     driveCurrent = new double[8];
   }
 
+  /** 
+   * Getter to return reference to PowerDistributionPannel
+   * 
+   * @return PowerDistributionPanel The robot's PowerDistributionPanel
+   */
+  public PowerDistributionPanel getPdp() {
+      return pdp;
+  }
+
   /**
    * Gets the drive current.
    * @return double of the drive current

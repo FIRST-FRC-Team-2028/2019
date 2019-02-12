@@ -5,6 +5,10 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import com.phantommentalists.Parameters;
+import com.phantommentalists.Parameters.DriveGearbox;
+
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveSide {
 
@@ -23,7 +27,11 @@ public class DriveSide {
     /** Third of 3 follower motor controllers.  ONLY USED with quad 775 motor gearbox on competition chassis */
     private VictorSPX competitionFollower3;
 
+    /** Class variable to determine how many motor controllers we have */
+    private Parameters.DriveGearbox gearboxType;
+
     public DriveSide(boolean left, Parameters.DriveGearbox gearbox) {
+        gearboxType = gearbox;
         Parameters.CanId masterCanId = null;
         if (left) {
             masterCanId = Parameters.CanId.LEFT_MASTER_CAN_ID;
@@ -80,13 +88,33 @@ public class DriveSide {
         }
     }
 
+    /**
+     * Gets the current draw (in amps) for all the motors on this side of the drive
+     * (it will account for a 2 motor drive or a 4 motor drive)
+     * 
+     * @return double Current in amps
+     */
     public double getMotorCurrentOutput() {
         double outputCurrent =  master.getOutputCurrent();
-        System.out.println(outputCurrent);
+        switch (gearboxType) {
+            case TWO_MOTOR_GEARBOX:
+                outputCurrent = outputCurrent + practiceFollower.getOutputCurrent();
+                break;
+            case FOUR_MOTOR_GEARBOX:
+                PowerDistributionPanel pdp = Telepath.pdp.getPdp();
+                outputCurrent = outputCurrent + pdp.getCurrent(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_1.getChannel());
+                outputCurrent = outputCurrent + pdp.getCurrent(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_2.getChannel());
+                outputCurrent = outputCurrent + pdp.getCurrent(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_3.getChannel());
+                break;
+        }
         return outputCurrent;
     } 
     public void setPercentOutput(double speed)
     {
         master.set(ControlMode.PercentOutput, speed);
+    }
+
+    public void process() {
+        SmartDashboard.putNumber("Drive: Left Current", getMotorCurrentOutput());
     }
 }
