@@ -63,17 +63,15 @@ public class Telepath extends TimedRobot {
    * Default constructor
    */
   public Telepath() {
-    if ( Parameters.CAMERA_AVAILABLE) {
-      cam1.setResolution(Parameters.CAM_WIDTH, Parameters.CAM_HEIGHT);
-      cam1.setFPS(30);
-      cam1.setExposureManual(25);
-      // defaultCommand = new DefaultCommand(drive);
-      cameraThread = new CameraThread();
-      cameraThread.start();
-      server.setSource(cam1);
-      sink.setSource(cam1);
-    }
+    cam1.setResolution(Parameters.CAM_WIDTH, Parameters.CAM_HEIGHT);
+    cam1.setFPS(30);
+    cam1.setExposureManual(16);
 
+    server.setSource(cam1);
+    sink.setSource(cam1);
+    // defaultCommand = new DefaultCommand(drive);
+    cameraThread = new CameraThread();
+    cameraThread.start();
     if (Parameters.DRIVE_AVAILABLE) {
       drive = new Drive();
     }

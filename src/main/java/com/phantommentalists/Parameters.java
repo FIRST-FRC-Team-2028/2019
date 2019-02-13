@@ -27,6 +27,7 @@ public class Parameters {
   // public static int rangefinderModule = 1;
 
 
+
 /**
    * Flag that tells the code systems exist 
    */
@@ -190,16 +191,16 @@ public class Parameters {
    * Enum to hold all information about devices on the CAN bus
    */
   public enum CanId {
-    LEFT_MASTER_CAN_ID(20, false, 0),
-    LEFT_2_FOLLOWER_CAN_ID(21, false, 13), 
-    LEFT_4_FOLLOWER_CAN_ID_1(21, false, 1),
-    LEFT_4_FOLLOWER_CAN_ID_2(22,false, 2),
-    LEFT_4_FOLLOWER_CAN_ID_3(23,false, 3),
-    RIGHT_MASTER_CAN_ID(10, true, 15),
+    LEFT_MASTER_CAN_ID(20, true, 0),
+    LEFT_2_FOLLOWER_CAN_ID(21, true, 13), 
+    LEFT_4_FOLLOWER_CAN_ID_1(21, true, 1),
+    LEFT_4_FOLLOWER_CAN_ID_2(22,true, 2),
+    LEFT_4_FOLLOWER_CAN_ID_3(23,true, 3),
+    RIGHT_MASTER_CAN_ID(10, false, 15),
     RIGHT_2_FOLLOWER_CAN_ID(11, true, 14), 
-    RIGHT_4_FOLLOWER_CAN_ID_1(11, true, 14),
-    RIGHT_4_FOLLOWER_CAN_ID_2(12,true, 13),
-    RIGHT_4_FOLLOWER_CAN_ID_3(13,true, 12),
+    RIGHT_4_FOLLOWER_CAN_ID_1(11, false, 14),
+    RIGHT_4_FOLLOWER_CAN_ID_2(12,false, 13),
+    RIGHT_4_FOLLOWER_CAN_ID_3(13,false, 12),
 
     ELEVATOR(40, false, 6),
     

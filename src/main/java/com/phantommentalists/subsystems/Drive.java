@@ -58,6 +58,54 @@ public class Drive extends Subsystem {
     right.setPercentOutput(-0.5);
   }
 
+  public void reflectiveAlignDrive(double x, double distance)
+  {
+    double diffl = 0.0;
+    double diffr = 0.0;
+      //pointed really far left
+      if(x > (3*Parameters.CAM_WIDTH)/4 && distance > 200)
+      {
+        diffl = 0.3;
+        diffr = -0.3;
+      }
+      //far away and somewhat pointed to the left
+      else if(x < (3*Parameters.CAM_WIDTH)/4 && x > (Parameters.CAM_WIDTH/2) && distance > 200)
+      {
+        diffl = 0.20;
+        diffr = -0.20;
+      }
+      //pointed really far right
+      else if(x > Parameters.CAM_WIDTH/4 && x < Parameters.CAM_WIDTH && distance > 200)
+      {
+        diffl = -0.20;
+        diffr = 0.20;
+      }
+      //far away and somewhat pointed to the right
+      else if(x > 0 && x < Parameters.CAM_WIDTH/4 && distance > 200)
+      {
+        diffl = -0.3;
+        diffr = 0.3;
+      }
+      //far away and 
+      else if(x > 1)
+      {
+
+      }
+      else if(x > 2)
+      {
+
+      }
+      else
+      {
+        diffl = 0.0;
+        diffr = 0.0;
+      }
+
+
+    left.setPercentOutput(0.2 + diffl);
+    right.setPercentOutput(0.2 + diffr);
+  }
+
   public void alignDrive(double leftangle, double rightangle, double leftx, double rightx)
   {
 
