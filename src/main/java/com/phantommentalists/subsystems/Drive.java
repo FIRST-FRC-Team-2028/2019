@@ -46,10 +46,10 @@ public class Drive extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
-    //setDefaultCommand(new DefaultCommand());
-    setDefaultCommand(new DefaultDriveCommand());
+    if (Parameters.DRIVE_AVAILABLE)
+    {
+      setDefaultCommand(new DefaultDriveCommand(this));
+    }
   }
 
   public void spinDrive()

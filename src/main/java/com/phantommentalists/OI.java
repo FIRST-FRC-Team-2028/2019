@@ -48,10 +48,14 @@ public class OI {
   Button buttonCargo3 = new JoystickButton(buttonBoxRight, Parameters.BUTTON_CARGO_3);
   public Button buttonLifterRetract = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_LIFTER_RETRACT);
   public Button buttonLifterDeploy = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_LIFTER_DEPLOY);
-  public OI()
+  
+  public OI(Telepath robot)
   {
-    button.whileHeld(new SpinCommand());
-    button2.whileHeld(new AlignCommand());
+    if (Parameters.DRIVE_AVAILABLE) 
+    {
+      button.whileHeld(new SpinCommand(robot));
+      button2.whileHeld(new AlignCommand(robot.getDrive()));
+    }
     if ( Parameters.BUTTONBOX_AVAILABLE) {
       buttonHatch1get.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_LOW));
       buttonCargo1get.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_LOW));

@@ -42,7 +42,7 @@ public class Telepath extends TimedRobot {
   public static Handler handler;
   public static Elevator elevator;
   public static CargoIntake cargoIntake;
-  public static Drive drive;
+  private Drive drive;
   public static OI oi;
   public static CameraThread cameraThread;
   public static Pressure pressure;
@@ -93,7 +93,7 @@ public class Telepath extends TimedRobot {
       gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
       liftLeveler = new PIDController(Parameters.LIFT_LEVELER_Kp, Parameters.LIFT_LEVELER_Ki, Parameters.LIFT_LEVELER_Kd, gyro, lifter);
     }
-    oi = new OI();
+    oi = new OI(this);
     pdp = new PDP(); 
     pressure = new Pressure();
   }
@@ -212,6 +212,22 @@ public class Telepath extends TimedRobot {
       SmartDashboard.putNumber("'right' x", cameraThread.getRight().x2);
     }
     pressure.disable();
+
+    if (Parameters.DRIVE_AVAILABLE) {
+      drive.process();
+    }
+    if (Parameters.HANDLER_AVAILABLE) {
+      handler.process();
+    }
+    if (Parameters.ELEVATOR_AVAILABLE) {
+      elevator.process();
+    }
+    if (Parameters.INTAKE_AVAILABLE) {
+      cargoIntake.process();
+    }
+    if (Parameters.LIFTER_AVAILABLE) {
+      lifter.process();
+    }
   }
 
   /**
@@ -220,6 +236,20 @@ public class Telepath extends TimedRobot {
   @Override
   public void testPeriodic() 
   {
-
+    if (Parameters.DRIVE_AVAILABLE) {
+      drive.process();
+    }
+    if (Parameters.HANDLER_AVAILABLE) {
+      handler.process();
+    }
+    if (Parameters.ELEVATOR_AVAILABLE) {
+      elevator.process();
+    }
+    if (Parameters.INTAKE_AVAILABLE) {
+      cargoIntake.process();
+    }
+    if (Parameters.LIFTER_AVAILABLE) {
+      lifter.process();
+    }
   }
 }

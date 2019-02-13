@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 import com.phantommentalists.OI;
 import com.phantommentalists.Telepath;
+import com.phantommentalists.subsystems.Drive;
 
 
 /**
@@ -18,10 +19,14 @@ import com.phantommentalists.Telepath;
  */
 public class DefaultDriveCommand extends Command {
 
+  Drive drive;
+
   public OI oi = Telepath.oi;
-  public DefaultDriveCommand() {
+  
+  public DefaultDriveCommand(Drive drive) {
     // Use requires() here to declare subsystem dependencies
-    requires(Telepath.drive);
+    this.drive = drive;
+    requires(drive);
   }
 
   // Called just before this Command runs the first time
@@ -33,7 +38,7 @@ public class DefaultDriveCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Telepath.drive.tankDrive(oi.getLeftStick(), oi.getRightStick());
+    drive.tankDrive(oi.getLeftStick(), oi.getRightStick());
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -8,14 +8,19 @@
 package com.phantommentalists.commands;
 
 import com.phantommentalists.Telepath;
+import com.phantommentalists.subsystems.Drive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveToHatchCommand extends Command {
-  public DriveToHatchCommand() {
+  
+  Drive drive;
+
+  public DriveToHatchCommand(Drive drive) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.drive);
+    this.drive = drive;
+    requires(drive);
   }
 
   // Called just before this Command runs the first time

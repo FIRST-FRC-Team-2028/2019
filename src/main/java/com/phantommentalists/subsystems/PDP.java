@@ -23,6 +23,7 @@ public class PDP {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private PowerDistributionPanel pdp;
+
   private double[] driveCurrent;
 
   public PDP() {
@@ -41,6 +42,7 @@ public class PDP {
 
   /**
    * Gets the drive current.
+   * 
    * @return double of the drive current
    */
     public double[] getDriveCurrent(Parameters.DriveGearbox gearbox) {

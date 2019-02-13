@@ -9,6 +9,7 @@ package com.phantommentalists.commands;
 
 import com.phantommentalists.Telepath;
 import com.phantommentalists.Parameters.ElevatorPosition;
+import com.phantommentalists.subsystems.Drive;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -20,7 +21,7 @@ public class PlaceCargoCommandGroup extends CommandGroup {
    * Driving and elevating runs in parallel
    * Shoot the cargo
    */
-  public PlaceCargoCommandGroup(ElevatorPosition whichCargo) {
+  public PlaceCargoCommandGroup(Drive drive, ElevatorPosition whichCargo) {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -38,12 +39,12 @@ public class PlaceCargoCommandGroup extends CommandGroup {
     // a CommandGroup containing them would require both the chassis and the
     // arm.
 
-    requires(Telepath.drive);
+    requires(drive);
     requires(Telepath.elevator);
     requires(Telepath.handler);
 
     //Driving to the port
-    addParallel(new DriveToHatchCommand());
+    addParallel(new DriveToHatchCommand(drive));
     //FIXME check if the alignment system works for cargo and hatch
     //Elevating the Handler to the desired level
     addSequential(new GoToElevatorPositionCommand(whichCargo));

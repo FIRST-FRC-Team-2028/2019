@@ -30,11 +30,11 @@ public class Parameters {
 /**
    * Flag that tells the code systems exist 
    */
-  public static final boolean DRIVE_AVAILABLE = true;
+  public static final boolean DRIVE_AVAILABLE = false;
   public static final boolean CAMERA_AVAILABLE = false;
   public static final boolean INTAKE_AVAILABLE = false;
   public static final boolean COMPRESSOR_AVAILABLE = false;
-  public static final boolean ELEVATOR_AVAILABLE = false;
+  public static final boolean ELEVATOR_AVAILABLE = true;
   public static final boolean HANDLER_AVAILABLE = false;
   public static final boolean CARGO_HANDLER_AVAILABLE = false;
   public static final boolean LIFTER_AVAILABLE = false;
@@ -105,7 +105,9 @@ public class Parameters {
   public static final double ELEVATOR_ZEROING_SPEED = -0.25;
   public static final int ELEVATOR_POSITION_ERROR = 10;
   public static final double ELEVATOR_MANUAL_SPEED = 0.5;
+  public static final double ELEVATOR_ZEROING_CURRENT_LIMIT = 2.0;
   public enum ElevatorPosition {
+    LOWER_LIMIT(200),
     HATCH_LOW(900),
     HATCH_MIDDLE(15000),
     HATCH_HIGH(27000),
@@ -113,7 +115,8 @@ public class Parameters {
     CARGO_MIDDLE(17500),
     CARGO_HIGH(28500),
     HAB_ZONE_LEVEL_2(400),
-    HAB_ZONE_LEVEL_3(5000);
+    HAB_ZONE_LEVEL_3(5000),
+    UPPER_LIMIT(30000);
 
     private int ticks;
 
@@ -295,5 +298,6 @@ public class Parameters {
   public static final double LIFT_LEVELER_Ki = 0.0;
   public static final double LIFT_LEVELER_Kd = 0.0;
   public static final double LIFT_LEVELER_TOLERANCE = 3.0;
+
 
 }
