@@ -21,13 +21,20 @@ import com.phantommentalists.Parameters.Pid;
 import com.phantommentalists.commands.DefaultElevatorCommand;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator extends Subsystem
 {
+    /** Motor controller for the motor to raise and lower the elevator */
     TalonSRX upDown;
-    //boolean fwdlimitclosed;
+    
+    /** setpoint we want the elevator to go to when it is in AUTO mode */
     ElevatorPosition setpoint;
+
+    /** Has the elevator been zeroed yet?  If not, do not enter AUTO mode */
     boolean zeroed;
+
+    /** Mode the elevator is currently in */
     AutoMode mode;
 
     /**
@@ -43,11 +50,13 @@ public class Elevator extends Subsystem
 			upDown.config_kI(1, Pid.ELEVATOR.getI(), 0);
 		    upDown.config_kD(1, Pid.ELEVATOR.getD(), 0);
 		    upDown.config_kF(1, Pid.ELEVATOR.getF(), 0);
-		    upDown.set(ControlMode.PercentOutput, 0);
+		    upDown.set(ControlMode.PercentOutput, 0.0);
             upDown.setNeutralMode(NeutralMode.Brake);
-            //upDown.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 0);
-            upDown.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
             upDown.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+            upDown.configForwardSoftLimitThreshold(Parameters.ElevatorPosition.UPPER_LIMIT.getSetPoint());
+            upDown.configReverseSoftLimitThreshold(Parameters.ElevatorPosition.LOWER_LIMIT.getSetPoint());
+            upDown.configForwardSoftLimitEnable(false);
+            upDown.configReverseSoftLimitEnable(false);
             zeroed = false;
             mode = AutoMode.ZEROING;
         }
@@ -68,7 +77,8 @@ public class Elevator extends Subsystem
 
     /**
      * This method is a generated getter for the output of upDown.
-     * @return double output
+     * 
+     * @return int position of the elevator in ticks read from the quadrature encoder
      */
     public int getPosition()
     {
@@ -83,8 +93,11 @@ public class Elevator extends Subsystem
     {
         if(Parameters.ELEVATOR_AVAILABLE)
 		{
-			upDown.set(ControlMode.Position, switchPosition.getSetPoint());
-			setpoint = switchPosition;
+            if (mode == AutoMode.AUTO)
+            {
+			    upDown.set(ControlMode.Position, switchPosition.getSetPoint());
+                setpoint = switchPosition;
+            }
 		}
     }
 
@@ -92,14 +105,19 @@ public class Elevator extends Subsystem
 	{
 		if(Parameters.ELEVATOR_AVAILABLE)
 		{
-            // FIX ME Double Check Logic
-            // upDown.getSensorCollection().setQuadraturePosition(0, 0);
             zeroed = true;
             mode = AutoMode.MANUAL;
-            upDown.setSelectedSensorPosition(0);            
+            upDown.setSelectedSensorPosition(0);
+            upDown.configForwardSoftLimitThreshold(Parameters.ElevatorPosition.UPPER_LIMIT.getSetPoint());
+            upDown.configReverseSoftLimitThreshold(Parameters.ElevatorPosition.LOWER_LIMIT.getSetPoint());
+            upDown.configForwardSoftLimitEnable(true);
+            upDown.configReverseSoftLimitEnable(true);            
 		}
     }
 
+    /**
+     * Stop the elevator motor
+     */
     public void stopMotor()
     {
         if(Parameters.ELEVATOR_AVAILABLE)
@@ -118,19 +136,30 @@ public class Elevator extends Subsystem
     {
         if (Parameters.ELEVATOR_AVAILABLE)
         {
-            mode = AutoMode.MANUAL;
-            upDown.set(ControlMode.PercentOutput, motorPower);
+            if (mode == AutoMode.MANUAL)
+            {
+                mode = AutoMode.MANUAL;
+                upDown.set(ControlMode.PercentOutput, motorPower);
+            }
         }
     }
     
     /**
      * Setter for auto mode
      * 
+     * NOTE:  We never change the mode if it is currently zeroing
+     * 
      * @param AutoMode the new mode
      */
     public void setMode(AutoMode switchMode)
     {
-        mode = switchMode;
+        if (Parameters.ELEVATOR_AVAILABLE) 
+        {
+            if (mode != AutoMode.ZEROING)
+            {
+                mode = switchMode;
+            }
+        }
     }
 
     /**
@@ -143,6 +172,11 @@ public class Elevator extends Subsystem
         return mode;
     }
 
+    /**
+     * Getter to determine if elevator has been zeroed
+     * 
+     * @return boolean true if elevator has been zeroed, false otherwise
+     */
     public boolean isZeroed()
     {
         if (Parameters.ELEVATOR_AVAILABLE)
@@ -159,21 +193,13 @@ public class Elevator extends Subsystem
      */
     public boolean isDown()
     {
-        /*  
-        SensorCollection sc = upDown.getSensorCollection();
-        if (sc != null)
+        if (Parameters.ELEVATOR_AVAILABLE)
         {
-            if (sc.isRevLimitSwitchClosed())
+            int position = getPosition();
+            if (position <= Parameters.ElevatorPosition.LOWER_LIMIT.getSetPoint())
             {
                 return true;
             }
-        }
-        return false; */
-        
-        Double current = upDown.getOutputCurrent();
-        //FIXME Make sure 2.0 is a good threshold
-        if (current >= 2.0) {
-            return true;
         }
         return false;
     }
@@ -189,9 +215,9 @@ public class Elevator extends Subsystem
     {
         if (Parameters.ELEVATOR_AVAILABLE)
         {
-            if (!zeroed)
+            if (mode == AutoMode.ZEROING)
             {
-                if (isDown())
+                if (getCurrent() >= Parameters.ELEVATOR_ZEROING_CURRENT_LIMIT)
                 {
                     upDown.set(ControlMode.PercentOutput, 0.0);
                     zeroPosition();
@@ -201,7 +227,15 @@ public class Elevator extends Subsystem
                     upDown.set(ControlMode.PercentOutput, Parameters.ELEVATOR_ZEROING_SPEED);
                 }
             }
+            SmartDashboard.putNumber("Elevator: Current", getCurrent());
+            SmartDashboard.putNumber("Elevator: Position", getPosition());
+            SmartDashboard.putString("Elevator: Mode", mode.toString());
         }
+    }
+
+    public double getCurrent() 
+    {
+        return upDown.getOutputCurrent();
     }
 
     /**

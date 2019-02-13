@@ -9,6 +9,7 @@ package com.phantommentalists.commands;
 
 import com.phantommentalists.Telepath;
 import com.phantommentalists.Parameters.ElevatorPosition;
+import com.phantommentalists.subsystems.Drive;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -16,7 +17,7 @@ public class PickUpHatchCommandGroup extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public PickUpHatchCommandGroup() {
+  public PickUpHatchCommandGroup(Drive drive) {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -36,7 +37,7 @@ public class PickUpHatchCommandGroup extends CommandGroup {
 
     requires(Telepath.handler);
     requires(Telepath.elevator);
-    requires(Telepath.drive);
+    requires(drive);
 
     //Move the elevator to the HATCH_LEVEL_1 position
     addParallel(new GoToElevatorPositionCommand(ElevatorPosition.HATCH_LOW));
@@ -44,7 +45,7 @@ public class PickUpHatchCommandGroup extends CommandGroup {
     addSequential(new DeployHatchHandlerCommand());
     //Deploying it runs in parallel with the elevator
     //Drive to hatch (sensed somehow or viewed by camera)
-    addSequential(new DriveToHatchCommand());
+    addSequential(new DriveToHatchCommand(drive));
     //FIXME ensure DriveToHatchCommand exists
     //Collapse vacuum cups by extending a pneumatic cylinder that pulls
     //on other pneumatic cylinders (only one solenoid operated valve is needed)

@@ -10,18 +10,25 @@ package com.phantommentalists.commands;
 import com.phantommentalists.CameraThread;
 import com.phantommentalists.Telepath;
 import com.phantommentalists.CameraAlignment.Line;
+import com.phantommentalists.subsystems.Drive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class AlignCommand extends Command {
 
   Line left;
+  
   Line right;
+  
   static boolean isdone;
-  public AlignCommand() {
+  
+  Drive drive;
+
+  public AlignCommand(Drive drive) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.drive);
+    this.drive = drive;
+    requires(drive);
     
   }
 
@@ -37,7 +44,7 @@ public class AlignCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Telepath.drive.alignDrive(left.angle(), right.angle(), left.x2, right.x2);
+    drive.alignDrive(left.angle(), right.angle(), left.x2, right.x2);
   }
 
   // Make this return true when this Command no longer needs to run execute()
