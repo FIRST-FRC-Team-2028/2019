@@ -34,7 +34,7 @@ public class Parameters {
   public static final boolean DRIVE_AVAILABLE = true;
   public static final boolean CAMERA_AVAILABLE = false;
   public static final boolean INTAKE_AVAILABLE = false;
-  public static final boolean COMPRESSOR_AVAILABLE = false;
+  public static final boolean COMPRESSOR_AVAILABLE = true;
   public static final boolean ELEVATOR_AVAILABLE = false;
   public static final boolean HANDLER_AVAILABLE = false;
   public static final boolean CARGO_HANDLER_AVAILABLE = false;
@@ -188,13 +188,13 @@ public class Parameters {
    * Enum to hold all information about devices on the CAN bus
    */
   public enum CanId {
-    LEFT_MASTER_CAN_ID(20, true, 0),
-    LEFT_2_FOLLOWER_CAN_ID(21, true, 13), 
+    LEFT_MASTER_CAN_ID(20, true, 15),
+    LEFT_2_FOLLOWER_CAN_ID(21, true, 14), 
     LEFT_4_FOLLOWER_CAN_ID_1(21, true, 1),
     LEFT_4_FOLLOWER_CAN_ID_2(22,true, 2),
     LEFT_4_FOLLOWER_CAN_ID_3(23,true, 3),
-    RIGHT_MASTER_CAN_ID(10, false, 15),
-    RIGHT_2_FOLLOWER_CAN_ID(11, true, 14), 
+    RIGHT_MASTER_CAN_ID(10, false, 12),
+    RIGHT_2_FOLLOWER_CAN_ID(11, true, 13), 
     RIGHT_4_FOLLOWER_CAN_ID_1(11, false, 14),
     RIGHT_4_FOLLOWER_CAN_ID_2(12,false, 13),
     RIGHT_4_FOLLOWER_CAN_ID_3(13,false, 12),
