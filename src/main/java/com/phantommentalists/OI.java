@@ -52,12 +52,14 @@ public class OI {
   {
     button.whileHeld(new SpinCommand());
     button2.whileHeld(new AlignCommand());
-    // buttonHatch1get.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_LOW));
-    // buttonCargo1get.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_LOW));
-    // buttonHatch2.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_MIDDLE));
-    // buttonCargo2.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_MIDDLE));
-    // buttonHatch3.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_HIGH));
-    // buttonCargo3.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_HIGH));
+    if ( Parameters.BUTTONBOX_AVAILABLE) {
+      buttonHatch1get.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_LOW));
+      buttonCargo1get.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_LOW));
+      buttonHatch2.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_MIDDLE));
+      buttonCargo2.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_MIDDLE));
+      buttonHatch3.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_HIGH));
+      buttonCargo3.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_HIGH));
+    }
     //private Parameters.MultiController controllerType = type;
     String type = DriverStation.getInstance().getJoystickName(0);
     SmartDashboard.putString("controller name ", type);

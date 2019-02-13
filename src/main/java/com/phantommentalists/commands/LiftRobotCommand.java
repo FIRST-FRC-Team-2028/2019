@@ -7,39 +7,48 @@
 
 package com.phantommentalists.commands;
 
+import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
+import com.phantommentalists.Parameters.ElevatorPosition;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DeployCargoIntake extends Command {
-  public DeployCargoIntake() {
+public class LiftRobotCommand extends Command {
+  public LiftRobotCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.cargoIntake);
+    requires(Telepath.elevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Telepath.liftLeveler.setAbsoluteTolerance(Parameters.LIFT_LEVELER_TOLERANCE);
+    Telepath.liftLeveler.setInputRange(-Parameters.LIFT_LEVELER_TOLERANCE, Parameters.LIFT_LEVELER_TOLERANCE);
+    Telepath.liftLeveler.setOutputRange(-Parameters.LIFTER_LIFT_MOTOR_VARIATION, Parameters.LIFTER_LIFT_MOTOR_VARIATION);
+    Telepath.liftLeveler.enable();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Telepath.cargoIntake.deploy();
-    Telepath.cargoIntake.turnOnRollers();
+    Telepath.elevator.setPosition(ElevatorPosition.HAB_ZONE_LEVEL_3);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Telepath.cargoIntake.isDeployed();
+    if (Telepath.elevator.getPosition() - ElevatorPosition.HAB_ZONE_LEVEL_3.getSetPoint() <= Parameters.ELEVATOR_POSITION_ERROR) {
+      return true;
+    }
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Telepath.cargoIntake.stopDeploying();
+    Telepath.elevator.stopMotor();
+    Telepath.liftLeveler.disable();
   }
 
   // Called when another command which requires one or more of the same

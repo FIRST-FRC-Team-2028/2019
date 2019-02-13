@@ -7,7 +7,11 @@
 
 package com.phantommentalists;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.GyroBase;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -43,6 +47,8 @@ public class Telepath extends TimedRobot {
   public static CameraThread cameraThread;
   public static Pressure pressure;
   public static Lifter lifter;
+  public static GyroBase gyro;
+  public static PIDController liftLeveler;
   public static PDP pdp;
 
   Command autonomousCommand;
@@ -72,7 +78,7 @@ public class Telepath extends TimedRobot {
     if (Parameters.HANDLER_AVAILABLE) {
       handler = new Handler();
     }
-    if (Parameters.HANDLER_AVAILABLE) {
+    if (Parameters.ELEVATOR_AVAILABLE) {
       elevator = new Elevator();
     }
     if (Parameters.INTAKE_AVAILABLE) {
@@ -80,6 +86,10 @@ public class Telepath extends TimedRobot {
     }
     if (Parameters.LIFTER_AVAILABLE) {
       lifter = new Lifter();
+    }
+    if (Parameters.GYRO_AVAILABLE) {
+      gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
+      liftLeveler = new PIDController(Parameters.LIFT_LEVELER_Kp, Parameters.LIFT_LEVELER_Ki, Parameters.LIFT_LEVELER_Kd, gyro, lifter);
     }
     oi = new OI();
     pdp = new PDP(); 
@@ -164,6 +174,21 @@ public class Telepath extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
+    if (Parameters.DRIVE_AVAILABLE) {
+      drive.process();
+    }
+    if (Parameters.HANDLER_AVAILABLE) {
+      handler.process();
+    }
+    if (Parameters.ELEVATOR_AVAILABLE) {
+      elevator.process();
+    }
+    if (Parameters.INTAKE_AVAILABLE) {
+      cargoIntake.process();
+    }
+    if (Parameters.LIFTER_AVAILABLE) {
+      lifter.process();
+    }
   }
 
   @Override

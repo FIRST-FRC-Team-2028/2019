@@ -9,10 +9,10 @@ package com.phantommentalists.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
-import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import com.phantommentalists.Parameters;
@@ -25,7 +25,7 @@ import com.phantommentalists.Parameters.CanId;
  */
 public class CargoIntake extends Subsystem {
   TalonSRX roller;
-  TalonSRX extender;
+  DoubleSolenoid extender;
 
   /**
    * Default constructor
@@ -33,17 +33,13 @@ public class CargoIntake extends Subsystem {
   public CargoIntake() {
     if (Parameters.INTAKE_AVAILABLE) {
       roller = new TalonSRX(CanId.CARGO_INTAKE.getCanId());
-      extender = new TalonSRX(CanId.CARGO_HANDLER.getCanId());
+      extender = new DoubleSolenoid(Parameters.PneumaticChannel.CARGO_INTAKE_EXTENDER.getChannel(), Parameters.PneumaticChannel.CARGO_INTAKE_EXTENDER_RETRACT.getChannel());
 
       roller.set(ControlMode.PercentOutput, 0.0);
       roller.setNeutralMode(NeutralMode.Brake);
       roller.setInverted(Parameters.CanId.CARGO_INTAKE.isInverted());
 
-      extender.set(ControlMode.PercentOutput, 0.0);
-      extender.setNeutralMode(NeutralMode.Brake);
-      extender.setInverted(Parameters.CanId.CARGO_HANDLER.isInverted());
-      extender.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 0);
-      extender.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 0);
+      extender.set(Parameters.CARGO_INTAKE_RETRACT);
     }
   }
 
@@ -61,28 +57,22 @@ public class CargoIntake extends Subsystem {
 
   public void deploy() {
     if (Parameters.INTAKE_AVAILABLE) {
-      extender.set(ControlMode.PercentOutput, Parameters.CARGO_INTAKE_DEPLOY_SPEED);
+      extender.set(Parameters.CARGO_INTAKE_EXTEND);
     }
   }
 
   public void retract() {
     if (Parameters.INTAKE_AVAILABLE) {
-      extender.set(ControlMode.PercentOutput, Parameters.CARGO_INTAKE_RETRACT_SPEED);
-    }
-  }
-
-  public void stopDeploying() {
-    if (Parameters.INTAKE_AVAILABLE) {
-      extender.set(ControlMode.PercentOutput, 0.0);
+      extender.set(Parameters.CARGO_INTAKE_RETRACT);
     }
   }
 
   public boolean isDeployed() {
     if (Parameters.INTAKE_AVAILABLE) {
-      SensorCollection sc = extender.getSensorCollection();
-      if (sc != null)
+      Value ds = extender.get();
+      if (ds == Value.kForward)
       {
-        return sc.isFwdLimitSwitchClosed();
+        return true;
       }
     }
     return false;
@@ -90,10 +80,10 @@ public class CargoIntake extends Subsystem {
 
   public boolean isRetracted() {
     if (Parameters.INTAKE_AVAILABLE) {
-      SensorCollection sc = extender.getSensorCollection();
-      if (sc != null)
+      Value ds = extender.get();
+      if (ds == Value.kReverse)
       {
-        return sc.isRevLimitSwitchClosed();
+        return true;
       }
     }
     return false;
@@ -103,4 +93,7 @@ public class CargoIntake extends Subsystem {
   public void initDefaultCommand() {
   }
 
+  public void process() {
+    
+  }
 }

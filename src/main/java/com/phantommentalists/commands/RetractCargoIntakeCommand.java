@@ -11,8 +11,8 @@ import com.phantommentalists.Telepath;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class RetractCargoIntake extends Command {
-  public RetractCargoIntake() {
+public class RetractCargoIntakeCommand extends Command {
+  public RetractCargoIntakeCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Telepath.cargoIntake);
@@ -39,7 +39,6 @@ public class RetractCargoIntake extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Telepath.cargoIntake.stopDeploying();
   }
 
   // Called when another command which requires one or more of the same

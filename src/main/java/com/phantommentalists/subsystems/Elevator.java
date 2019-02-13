@@ -20,7 +20,6 @@ import com.phantommentalists.Parameters.ElevatorPosition;
 import com.phantommentalists.Parameters.Pid;
 import com.phantommentalists.commands.DefaultElevatorCommand;
 
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Elevator extends Subsystem
@@ -30,7 +29,6 @@ public class Elevator extends Subsystem
     ElevatorPosition setpoint;
     boolean zeroed;
     AutoMode mode;
-    Solenoid climbingLeg;
 
     /**
      * Default constructor
@@ -161,6 +159,7 @@ public class Elevator extends Subsystem
      */
     public boolean isDown()
     {
+        /*  
         SensorCollection sc = upDown.getSensorCollection();
         if (sc != null)
         {
@@ -168,6 +167,13 @@ public class Elevator extends Subsystem
             {
                 return true;
             }
+        }
+        return false; */
+        
+        Double current = upDown.getOutputCurrent();
+        //FIXME Make sure 2.0 is a good threshold
+        if (current >= 2.0) {
+            return true;
         }
         return false;
     }
