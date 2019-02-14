@@ -8,14 +8,21 @@
 package com.phantommentalists.commands;
 
 import com.phantommentalists.Telepath;
+import com.phantommentalists.subsystems.Handler;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DeployHatchHandlerCommand extends Command {
-  public DeployHatchHandlerCommand() {
+  /**
+   * FIXME Comment
+   */
+  private Handler handler;
+
+  public DeployHatchHandlerCommand(Telepath r) {
+    handler = r.getHandler();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.handler);
+    requires(handler);
   }
 
   // Called just before this Command runs the first time
@@ -26,19 +33,19 @@ public class DeployHatchHandlerCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Telepath.handler.deployHatchHandler();
+    handler.deployHatchHandler();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Telepath.handler.isHatchDeployed();
+    return handler.isHatchDeployed();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Telepath.handler.stopHatchHandler();
+    handler.stopHatchHandler();
   }
 
   // Called when another command which requires one or more of the same

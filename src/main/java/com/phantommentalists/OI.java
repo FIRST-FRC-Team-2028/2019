@@ -48,17 +48,18 @@ public class OI {
   Button buttonCargo3 = new JoystickButton(buttonBoxRight, Parameters.BUTTON_CARGO_3);
   public Button buttonLifterRetract = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_LIFTER_RETRACT);
   public Button buttonLifterDeploy = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_LIFTER_DEPLOY);
-  public OI()
+
+  public OI(Telepath r)
   {
-    button.whileHeld(new SpinCommand());
-    button2.whileHeld(new AlignCommand());
+    button.whileHeld(new SpinCommand(r));
+    button2.whileHeld(new AlignCommand(r));
     if ( Parameters.BUTTONBOX_AVAILABLE) {
-      buttonHatch1get.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_LOW));
-      buttonCargo1get.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_LOW));
-      buttonHatch2.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_MIDDLE));
-      buttonCargo2.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_MIDDLE));
-      buttonHatch3.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_HIGH));
-      buttonCargo3.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_HIGH));
+      buttonHatch1get.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_LOW, r));
+      buttonCargo1get.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_LOW, r));
+      buttonHatch2.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_MIDDLE, r));
+      buttonCargo2.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_MIDDLE, r));
+      buttonHatch3.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_HIGH, r));
+      buttonCargo3.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_HIGH, r));
     }
     //private Parameters.MultiController controllerType = type;
     String type = DriverStation.getInstance().getJoystickName(0);

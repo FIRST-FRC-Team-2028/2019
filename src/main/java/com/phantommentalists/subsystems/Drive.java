@@ -32,11 +32,14 @@ public class Drive extends Subsystem {
       private double ratio;
       private double maxCurrent=-1.;
 
+      private Telepath robot;
+
       Timer timer;
   /** 
     * Default constructor
     */
-  public Drive() {
+  public Drive(Telepath r) {
+      robot = r;
       left = new DriveSide(true, Parameters.DRIVE_GEAR_BOX_TYPE);
       right = new DriveSide(false, Parameters.DRIVE_GEAR_BOX_TYPE);
       shifter = new DoubleSolenoid(Parameters.PneumaticChannel.DRIVE_SHIFT_HIGH.getChannel(),Parameters.PneumaticChannel.DRIVE_SHIFT_LOW.getChannel());
@@ -49,7 +52,7 @@ public class Drive extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
     //setDefaultCommand(new DefaultCommand());
-    setDefaultCommand(new DefaultDriveCommand());
+    setDefaultCommand(new DefaultDriveCommand(robot));
   }
 
   public void spinDrive()

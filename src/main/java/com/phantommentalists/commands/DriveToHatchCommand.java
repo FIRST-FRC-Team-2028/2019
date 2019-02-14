@@ -12,10 +12,17 @@ import com.phantommentalists.Telepath;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveToHatchCommand extends Command {
-  public DriveToHatchCommand() {
+  /**
+   * Uses the align method to line up with the tape
+   * This is because it is able to place and pick up hatches accurately
+   */
+  private Telepath robot;
+  
+  public DriveToHatchCommand(Telepath r) {
+    robot = r;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.drive);
+    requires(robot.getDrive());
   }
 
   // Called just before this Command runs the first time

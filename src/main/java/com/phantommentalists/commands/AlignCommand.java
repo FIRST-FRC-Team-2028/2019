@@ -18,10 +18,13 @@ public class AlignCommand extends Command {
   Line left;
   Line right;
   static boolean isdone;
-  public AlignCommand() {
+  private Telepath robot;
+
+  public AlignCommand(Telepath r) {
+    robot = r;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.drive);
+    requires(r.getDrive());
     
   }
 
@@ -29,7 +32,7 @@ public class AlignCommand extends Command {
   @Override
   protected void initialize() {
 
-    CameraThread cam = Telepath.cameraThread;
+    CameraThread cam = robot.cameraThread;
     left = cam.getLeft();
     right = cam.getRight();
   }
@@ -37,7 +40,7 @@ public class AlignCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Telepath.drive.alignDrive(left.angle(), right.angle(), left.x2, right.x2);
+    robot.getDrive().alignDrive(left.angle(), right.angle(), left.x2, right.x2);
   }
 
   // Make this return true when this Command no longer needs to run execute()

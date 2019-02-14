@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class PickUpHatchCommandGroup extends CommandGroup {
   /**
-   * Add your docs here.
+   * FIXME Comment
    */
-  public PickUpHatchCommandGroup() {
+  public PickUpHatchCommandGroup(Telepath r) {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -34,20 +34,20 @@ public class PickUpHatchCommandGroup extends CommandGroup {
     // a CommandGroup containing them would require both the chassis and the
     // arm.
 
-    requires(Telepath.handler);
-    requires(Telepath.elevator);
-    requires(Telepath.drive);
+    requires(r.getHandler());
+    requires(r.getHandler());
+    requires(r.getDrive());
 
     //Move the elevator to the HATCH_LEVEL_1 position
-    addParallel(new GoToElevatorPositionCommand(ElevatorPosition.HATCH_LOW));
+    addParallel(new GoToElevatorPositionCommand(ElevatorPosition.HATCH_LOW, r));
     //To pickup the hatch the command extends/deploys Hatch Handler
-    addSequential(new DeployHatchHandlerCommand());
+    addSequential(new DeployHatchHandlerCommand(r));
     //Deploying it runs in parallel with the elevator
     //Drive to hatch (sensed somehow or viewed by camera)
-    addSequential(new DriveToHatchCommand());
+    addSequential(new DriveToHatchCommand(r));
     //FIXME ensure DriveToHatchCommand exists
     //Collapse vacuum cups by extending a pneumatic cylinder that pulls
     //on other pneumatic cylinders (only one solenoid operated valve is needed)
-    addSequential(new GrabHatchCommand());
+    addSequential(new GrabHatchCommand(r));
   }
 }

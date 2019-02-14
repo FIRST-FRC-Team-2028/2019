@@ -20,7 +20,7 @@ public class PlaceHatchCommandGroup extends CommandGroup {
    * Driving and elevating runs in parallel
    * Release the hatch
    */
-  public PlaceHatchCommandGroup(ElevatorPosition whichHatch) {
+  public PlaceHatchCommandGroup(ElevatorPosition whichHatch, Telepath r) {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -38,16 +38,17 @@ public class PlaceHatchCommandGroup extends CommandGroup {
     // a CommandGroup containing them would require both the chassis and the
     // arm.
 
-    requires(Telepath.drive);
-    requires(Telepath.elevator);
-    requires(Telepath.handler);
+    requires(r.getDrive());
+    requires(r.getElevator());
+    requires(r.getHandler());
 
     //Driving to the hatch
-    addParallel(new DriveToHatchCommand());
+    addParallel(new DriveToHatchCommand(r));
     //Elevate the Handler to the desired level
-    addSequential(new GoToElevatorPositionCommand(whichHatch));
+    addSequential(new GoToElevatorPositionCommand(whichHatch, r));
     // Driving and elevating runs in parallel
     // Release the hatch
-    addSequential(new ReleaseHatchCommand());
+    addSequential(new ReleaseHatchCommand(r));
+    //FIXME zero the elevator when the action is done
   }
 }

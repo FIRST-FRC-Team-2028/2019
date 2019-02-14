@@ -15,6 +15,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.phantommentalists.Parameters;
+import com.phantommentalists.Telepath;
 import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.Parameters.ElevatorPosition;
 import com.phantommentalists.Parameters.Pid;
@@ -29,14 +30,16 @@ public class Elevator extends Subsystem
     ElevatorPosition setpoint;
     boolean zeroed;
     AutoMode mode;
+    private Telepath robot;
 
     /**
      * Default constructor
      */
-    public Elevator()
+    public Elevator(Telepath r)
     {
         if(Parameters.ELEVATOR_AVAILABLE)
         {
+            robot = r;
             upDown = new TalonSRX(Parameters.CanId.ELEVATOR.getCanId());
             upDown.selectProfileSlot(1, 0);
             upDown.config_kP(1, Pid.ELEVATOR.getP(), 0);
@@ -201,6 +204,6 @@ public class Elevator extends Subsystem
      */
     public void initDefaultCommand()
     {
-        setDefaultCommand(new DefaultElevatorCommand());
+        setDefaultCommand(new DefaultElevatorCommand(robot));
     }
 }

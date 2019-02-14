@@ -14,12 +14,14 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ReleaseHatchCommand extends Command {
   /**
    * It releases the hatch panel onto the hatch
-   * 
    */
-  public ReleaseHatchCommand() {
+  private Telepath robot;
+  
+  public ReleaseHatchCommand(Telepath r) {
+    robot = r;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.handler);
+    requires(robot.getHandler());
   }
 
   // Called just before this Command runs the first time
@@ -30,13 +32,13 @@ public class ReleaseHatchCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Telepath.handler.releaseHatch();
+    robot.getHandler().releaseHatch();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return !Telepath.handler.isHatchLoaded();
+    return !robot.getHandler().isHatchLoaded();
   }
 
   // Called once after isFinished returns true

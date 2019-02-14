@@ -20,7 +20,7 @@ public class PlaceCargoCommandGroup extends CommandGroup {
    * Driving and elevating runs in parallel
    * Shoot the cargo
    */
-  public PlaceCargoCommandGroup(ElevatorPosition whichCargo) {
+  public PlaceCargoCommandGroup(ElevatorPosition whichCargo, Telepath r) {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -38,17 +38,17 @@ public class PlaceCargoCommandGroup extends CommandGroup {
     // a CommandGroup containing them would require both the chassis and the
     // arm.
 
-    requires(Telepath.drive);
-    requires(Telepath.elevator);
-    requires(Telepath.handler);
+    requires(r.getDrive());
+    requires(r.getElevator());
+    requires(r.getHandler());
 
     //Driving to the port
-    addParallel(new DriveToHatchCommand());
+    addParallel(new DriveToHatchCommand(r));
     //FIXME check if the alignment system works for cargo and hatch
     //Elevating the Handler to the desired level
-    addSequential(new GoToElevatorPositionCommand(whichCargo));
+    addSequential(new GoToElevatorPositionCommand(whichCargo, r));
     //Driving and elevating runs in parallel
     //Shoot the cargo
-    addSequential(new ShootCargoCommand());
+    addSequential(new ShootCargoCommand(r));
   }
 }

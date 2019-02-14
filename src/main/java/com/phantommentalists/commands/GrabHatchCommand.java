@@ -8,14 +8,21 @@
 package com.phantommentalists.commands;
 
 import com.phantommentalists.Telepath;
+import com.phantommentalists.subsystems.Handler;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class GrabHatchCommand extends Command {
-  public GrabHatchCommand() {
+  /**
+   * Retrives the hatch from either the Cargo ship or the Loading Station
+   */
+  private Handler handler;
+  
+  public GrabHatchCommand(Telepath r) {
+    handler = r.getHandler();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.handler);
+    requires(handler);
   }
 
   // Called just before this Command runs the first time
@@ -26,13 +33,13 @@ public class GrabHatchCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Telepath.handler.loadHatch();
+    handler.loadHatch();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Telepath.handler.isHatchLoaded();
+    return handler.isHatchLoaded();
   }
 
   // Called once after isFinished returns true

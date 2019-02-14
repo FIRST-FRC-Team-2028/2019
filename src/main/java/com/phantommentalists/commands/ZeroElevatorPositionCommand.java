@@ -12,10 +12,14 @@ import com.phantommentalists.Telepath;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ZeroElevatorPositionCommand extends Command {
-  public ZeroElevatorPositionCommand() {
+
+private Telepath robot;
+
+  public ZeroElevatorPositionCommand(Telepath r) {
+    robot = r;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.elevator);
+    requires(robot.getElevator());
   }
 
   // Called just before this Command runs the first time
@@ -26,13 +30,13 @@ public class ZeroElevatorPositionCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Telepath.elevator.zeroPosition();
+    robot.getElevator().zeroPosition();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (Telepath.elevator.getPosition() == 0)
+    if (robot.getElevator().getPosition() == 0)
     {
       return true;
     }
@@ -42,7 +46,7 @@ public class ZeroElevatorPositionCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Telepath.elevator.stopMotor();
+    robot.getElevator().stopMotor();
   }
 
   // Called when another command which requires one or more of the same

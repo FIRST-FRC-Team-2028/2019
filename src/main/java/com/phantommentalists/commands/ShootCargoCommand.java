@@ -8,6 +8,7 @@
 package com.phantommentalists.commands;
 
 import com.phantommentalists.Telepath;
+import com.phantommentalists.subsystems.Handler;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -15,10 +16,13 @@ public class ShootCargoCommand extends Command {
   /**
    * It shoots the cargo into the port
    */
-  public ShootCargoCommand() {
+  private Handler handler;
+
+  public ShootCargoCommand(Telepath r) {
+    handler = r.getHandler();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.handler);
+    requires(handler);
   }
 
   // Called just before this Command runs the first time
@@ -29,19 +33,19 @@ public class ShootCargoCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Telepath.handler.shootCargo();
+    handler.shootCargo();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return !Telepath.handler.isCargoHeld();
+    return !handler.isCargoHeld();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Telepath.handler.stopCargoHandler();
+    handler.stopCargoHandler();
   }
 
   // Called when another command which requires one or more of the same

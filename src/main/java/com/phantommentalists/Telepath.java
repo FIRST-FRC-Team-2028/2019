@@ -39,17 +39,17 @@ import edu.wpi.cscore.VideoSink;
  */
 public class Telepath extends TimedRobot {
 
-  public static Handler handler;
-  public static Elevator elevator;
-  public static CargoIntake cargoIntake;
-  public static Drive drive;
-  public static OI oi;
-  public static CameraThread cameraThread;
-  public static Pressure pressure;
-  public static Lifter lifter;
-  public static GyroBase gyro;
-  public static PIDController liftLeveler;
-  public static PDP pdp;
+  private Handler handler;
+  private Elevator elevator;
+  private CargoIntake cargoIntake;
+  private Drive drive;
+  private OI oi;
+  private CameraThread cameraThread;
+  private Pressure pressure;
+  private Lifter lifter;
+  private GyroBase gyro;
+  private PIDController liftLeveler;
+  private PDP pdp;
 
   Command autonomousCommand;
   Command defaultCommand;
@@ -75,25 +75,25 @@ public class Telepath extends TimedRobot {
     }
 
     if (Parameters.DRIVE_AVAILABLE) {
-      drive = new Drive();
+      drive = new Drive(this);
     }
     if (Parameters.HANDLER_AVAILABLE) {
       handler = new Handler();
     }
     if (Parameters.ELEVATOR_AVAILABLE) {
-      elevator = new Elevator();
+      elevator = new Elevator(this);
     }
     if (Parameters.INTAKE_AVAILABLE) {
       cargoIntake = new CargoIntake();
     }
     if (Parameters.LIFTER_AVAILABLE) {
-      lifter = new Lifter();
+      lifter = new Lifter(this);
     }
     if (Parameters.GYRO_AVAILABLE) {
       gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
       liftLeveler = new PIDController(Parameters.LIFT_LEVELER_Kp, Parameters.LIFT_LEVELER_Ki, Parameters.LIFT_LEVELER_Kd, gyro, lifter);
     }
-    oi = new OI();
+    oi = new OI(this);
     pdp = new PDP(); 
     pressure = new Pressure();
   }
@@ -105,6 +105,42 @@ public class Telepath extends TimedRobot {
    */
   public Drive getDrive() {
     return drive;
+  }
+
+  /**
+   * Getter for the Handler subsystem
+   * 
+   * @return Handler - The handler subsystem
+   */
+  public Handler getHandler() {
+    return handler;
+  }
+
+  /**
+   * Getter for the elevator subsystem
+   * 
+   * @return Elevator - The elevator subsystem
+   */
+  public Elevator getElevator() {
+    return elevator;
+  }
+
+  /**
+   * Getter for the cargo intake subsystem
+   * 
+   * @return Cargo intake - The cargo intake subsystem
+   */
+  public CargoIntake getCargoIntake() {
+    return cargoIntake;
+  }
+
+  /**
+   * Getter for the lifter subsystem
+   * 
+   * @return Lifter - The lifter subsystem
+   */
+  public Lifter getLifter() {
+    return lifter;
   }
 
   /**
@@ -129,7 +165,6 @@ public class Telepath extends TimedRobot {
   @Override
   public void robotPeriodic() {
     //SmartDashboard.putNumber("size", cameraThread.getSize());
-    
   }
 
   /**

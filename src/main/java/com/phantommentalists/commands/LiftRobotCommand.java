@@ -10,14 +10,21 @@ package com.phantommentalists.commands;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
 import com.phantommentalists.Parameters.ElevatorPosition;
+import com.phantommentalists.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class LiftRobotCommand extends Command {
-  public LiftRobotCommand() {
+/**
+ * FIXME add comment
+ */
+private Elevator elevator;
+
+  public LiftRobotCommand(Telepath r) {
+    elevator = r.getElevator();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.elevator);
+    requires(elevator);
   }
 
   // Called just before this Command runs the first time
@@ -32,13 +39,14 @@ public class LiftRobotCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Telepath.elevator.setPosition(ElevatorPosition.HAB_ZONE_LEVEL_3);
+    elevator.setPosition(ElevatorPosition.HAB_ZONE_LEVEL_3);
+    //FIXME set as a different ElevatorPosition
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (Telepath.elevator.getPosition() - ElevatorPosition.HAB_ZONE_LEVEL_3.getSetPoint() <= Parameters.ELEVATOR_POSITION_ERROR) {
+    if (elevator.getPosition() - ElevatorPosition.HAB_ZONE_LEVEL_3.getSetPoint() <= Parameters.ELEVATOR_POSITION_ERROR) {
       return true;
     }
     return false;
@@ -47,7 +55,7 @@ public class LiftRobotCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Telepath.elevator.stopMotor();
+    elevator.stopMotor();
     Telepath.liftLeveler.disable();
   }
 
