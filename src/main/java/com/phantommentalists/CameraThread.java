@@ -229,26 +229,10 @@ public class CameraThread extends Thread
     }
     public com.phantommentalists.TapePipeline.Line getLeft()
     {
-        // if(highperm.x2 > secondhighperm.x2)
-        // {
-        //     return secondhighperm;
-        // }
-        // else
-        // {
-            // return highperm;
-        // }
         return leftlineperm;
     }
     public com.phantommentalists.TapePipeline.Line getRight()
     {
-        // if(highperm.x2 < secondhighperm.x2)
-        // {
-        //     return secondhighperm;
-        // }
-        // else
-        // {
-            // return highperm;
-        // }
         return rightlineperm;
     }
     
