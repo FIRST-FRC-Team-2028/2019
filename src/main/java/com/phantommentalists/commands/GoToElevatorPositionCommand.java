@@ -9,6 +9,7 @@ package com.phantommentalists.commands;
 
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
+import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.Parameters.ElevatorPosition;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -30,6 +31,7 @@ public class GoToElevatorPositionCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Telepath.elevator.setMode(AutoMode.AUTO);
     Telepath.elevator.setPosition(position);
   }
 

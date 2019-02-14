@@ -23,7 +23,7 @@ import com.phantommentalists.commands.DefaultElevatorCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Elevator extends Subsystem
+public class Elevator extends Subsystem 
 {
     /** Motor controller for the motor to raise and lower the elevator */
     TalonSRX upDown;
@@ -45,12 +45,13 @@ public class Elevator extends Subsystem
         if(Parameters.ELEVATOR_AVAILABLE)
         {
             upDown = new TalonSRX(Parameters.CanId.ELEVATOR.getCanId());
+            upDown.setInverted(Parameters.CanId.ELEVATOR.isInverted());
             upDown.selectProfileSlot(1, 0);
             upDown.config_kP(1, Pid.ELEVATOR.getP(), 0);
 			upDown.config_kI(1, Pid.ELEVATOR.getI(), 0);
 		    upDown.config_kD(1, Pid.ELEVATOR.getD(), 0);
 		    upDown.config_kF(1, Pid.ELEVATOR.getF(), 0);
-		    upDown.set(ControlMode.PercentOutput, 0.0);
+            upDown.set(ControlMode.PercentOutput, 0.0);
             upDown.setNeutralMode(NeutralMode.Brake);
             upDown.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
             upDown.configForwardSoftLimitThreshold(Parameters.ElevatorPosition.UPPER_LIMIT.getSetPoint());
@@ -111,7 +112,7 @@ public class Elevator extends Subsystem
             upDown.configForwardSoftLimitThreshold(Parameters.ElevatorPosition.UPPER_LIMIT.getSetPoint());
             upDown.configReverseSoftLimitThreshold(Parameters.ElevatorPosition.LOWER_LIMIT.getSetPoint());
             upDown.configForwardSoftLimitEnable(true);
-            upDown.configReverseSoftLimitEnable(true);            
+            upDown.configReverseSoftLimitEnable(true);
 		}
     }
 
@@ -243,6 +244,6 @@ public class Elevator extends Subsystem
      */
     public void initDefaultCommand()
     {
-        setDefaultCommand(new DefaultElevatorCommand());
+        setDefaultCommand(new DefaultElevatorCommand(this));
     }
 }

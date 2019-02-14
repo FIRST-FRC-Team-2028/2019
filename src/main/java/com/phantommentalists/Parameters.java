@@ -31,7 +31,7 @@ public class Parameters {
 /**
    * Flag that tells the code systems exist 
    */
-  public static final boolean DRIVE_AVAILABLE = false;
+  public static final boolean DRIVE_AVAILABLE = true;
   public static final boolean CAMERA_AVAILABLE = false;
   public static final boolean INTAKE_AVAILABLE = false;
   public static final boolean COMPRESSOR_AVAILABLE = false;
@@ -94,8 +94,8 @@ public class Parameters {
   public static final int BUTTON_LIFTER_RETRACT = 10;
   public static final int BUTTON_LIFTER_DEPLOY = 9;
   //buttons on Dual Arcade 1
-  public static final int BUTTON_UP = 7;
-  public static final int BUTTON_DOWN = 8;
+  public static final int BUTTON_ELEVATOR_UP = 4; // 7 doesn't work, use 4 on left button box
+  public static final int BUTTON_ELEVATOR_DOWN = 8;
   public static final int BUTTON_HATCH_1 = 5;
   public static final int BUTTON_CARGO_1 = 6;
   public static final int BUTTON_HATCH_2 = 3;
@@ -106,7 +106,7 @@ public class Parameters {
   public static final double ELEVATOR_ZEROING_SPEED = -0.25;
   public static final int ELEVATOR_POSITION_ERROR = 10;
   public static final double ELEVATOR_MANUAL_SPEED = 0.5;
-  public static final double ELEVATOR_ZEROING_CURRENT_LIMIT = 2.0;
+  public static final double ELEVATOR_ZEROING_CURRENT_LIMIT = 3.5;
   public enum ElevatorPosition {
     LOWER_LIMIT(200),
     HATCH_LOW(900),
@@ -202,13 +202,13 @@ public class Parameters {
     RIGHT_4_FOLLOWER_CAN_ID_2(12,false, 13),
     RIGHT_4_FOLLOWER_CAN_ID_3(13,false, 12),
 
-    ELEVATOR(40, false, 6),
+    ELEVATOR(40, true, 4),
     
     CARGO_INTAKE(52, false, 7),
     CARGO_HANDLER(50, false, 8),
 
     HATCH_LEAD_SCREW_MOTOR(51, false, 5), 
-    LIFTER_LIFT_MOTOR(30, false, 4), 
+    LIFTER_LIFT_MOTOR(30, false, 5), 
     LIFTER_DRIVE_MOTOR(31, false, 11);
 
     private int canId;

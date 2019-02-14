@@ -9,6 +9,7 @@ package com.phantommentalists.commands;
 
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
+import com.phantommentalists.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,10 +18,12 @@ public class DefaultElevatorCommand extends Command {
   /**
    * Manually controls the elevator
    */
-  public DefaultElevatorCommand() {
+  Elevator elevator;
+  public DefaultElevatorCommand(Elevator elevator) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.elevator);
+    requires(elevator);
+    this.elevator = elevator;
   }
 
   // Called just before this Command runs the first time
@@ -33,13 +36,14 @@ public class DefaultElevatorCommand extends Command {
   @Override
   protected void execute() {
     if (Telepath.oi.getElevatorUp().get()) {
-      Telepath.elevator.setPower(Parameters.ELEVATOR_MANUAL_SPEED);
-      SmartDashboard.putString("Hello", "Goodbye");
+      elevator.setPower(Parameters.ELEVATOR_MANUAL_SPEED);
+ 
     }
     else if(Telepath.oi.getElevatorDown().get()) {
-      Telepath.elevator.setPower(-Parameters.ELEVATOR_MANUAL_SPEED);
-      SmartDashboard.putString("Hi", "Bye");
+      elevator.setPower(-Parameters.ELEVATOR_MANUAL_SPEED);
+
     }
+    SmartDashboard.putNumber("Elevator Position", elevator.getPosition());
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -26,6 +26,7 @@ public class ZeroElevatorPositionCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    // TODO Throw this away or figure out what this needs to do
     Telepath.elevator.zeroPosition();
   }
 

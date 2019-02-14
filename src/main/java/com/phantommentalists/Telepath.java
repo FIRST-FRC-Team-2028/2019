@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
+import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.subsystems.CargoIntake;
 import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.subsystems.Elevator;
@@ -197,6 +197,14 @@ public class Telepath extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    /**
+     * 
+     * FIXME For debugging only. Remove before comp
+     * 
+     */
+    if(Parameters.ELEVATOR_AVAILABLE) {
+      elevator.setMode(AutoMode.ZEROING);
+    }
   }
 
   /**
