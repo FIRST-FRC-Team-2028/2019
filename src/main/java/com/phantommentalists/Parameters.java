@@ -16,17 +16,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
  * floating around.
  */
 public class Parameters {
-  // For example to map the left and right motors, you could define the
-  // following variables to use with your drivetrain subsystem.
-  // public static int leftMotor = 1;
-  // public static int rightMotor = 2;
-
-  // If you are using multiple modules, make sure to define both the port
-  // number and the module. For example you with a rangefinder:
-  // public static int rangefinderPort = 1;
-  // public static int rangefinderModule = 1;
-
-
 
 /**
    * Flag that tells the code systems exist 
@@ -107,6 +96,7 @@ public class Parameters {
   public static final int ELEVATOR_POSITION_ERROR = 10;
   public static final double ELEVATOR_MANUAL_SPEED = 0.5;
   public static final double ELEVATOR_ZEROING_CURRENT_LIMIT = 3.5;
+  public static final int ELEVATOR_ZEROING_ENCODER_LIMIT = 10;
   public enum ElevatorPosition {
     LOWER_LIMIT(200),
     HATCH_LOW(900),
@@ -191,16 +181,16 @@ public class Parameters {
    * Enum to hold all information about devices on the CAN bus
    */
   public enum CanId {
-    LEFT_MASTER_CAN_ID(20, true, 15),
-    LEFT_2_FOLLOWER_CAN_ID(21, true, 14), 
-    LEFT_4_FOLLOWER_CAN_ID_1(21, true, 1),
-    LEFT_4_FOLLOWER_CAN_ID_2(22,true, 2),
-    LEFT_4_FOLLOWER_CAN_ID_3(23,true, 3),
-    RIGHT_MASTER_CAN_ID(10, false, 12),
+    LEFT_MASTER_CAN_ID(20, false, 15),
+    LEFT_2_FOLLOWER_CAN_ID(21, false, 14), 
+    LEFT_4_FOLLOWER_CAN_ID_1(21, false, 1),
+    LEFT_4_FOLLOWER_CAN_ID_2(22,false, 2),
+    LEFT_4_FOLLOWER_CAN_ID_3(23,false, 3),
+    RIGHT_MASTER_CAN_ID(10, true, 12),
     RIGHT_2_FOLLOWER_CAN_ID(11, true, 13), 
-    RIGHT_4_FOLLOWER_CAN_ID_1(11, false, 14),
-    RIGHT_4_FOLLOWER_CAN_ID_2(12,false, 13),
-    RIGHT_4_FOLLOWER_CAN_ID_3(13,false, 12),
+    RIGHT_4_FOLLOWER_CAN_ID_1(11, true, 14),
+    RIGHT_4_FOLLOWER_CAN_ID_2(12,true, 13),
+    RIGHT_4_FOLLOWER_CAN_ID_3(13,true, 12),
 
     ELEVATOR(40, true, 4),
     

@@ -39,6 +39,7 @@ public class Elevator extends Subsystem
     AutoMode mode;
     private Telepath robot;
 
+    private int elevatorPreviousEncoderCount;
     /**
      * Default constructor
      */
@@ -63,6 +64,7 @@ public class Elevator extends Subsystem
             upDown.configReverseSoftLimitEnable(false);
             zeroed = false;
             mode = AutoMode.ZEROING;
+            elevatorPreviousEncoderCount = upDown.getSensorCollection().getQuadraturePosition();
         }
     }
 
@@ -220,11 +222,13 @@ public class Elevator extends Subsystem
      */
     public void process()
     {
+        int position = getPosition();
         if (Parameters.ELEVATOR_AVAILABLE)
         {
             if (mode == AutoMode.ZEROING)
             {
-                if (getCurrent() >= Parameters.ELEVATOR_ZEROING_CURRENT_LIMIT)
+                if (getCurrent() >= Parameters.ELEVATOR_ZEROING_CURRENT_LIMIT || 
+                    Math.abs(elevatorPreviousEncoderCount - position) <= Parameters.ELEVATOR_ZEROING_ENCODER_LIMIT)
                 {
                     upDown.set(ControlMode.PercentOutput, 0.0);
                     zeroPosition();
@@ -232,10 +236,11 @@ public class Elevator extends Subsystem
                 else
                 {
                     upDown.set(ControlMode.PercentOutput, Parameters.ELEVATOR_ZEROING_SPEED);
+                    elevatorPreviousEncoderCount = position;
                 }
             }
             SmartDashboard.putNumber("Elevator: Current", getCurrent());
-            SmartDashboard.putNumber("Elevator: Position", getPosition());
+            SmartDashboard.putNumber("Elevator: Position", position);
             SmartDashboard.putString("Elevator: Mode", mode.toString());
         }
     }

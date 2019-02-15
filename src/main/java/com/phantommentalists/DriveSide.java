@@ -28,11 +28,11 @@ public class DriveSide {
     private VictorSPX competitionFollower3;
 
     /** Class variable to determine how many motor controllers we have */
-    private Parameters.DriveGearbox gearboxType;
+    private DriveGearbox gearboxType;
 
     private Telepath robot;
 
-    public DriveSide(boolean left, Parameters.DriveGearbox gearbox, Telepath robot) {
+    public DriveSide(boolean left, DriveGearbox gearbox, Telepath robot) {
         gearboxType = gearbox;
         this.robot = robot;
         Parameters.CanId masterCanId = null;
