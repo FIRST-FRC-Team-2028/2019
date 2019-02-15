@@ -30,8 +30,11 @@ public class DriveSide {
     /** Class variable to determine how many motor controllers we have */
     private Parameters.DriveGearbox gearboxType;
 
-    public DriveSide(boolean left, Parameters.DriveGearbox gearbox) {
+    private Telepath robot;
+
+    public DriveSide(boolean left, Parameters.DriveGearbox gearbox, Telepath robot) {
         gearboxType = gearbox;
+        this.robot = robot;
         Parameters.CanId masterCanId = null;
         if (left) {
             masterCanId = Parameters.CanId.LEFT_MASTER_CAN_ID;
@@ -101,7 +104,7 @@ public class DriveSide {
                 outputCurrent = outputCurrent + practiceFollower.getOutputCurrent();
                 break;
             case FOUR_MOTOR_GEARBOX:
-                PowerDistributionPanel pdp = Telepath.pdp.getPdp();
+                PowerDistributionPanel pdp = robot.getPDP().getPdp();
                 outputCurrent = outputCurrent + pdp.getCurrent(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_1.getChannel());
                 outputCurrent = outputCurrent + pdp.getCurrent(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_2.getChannel());
                 outputCurrent = outputCurrent + pdp.getCurrent(Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_3.getChannel());

@@ -115,6 +115,14 @@ public class Telepath extends TimedRobot {
   }
 
   /**
+   * 
+   * @return pdp
+   */
+  public PDP getPDP(){
+    return pdp;
+  }
+
+  /**
    * Getter for the elevator subsystem
    * 
    * @return Elevator - The elevator subsystem
@@ -148,6 +156,14 @@ public class Telepath extends TimedRobot {
    */
   public OI getOI() {
     return oi;
+  }
+
+  /**
+   * 
+   * @return PIDController liftLveler
+   */
+  public PIDController getLiftLeveler(){
+    return liftLeveler;
   }
 
   /**

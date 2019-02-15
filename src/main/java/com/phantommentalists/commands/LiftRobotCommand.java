@@ -12,6 +12,7 @@ import com.phantommentalists.Telepath;
 import com.phantommentalists.Parameters.ElevatorPosition;
 import com.phantommentalists.subsystems.Elevator;
 
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class LiftRobotCommand extends Command {
@@ -19,9 +20,11 @@ public class LiftRobotCommand extends Command {
  * FIXME add comment
  */
 private Elevator elevator;
+private PIDController liftLeveler;
 
   public LiftRobotCommand(Telepath r) {
     elevator = r.getElevator();
+    liftLeveler = r.getLiftLeveler();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(elevator);
@@ -30,10 +33,10 @@ private Elevator elevator;
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Telepath.liftLeveler.setAbsoluteTolerance(Parameters.LIFT_LEVELER_TOLERANCE);
-    Telepath.liftLeveler.setInputRange(-Parameters.LIFT_LEVELER_TOLERANCE, Parameters.LIFT_LEVELER_TOLERANCE);
-    Telepath.liftLeveler.setOutputRange(-Parameters.LIFTER_LIFT_MOTOR_VARIATION, Parameters.LIFTER_LIFT_MOTOR_VARIATION);
-    Telepath.liftLeveler.enable();
+    liftLeveler.setAbsoluteTolerance(Parameters.LIFT_LEVELER_TOLERANCE);
+    liftLeveler.setInputRange(-Parameters.LIFT_LEVELER_TOLERANCE, Parameters.LIFT_LEVELER_TOLERANCE);
+    liftLeveler.setOutputRange(-Parameters.LIFTER_LIFT_MOTOR_VARIATION, Parameters.LIFTER_LIFT_MOTOR_VARIATION);
+    liftLeveler.enable();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -56,7 +59,7 @@ private Elevator elevator;
   @Override
   protected void end() {
     elevator.stopMotor();
-    Telepath.liftLeveler.disable();
+    liftLeveler.disable();
   }
 
   // Called when another command which requires one or more of the same

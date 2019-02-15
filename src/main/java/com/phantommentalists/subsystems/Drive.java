@@ -40,8 +40,8 @@ public class Drive extends Subsystem {
     */
   public Drive(Telepath r) {
       robot = r;
-      left = new DriveSide(true, Parameters.DRIVE_GEAR_BOX_TYPE);
-      right = new DriveSide(false, Parameters.DRIVE_GEAR_BOX_TYPE);
+      left = new DriveSide(true, Parameters.DRIVE_GEAR_BOX_TYPE, r);
+      right = new DriveSide(false, Parameters.DRIVE_GEAR_BOX_TYPE, r);
       shifter = new DoubleSolenoid(Parameters.PneumaticChannel.DRIVE_SHIFT_HIGH.getChannel(),Parameters.PneumaticChannel.DRIVE_SHIFT_LOW.getChannel());
       timer = new Timer();
       timer.start();
@@ -142,7 +142,7 @@ public class Drive extends Subsystem {
     int pdpnum=0;
     DoubleSolenoid.Value newGear = Parameters.DRIVE_HIGH_GEAR;
     double currentTime = timer.get();
-    for (double load: Telepath.pdp.getDriveCurrent(Parameters.DRIVE_GEAR_BOX_TYPE)){
+    for (double load: robot.getPDP().getDriveCurrent(Parameters.DRIVE_GEAR_BOX_TYPE)){
       amps+=load;
       System.err.println("pdp"+pdpnum+" "+load);
       pdpnum+=1;
