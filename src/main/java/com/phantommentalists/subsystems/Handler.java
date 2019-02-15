@@ -161,7 +161,6 @@ public class Handler extends Subsystem {
         leadScrewMotor.set(ControlMode.PercentOutput, power);
       }
     }
-
   }
 
   public void zeroPosition() 

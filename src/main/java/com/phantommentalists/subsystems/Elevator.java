@@ -15,6 +15,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.phantommentalists.Parameters;
+import com.phantommentalists.Telepath;
 import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.Parameters.ElevatorPosition;
 import com.phantommentalists.Parameters.Pid;
@@ -23,7 +24,7 @@ import com.phantommentalists.commands.DefaultElevatorCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Elevator extends Subsystem
+public class Elevator extends Subsystem 
 {
     /** Motor controller for the motor to raise and lower the elevator */
     TalonSRX upDown;
@@ -36,21 +37,25 @@ public class Elevator extends Subsystem
 
     /** Mode the elevator is currently in */
     AutoMode mode;
+    private Telepath robot;
 
+    private int elevatorPreviousEncoderCount;
     /**
      * Default constructor
      */
-    public Elevator()
+    public Elevator(Telepath r)
     {
         if(Parameters.ELEVATOR_AVAILABLE)
         {
+            robot = r;
             upDown = new TalonSRX(Parameters.CanId.ELEVATOR.getCanId());
+            upDown.setInverted(Parameters.CanId.ELEVATOR.isInverted());
             upDown.selectProfileSlot(1, 0);
             upDown.config_kP(1, Pid.ELEVATOR.getP(), 0);
 			upDown.config_kI(1, Pid.ELEVATOR.getI(), 0);
 		    upDown.config_kD(1, Pid.ELEVATOR.getD(), 0);
 		    upDown.config_kF(1, Pid.ELEVATOR.getF(), 0);
-		    upDown.set(ControlMode.PercentOutput, 0.0);
+            upDown.set(ControlMode.PercentOutput, 0.0);
             upDown.setNeutralMode(NeutralMode.Brake);
             upDown.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
             upDown.configForwardSoftLimitThreshold(Parameters.ElevatorPosition.UPPER_LIMIT.getSetPoint());
@@ -59,6 +64,7 @@ public class Elevator extends Subsystem
             upDown.configReverseSoftLimitEnable(false);
             zeroed = false;
             mode = AutoMode.ZEROING;
+            elevatorPreviousEncoderCount = upDown.getSensorCollection().getQuadraturePosition();
         }
     }
 
@@ -101,6 +107,9 @@ public class Elevator extends Subsystem
 		}
     }
 
+    /**
+     * Sets the encoder to zero at the current position
+     */
     public void zeroPosition()
 	{
 		if(Parameters.ELEVATOR_AVAILABLE)
@@ -111,7 +120,7 @@ public class Elevator extends Subsystem
             upDown.configForwardSoftLimitThreshold(Parameters.ElevatorPosition.UPPER_LIMIT.getSetPoint());
             upDown.configReverseSoftLimitThreshold(Parameters.ElevatorPosition.LOWER_LIMIT.getSetPoint());
             upDown.configForwardSoftLimitEnable(true);
-            upDown.configReverseSoftLimitEnable(true);            
+            upDown.configReverseSoftLimitEnable(true);
 		}
     }
 
@@ -213,11 +222,13 @@ public class Elevator extends Subsystem
      */
     public void process()
     {
+        int position = getPosition();
         if (Parameters.ELEVATOR_AVAILABLE)
         {
             if (mode == AutoMode.ZEROING)
             {
-                if (getCurrent() >= Parameters.ELEVATOR_ZEROING_CURRENT_LIMIT)
+                if (getCurrent() >= Parameters.ELEVATOR_ZEROING_CURRENT_LIMIT || 
+                    Math.abs(elevatorPreviousEncoderCount - position) <= Parameters.ELEVATOR_ZEROING_ENCODER_LIMIT)
                 {
                     upDown.set(ControlMode.PercentOutput, 0.0);
                     zeroPosition();
@@ -225,10 +236,11 @@ public class Elevator extends Subsystem
                 else
                 {
                     upDown.set(ControlMode.PercentOutput, Parameters.ELEVATOR_ZEROING_SPEED);
+                    elevatorPreviousEncoderCount = position;
                 }
             }
             SmartDashboard.putNumber("Elevator: Current", getCurrent());
-            SmartDashboard.putNumber("Elevator: Position", getPosition());
+            SmartDashboard.putNumber("Elevator: Position", position);
             SmartDashboard.putString("Elevator: Mode", mode.toString());
         }
     }
@@ -243,6 +255,6 @@ public class Elevator extends Subsystem
      */
     public void initDefaultCommand()
     {
-        setDefaultCommand(new DefaultElevatorCommand());
+        setDefaultCommand(new DefaultElevatorCommand(robot));
     }
 }

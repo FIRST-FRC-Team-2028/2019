@@ -10,35 +10,46 @@ package com.phantommentalists.commands;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
 import com.phantommentalists.Parameters.ElevatorPosition;
+import com.phantommentalists.subsystems.Elevator;
 
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class LiftRobotCommand extends Command {
-  public LiftRobotCommand() {
+/**
+ * FIXME add comment
+ */
+private Elevator elevator;
+private PIDController liftLeveler;
+
+  public LiftRobotCommand(Telepath r) {
+    elevator = r.getElevator();
+    liftLeveler = r.getLiftLeveler();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.elevator);
+    requires(elevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Telepath.liftLeveler.setAbsoluteTolerance(Parameters.LIFT_LEVELER_TOLERANCE);
-    Telepath.liftLeveler.setInputRange(-Parameters.LIFT_LEVELER_TOLERANCE, Parameters.LIFT_LEVELER_TOLERANCE);
-    Telepath.liftLeveler.setOutputRange(-Parameters.LIFTER_LIFT_MOTOR_VARIATION, Parameters.LIFTER_LIFT_MOTOR_VARIATION);
-    Telepath.liftLeveler.enable();
+    liftLeveler.setAbsoluteTolerance(Parameters.LIFT_LEVELER_TOLERANCE);
+    liftLeveler.setInputRange(-Parameters.LIFT_LEVELER_TOLERANCE, Parameters.LIFT_LEVELER_TOLERANCE);
+    liftLeveler.setOutputRange(-Parameters.LIFTER_LIFT_MOTOR_VARIATION, Parameters.LIFTER_LIFT_MOTOR_VARIATION);
+    liftLeveler.enable();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Telepath.elevator.setPosition(ElevatorPosition.HAB_ZONE_LEVEL_3);
+    elevator.setPosition(ElevatorPosition.HAB_ZONE_LEVEL_3);
+    //FIXME set as a different ElevatorPosition
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (Telepath.elevator.getPosition() - ElevatorPosition.HAB_ZONE_LEVEL_3.getSetPoint() <= Parameters.ELEVATOR_POSITION_ERROR) {
+    if (elevator.getPosition() - ElevatorPosition.HAB_ZONE_LEVEL_3.getSetPoint() <= Parameters.ELEVATOR_POSITION_ERROR) {
       return true;
     }
     return false;
@@ -47,8 +58,8 @@ public class LiftRobotCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Telepath.elevator.stopMotor();
-    Telepath.liftLeveler.disable();
+    elevator.stopMotor();
+    liftLeveler.disable();
   }
 
   // Called when another command which requires one or more of the same

@@ -12,10 +12,16 @@ import com.phantommentalists.Telepath;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class RetractCargoIntakeCommand extends Command {
-  public RetractCargoIntakeCommand() {
+  /**
+   * It brings the cargo intake back to it's starting position
+   */
+  private Telepath robot;
+  
+  public RetractCargoIntakeCommand(Telepath r) {
+    robot = r;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.cargoIntake);
+    requires(robot.getCargoIntake());
   }
 
   // Called just before this Command runs the first time
@@ -26,14 +32,14 @@ public class RetractCargoIntakeCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Telepath.cargoIntake.turnOffRollers();
-    Telepath.cargoIntake.retract();
+    robot.getCargoIntake().turnOffRollers();
+    robot.getCargoIntake().retract();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Telepath.cargoIntake.isRetracted();
+    return robot.getCargoIntake().isRetracted();
   }
 
   // Called once after isFinished returns true

@@ -8,14 +8,21 @@
 package com.phantommentalists.commands;
 
 import com.phantommentalists.Telepath;
+import com.phantommentalists.subsystems.Handler;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ExtendClimbingArmCommand extends Command {
-  public ExtendClimbingArmCommand() {
+  /**
+   * It extends the climbing arm so that it could raise the front of the robot
+   */
+ private Handler handler;
+ 
+  public ExtendClimbingArmCommand(Telepath r) {
+    handler = r.getHandler();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.handler);
+    requires(handler);
   }
 
   // Called just before this Command runs the first time
@@ -26,7 +33,7 @@ public class ExtendClimbingArmCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Telepath.handler.extendClimbingArms();
+    handler.extendClimbingArms();
   }
 
   // Make this return true when this Command no longer needs to run execute()

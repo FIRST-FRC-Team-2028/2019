@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.phantommentalists.Parameters;
+import com.phantommentalists.Telepath;
 import com.phantommentalists.commands.DefaultLifterCommand;
 
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -35,8 +36,10 @@ public class Lifter extends Subsystem implements PIDOutput {
   TalonSRX lift;
   TalonSRX drive;
   double tiltAdjustment;
+  private Telepath robot;
   
-  public Lifter() {
+  public Lifter(Telepath r) {
+    robot = r;
     lift = new TalonSRX(Parameters.CanId.LIFTER_LIFT_MOTOR.getCanId());
     lift.setInverted(Parameters.CanId.LIFTER_LIFT_MOTOR.isInverted());
     drive = new TalonSRX(Parameters.CanId.LIFTER_DRIVE_MOTOR.getCanId());
@@ -103,7 +106,7 @@ public class Lifter extends Subsystem implements PIDOutput {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new DefaultLifterCommand());
+    setDefaultCommand(new DefaultLifterCommand(robot));
   }
 
   /**

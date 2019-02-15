@@ -8,6 +8,7 @@
 package com.phantommentalists.commands;
 
 import com.phantommentalists.Parameters;
+import com.phantommentalists.Telepath;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -20,7 +21,7 @@ public class ClimbHABCommandGroup extends CommandGroup {
    * Retract Lifter and raise the elevator
    * Drive until the robot is completley over HAB
    */
-  public ClimbHABCommandGroup() {
+  public ClimbHABCommandGroup(Telepath r) {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -38,14 +39,18 @@ public class ClimbHABCommandGroup extends CommandGroup {
     // a CommandGroup containing them would require both the chassis and the
     // arm.
 
+    requires(r.getElevator());
+    requires(r.getLifter());
+    requires(r.getHandler());
+
     //Raise the elevator to HAB height
-    addSequential(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HAB_ZONE_LEVEL_3));
+    addSequential(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HAB_ZONE_LEVEL_3, r));
     //Extend Climbing Arm
-    addSequential(new ExtendClimbingArmCommand());
+    addSequential(new ExtendClimbingArmCommand(r));
     //Deploy Lifter
-    addSequential(new DeployLifterCommand());
+    addSequential(new DeployLifterCommand(r));
     //Lift the robot to the height of the HAB
-    addSequential(new LiftRobotCommand());
+    addSequential(new LiftRobotCommand(r));
     //Drive Lifter until the center of gravity and two wheels are over the HAB
     //Retract Lifter and raise the elevator
     //Drive until the robot is completley over HAB

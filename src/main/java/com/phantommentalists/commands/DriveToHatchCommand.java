@@ -13,14 +13,15 @@ import com.phantommentalists.subsystems.Drive;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveToHatchCommand extends Command {
-  
-  Drive drive;
+  /**
+   * Uses the align method to line up with the tape
+   * This is because it is able to place and pick up hatches accurately
+   */
 
-  public DriveToHatchCommand(Drive drive) {
+  public DriveToHatchCommand(Telepath r) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    this.drive = drive;
-    requires(drive);
+    requires(r.getDrive());
   }
 
   // Called just before this Command runs the first time

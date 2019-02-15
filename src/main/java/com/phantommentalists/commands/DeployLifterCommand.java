@@ -9,6 +9,7 @@ package com.phantommentalists.commands;
 
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
+import com.phantommentalists.subsystems.Lifter;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -20,10 +21,13 @@ public class DeployLifterCommand extends Command {
    * Lifter stops going down when a time limit is reached
    */
   Timer timer;
-  public DeployLifterCommand() {
+  private Lifter lifter;
+
+  public DeployLifterCommand(Telepath r) {
+    lifter = r.getLifter();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.lifter);
+    requires(lifter);
     timer = new Timer();
   }
 
@@ -37,7 +41,7 @@ public class DeployLifterCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Telepath.lifter.deploy();
+    lifter.deploy();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -52,7 +56,7 @@ public class DeployLifterCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Telepath.lifter.stopLifting();
+    lifter.stopLifting();
   }
 
   // Called when another command which requires one or more of the same

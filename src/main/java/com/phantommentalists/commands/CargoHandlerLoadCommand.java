@@ -8,14 +8,21 @@
 package com.phantommentalists.commands;
 
 import com.phantommentalists.Telepath;
+import com.phantommentalists.subsystems.Handler;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class CargoHandlerLoadCommand extends CommandGroup {
-  public CargoHandlerLoadCommand() {
+  /**
+   * FIXME Comment
+   */
+  private Handler handler;
+
+  public CargoHandlerLoadCommand(Telepath r) {
+    handler = r.getHandler();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.handler);
+    requires(handler);
   }
 
   // Called just before this Command runs the first time
@@ -27,19 +34,19 @@ public class CargoHandlerLoadCommand extends CommandGroup {
   @Override
   protected void execute() {
     //Cargo Handler turns on rollers
-    Telepath.handler.loadCargo();
+    handler.loadCargo();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Telepath.handler.isCargoHeld();
+    return handler.isCargoHeld();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Telepath.handler.stopCargoHandler();
+    handler.stopCargoHandler();
   }
 
   // Called when another command which requires one or more of the same

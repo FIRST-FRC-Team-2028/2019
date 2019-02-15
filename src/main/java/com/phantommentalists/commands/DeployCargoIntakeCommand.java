@@ -8,14 +8,21 @@
 package com.phantommentalists.commands;
 
 import com.phantommentalists.Telepath;
+import com.phantommentalists.subsystems.CargoIntake;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DeployCargoIntakeCommand extends Command {
-  public DeployCargoIntakeCommand() {
+  /**
+   * FIXME Comment
+   */
+  private CargoIntake cargoIntake;
+
+  public DeployCargoIntakeCommand(Telepath r) {
+    cargoIntake = r.getCargoIntake();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.cargoIntake);
+    requires(cargoIntake);
   }
 
   // Called just before this Command runs the first time
@@ -26,14 +33,14 @@ public class DeployCargoIntakeCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Telepath.cargoIntake.deploy();
-    Telepath.cargoIntake.turnOnRollers();
+    cargoIntake.deploy();
+    cargoIntake.turnOnRollers();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Telepath.cargoIntake.isDeployed();
+    return cargoIntake.isDeployed();
   }
 
   // Called once after isFinished returns true

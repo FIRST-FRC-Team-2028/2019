@@ -12,13 +12,15 @@ import com.phantommentalists.Telepath;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class SpinCommand extends Command {
+  /**
+   * FIXME Comment
+   */
+  private Telepath robot;
 
-  Telepath robot;
-
-  public SpinCommand(Telepath robot) {
+  public SpinCommand(Telepath r) {
+    robot = r;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    this.robot = robot;
     requires(robot.getDrive());
   }
 

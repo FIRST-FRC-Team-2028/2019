@@ -7,13 +7,16 @@
 
 package com.phantommentalists.commands;
 
+import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class PickUpCargoCommandGroup extends CommandGroup {
-
-public PickUpCargoCommandGroup() {
+/**
+ * FIXME Comment
+ */
+public PickUpCargoCommandGroup(Telepath r) {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -31,17 +34,18 @@ public PickUpCargoCommandGroup() {
     // a CommandGroup containing them would require both the chassis and the
     // arm.
 
-    requires(Telepath.elevator);
-    requires(Telepath.cargoIntake);
-    requires(Telepath.handler);
+    requires(r.getElevator());
+    requires(r.getCargoIntake());
+    requires(r.getHandler());
+
     //Move the elevator to the zero position
-    addSequential(new ZeroElevatorPositionCommand());
+    addSequential(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.LOWER_LIMIT, r));
     //Deploy and runs the Cargo Intake
     //While the Cargo Intake is being deployed, run the Cargo Handler
-    addParallel(new DeployCargoIntakeCommand());
+    addParallel(new DeployCargoIntakeCommand(r));
     //Run Cargo Handler until we have a ball
-    addSequential(new CargoHandlerLoadCommand());
+    addSequential(new CargoHandlerLoadCommand(r));
     //retract Cargo Intake
-    addSequential(new RetractCargoIntakeCommand());
+    addSequential(new RetractCargoIntakeCommand(r));
   }
 }

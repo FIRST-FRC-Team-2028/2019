@@ -7,35 +7,42 @@
 
 package com.phantommentalists.commands;
 
+import com.phantommentalists.OI;
 import com.phantommentalists.Telepath;
+import com.phantommentalists.subsystems.Lifter;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- * Allows manual control of the lifter
- */
 public class DefaultLifterCommand extends Command {
-  public DefaultLifterCommand() {
+  /**
+  * Allows manual control of the lifter
+  */
+  private Lifter lifter;
+  private OI oi;
+
+  public DefaultLifterCommand(Telepath r) {
+    lifter = r.getLifter();
+    oi = r.getOI();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Telepath.lifter);
+    requires(lifter);
   }
 
   // Called just before this Command runs the first time
   //sets remaining gyro result to 0
   @Override
   protected void initialize() {
-    Telepath.lifter.pidWrite(0.0);
+    lifter.pidWrite(0.0);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Telepath.oi.buttonLifterRetract.get()) {
-      Telepath.lifter.retract();
+    if (oi.buttonLifterRetract.get()) {
+      lifter.retract();
     }
-    if (Telepath.oi.buttonLifterDeploy.get()) {
-      Telepath.lifter.deploy();
+    if (oi.buttonLifterDeploy.get()) {
+      lifter.deploy();
     }
   }
 
