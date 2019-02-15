@@ -9,6 +9,7 @@ package com.phantommentalists.commands;
 
 import com.phantommentalists.Telepath;
 import com.phantommentalists.Parameters.ElevatorPosition;
+import com.phantommentalists.subsystems.Drive;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -35,7 +36,7 @@ public class PickUpHatchCommandGroup extends CommandGroup {
     // arm.
 
     requires(r.getHandler());
-    requires(r.getHandler());
+    requires(r.getElevator());
     requires(r.getDrive());
 
     //Move the elevator to the HATCH_LEVEL_1 position

@@ -92,4 +92,8 @@ public class CargoIntake extends Subsystem {
   @Override
   public void initDefaultCommand() {
   }
+
+  public void process() {
+    
+  }
 }

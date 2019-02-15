@@ -37,8 +37,8 @@ public class OI {
   // Button button = new JoystickButton(stick, buttonNumber);
   Button button = new JoystickButton(stick, 1);
   Button button2 = new JoystickButton(stick, 2);
-  Button buttonElevatorUp = new JoystickButton(buttonBoxRight, Parameters.BUTTON_UP);
-  Button buttonElevatorDown = new JoystickButton(buttonBoxRight, Parameters.BUTTON_DOWN);
+  Button buttonElevatorUp = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_ELEVATOR_UP);
+  Button buttonElevatorDown = new JoystickButton(buttonBoxRight, Parameters.BUTTON_ELEVATOR_DOWN);
  
   Button buttonHatch1get = new JoystickButton(buttonBoxRight, Parameters.BUTTON_HATCH_1);
   Button buttonCargo1get = new JoystickButton(buttonBoxRight, Parameters.BUTTON_CARGO_1);

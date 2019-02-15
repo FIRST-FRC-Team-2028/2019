@@ -7,6 +7,7 @@
 
 package com.phantommentalists.commands;
 
+import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -38,7 +39,7 @@ public PickUpCargoCommandGroup(Telepath r) {
     requires(r.getHandler());
 
     //Move the elevator to the zero position
-    addSequential(new ZeroElevatorPositionCommand(r));
+    addSequential(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.LOWER_LIMIT, r));
     //Deploy and runs the Cargo Intake
     //While the Cargo Intake is being deployed, run the Cargo Handler
     addParallel(new DeployCargoIntakeCommand(r));

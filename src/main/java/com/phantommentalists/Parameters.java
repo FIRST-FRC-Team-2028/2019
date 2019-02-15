@@ -27,6 +27,7 @@ public class Parameters {
   // public static int rangefinderModule = 1;
 
 
+
 /**
    * Flag that tells the code systems exist 
    */
@@ -34,7 +35,7 @@ public class Parameters {
   public static final boolean CAMERA_AVAILABLE = false;
   public static final boolean INTAKE_AVAILABLE = false;
   public static final boolean COMPRESSOR_AVAILABLE = false;
-  public static final boolean ELEVATOR_AVAILABLE = false;
+  public static final boolean ELEVATOR_AVAILABLE = true;
   public static final boolean HANDLER_AVAILABLE = false;
   public static final boolean CARGO_HANDLER_AVAILABLE = false;
   public static final boolean LIFTER_AVAILABLE = false;
@@ -93,8 +94,8 @@ public class Parameters {
   public static final int BUTTON_LIFTER_RETRACT = 10;
   public static final int BUTTON_LIFTER_DEPLOY = 9;
   //buttons on Dual Arcade 1
-  public static final int BUTTON_UP = 7;
-  public static final int BUTTON_DOWN = 8;
+  public static final int BUTTON_ELEVATOR_UP = 4; // 7 doesn't work, use 4 on left button box
+  public static final int BUTTON_ELEVATOR_DOWN = 8;
   public static final int BUTTON_HATCH_1 = 5;
   public static final int BUTTON_CARGO_1 = 6;
   public static final int BUTTON_HATCH_2 = 3;
@@ -105,7 +106,9 @@ public class Parameters {
   public static final double ELEVATOR_ZEROING_SPEED = -0.25;
   public static final int ELEVATOR_POSITION_ERROR = 10;
   public static final double ELEVATOR_MANUAL_SPEED = 0.5;
+  public static final double ELEVATOR_ZEROING_CURRENT_LIMIT = 3.5;
   public enum ElevatorPosition {
+    LOWER_LIMIT(200),
     HATCH_LOW(900),
     HATCH_MIDDLE(15000),
     HATCH_HIGH(27000),
@@ -113,7 +116,8 @@ public class Parameters {
     CARGO_MIDDLE(17500),
     CARGO_HIGH(28500),
     HAB_ZONE_LEVEL_2(400),
-    HAB_ZONE_LEVEL_3(5000);
+    HAB_ZONE_LEVEL_3(5000),
+    UPPER_LIMIT(30000);
 
     private int ticks;
 
@@ -187,24 +191,24 @@ public class Parameters {
    * Enum to hold all information about devices on the CAN bus
    */
   public enum CanId {
-    LEFT_MASTER_CAN_ID(20, false, 0),
-    LEFT_2_FOLLOWER_CAN_ID(21, false, 13), 
-    LEFT_4_FOLLOWER_CAN_ID_1(21, false, 1),
-    LEFT_4_FOLLOWER_CAN_ID_2(22,false, 2),
-    LEFT_4_FOLLOWER_CAN_ID_3(23,false, 3),
-    RIGHT_MASTER_CAN_ID(10, true, 15),
-    RIGHT_2_FOLLOWER_CAN_ID(11, true, 14), 
-    RIGHT_4_FOLLOWER_CAN_ID_1(11, true, 14),
-    RIGHT_4_FOLLOWER_CAN_ID_2(12,true, 13),
-    RIGHT_4_FOLLOWER_CAN_ID_3(13,true, 12),
+    LEFT_MASTER_CAN_ID(20, true, 15),
+    LEFT_2_FOLLOWER_CAN_ID(21, true, 14), 
+    LEFT_4_FOLLOWER_CAN_ID_1(21, true, 1),
+    LEFT_4_FOLLOWER_CAN_ID_2(22,true, 2),
+    LEFT_4_FOLLOWER_CAN_ID_3(23,true, 3),
+    RIGHT_MASTER_CAN_ID(10, false, 12),
+    RIGHT_2_FOLLOWER_CAN_ID(11, true, 13), 
+    RIGHT_4_FOLLOWER_CAN_ID_1(11, false, 14),
+    RIGHT_4_FOLLOWER_CAN_ID_2(12,false, 13),
+    RIGHT_4_FOLLOWER_CAN_ID_3(13,false, 12),
 
-    ELEVATOR(40, false, 6),
+    ELEVATOR(40, true, 4),
     
     CARGO_INTAKE(52, false, 7),
     CARGO_HANDLER(50, false, 8),
 
     HATCH_LEAD_SCREW_MOTOR(51, false, 5), 
-    LIFTER_LIFT_MOTOR(30, false, 4), 
+    LIFTER_LIFT_MOTOR(30, false, 5), 
     LIFTER_DRIVE_MOTOR(31, false, 11);
 
     private int canId;
@@ -271,6 +275,9 @@ public class Parameters {
   public static final int HATCHHANDLER_ZERO_POSITION = 0;
   public static final double HATCHHANDLER_DEPLOY_POSITION = 10;
   public static final double HATCHHANDLER_ZEROING_SPEED = 0;
+  public static final double HATCHHANDLER_RETRACTED_POSITION = 20;
+  public static final double HATCHHANDLER_ZEROING_CURRENT_LIMIT = 2.0;
+  public static final double HATCHHANDLER_SET_POINT_CLOSE = 100;
 
   public static final double CARGO_HANDLER_INTAKE_SPEED = 1.0;
   public static final double CARGO_HANDLER_SHOOT_SPEED = -1.0;
@@ -292,4 +299,6 @@ public class Parameters {
   public static final double LIFT_LEVELER_Ki = 0.0;
   public static final double LIFT_LEVELER_Kd = 0.0;
   public static final double LIFT_LEVELER_TOLERANCE = 3.0;
+
+
 }

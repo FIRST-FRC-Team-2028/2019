@@ -7,6 +7,7 @@
 
 package com.phantommentalists.commands;
 
+import com.phantommentalists.OI;
 import com.phantommentalists.Telepath;
 import com.phantommentalists.subsystems.Lifter;
 
@@ -17,9 +18,11 @@ public class DefaultLifterCommand extends Command {
   * Allows manual control of the lifter
   */
   private Lifter lifter;
+  private OI oi;
 
   public DefaultLifterCommand(Telepath r) {
     lifter = r.getLifter();
+    oi = r.getOI();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(lifter);
@@ -35,10 +38,10 @@ public class DefaultLifterCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Telepath.oi.buttonLifterRetract.get()) {
+    if (oi.buttonLifterRetract.get()) {
       lifter.retract();
     }
-    if (Telepath.oi.buttonLifterDeploy.get()) {
+    if (oi.buttonLifterDeploy.get()) {
       lifter.deploy();
     }
   }

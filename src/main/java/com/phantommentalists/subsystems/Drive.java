@@ -54,13 +54,34 @@ public class Drive extends Subsystem {
     //setDefaultCommand(new DefaultCommand());
     setDefaultCommand(new DefaultDriveCommand(robot));
   }
-
+  /**
+   * spins the robot...
+   */
   public void spinDrive()
   {
     left.setPercentOutput(0.5);
     right.setPercentOutput(-0.5);
   }
-
+  /**
+   * takes camera parameters to drive towards reflective tape.
+   * @param x
+   * @param distance
+   */
+  public void reflectiveAlignDrive(double x, double distance)
+  {
+    double diffl = 0.0;
+    double diffr = 0.0;
+    
+    left.setPercentOutput(0.2 + diffl);
+    right.setPercentOutput(0.2 + diffr);
+  }
+  /**
+   * takes in angles and x coordinates to drive with a camera facing the ground.
+   * @param leftangle
+   * @param rightangle
+   * @param leftx
+   * @param rightx
+   */
   public void alignDrive(double leftangle, double rightangle, double leftx, double rightx)
   {
 
@@ -155,5 +176,15 @@ public class Drive extends Subsystem {
     gearshift(lefta, righta);
     left.setPercentOutput(lefta);
     right.setPercentOutput(righta);
+  }
+
+  public void process() {
+    left.process();
+    right.process();
+    SmartDashboard.putNumber("Drive: Total Current", getAllMotorCurrent());
+  }
+
+  public double getAllMotorCurrent() {
+    return left.getMotorCurrentOutput() + right.getMotorCurrentOutput();
   }
 }

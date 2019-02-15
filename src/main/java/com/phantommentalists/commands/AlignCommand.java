@@ -16,7 +16,9 @@ import edu.wpi.first.wpilibj.command.Command;
 public class AlignCommand extends Command {
 
   Line left;
+  
   Line right;
+  
   static boolean isdone;
   private Telepath robot;
 
@@ -32,9 +34,9 @@ public class AlignCommand extends Command {
   @Override
   protected void initialize() {
 
-    CameraThread cam = robot.cameraThread;
-    left = cam.getLeft();
-    right = cam.getRight();
+    CameraThread cam = robot.getCameraThread();
+    left = cam.getLeftline();
+    right = cam.getRightline();
   }
 
   // Called repeatedly when this Command is scheduled to run

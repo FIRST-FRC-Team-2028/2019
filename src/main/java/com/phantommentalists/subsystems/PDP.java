@@ -23,6 +23,7 @@ public class PDP {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private PowerDistributionPanel pdp;
+
   private double[] driveCurrent;
 
   public PDP() {
@@ -30,8 +31,18 @@ public class PDP {
     driveCurrent = new double[8];
   }
 
+  /** 
+   * Getter to return reference to PowerDistributionPannel
+   * 
+   * @return PowerDistributionPanel The robot's PowerDistributionPanel
+   */
+  public PowerDistributionPanel getPdp() {
+      return pdp;
+  }
+
   /**
    * Gets the drive current.
+   * 
    * @return double of the drive current
    */
     public double[] getDriveCurrent(Parameters.DriveGearbox gearbox) {
@@ -65,7 +76,6 @@ public class PDP {
                 pdp.getCurrent(Parameters.CanId.RIGHT_4_FOLLOWER_CAN_ID_2.getChannel());
             driveCurrent[7] = 
                 pdp.getCurrent(Parameters.CanId.RIGHT_4_FOLLOWER_CAN_ID_3.getChannel());
-            System.out.println("HERE I AM IN PDP");
             SmartDashboard.putNumber("pdp_"+Parameters.CanId.LEFT_MASTER_CAN_ID.getChannel(), driveCurrent[0]);
             SmartDashboard.putNumber("pdp_"+Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_1.getChannel(), driveCurrent[1]);
             SmartDashboard.putNumber("pdp_"+Parameters.CanId.LEFT_4_FOLLOWER_CAN_ID_2.getChannel(), driveCurrent[2]);

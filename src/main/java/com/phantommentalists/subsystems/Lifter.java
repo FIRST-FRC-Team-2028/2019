@@ -117,4 +117,8 @@ public class Lifter extends Subsystem implements PIDOutput {
   public void pidWrite(double amountToSpeedUporSlowDownLiftMotorBasedOnRobotTilt) {
     tiltAdjustment = amountToSpeedUporSlowDownLiftMotorBasedOnRobotTilt;
   }
+
+  public void process() {
+    
+  }
 }

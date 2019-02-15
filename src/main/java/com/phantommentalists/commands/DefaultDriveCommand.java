@@ -16,11 +16,11 @@ public class DefaultDriveCommand extends Command {
   /**
    * An example command.  You can replace me with your own command.
    */
-  public OI oi;
+  private OI oi;
   private Telepath robot;
 
   public DefaultDriveCommand(Telepath r) {
-    oi = r.oi;
+    oi = r.getOI();
     robot = r;
     // Use requires() here to declare subsystem dependencies
     requires(robot.getDrive());
@@ -29,7 +29,6 @@ public class DefaultDriveCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-
   }
 
   // Called repeatedly when this Command is scheduled to run

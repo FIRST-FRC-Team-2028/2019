@@ -9,6 +9,7 @@ package com.phantommentalists.commands;
 
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
+import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.Parameters.ElevatorPosition;
 import com.phantommentalists.subsystems.Elevator;
 
@@ -32,6 +33,7 @@ public class GoToElevatorPositionCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    elevator.setMode(AutoMode.AUTO);
   }
 
   // Called repeatedly when this Command is scheduled to run

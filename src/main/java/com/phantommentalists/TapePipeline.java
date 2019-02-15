@@ -9,8 +9,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.HashMap;
 
-import edu.wpi.first.wpilibj.vision.VisionPipeline;
-
 import org.opencv.core.*;
 import org.opencv.core.Core.*;
 import org.opencv.features2d.FeatureDetector;
@@ -25,7 +23,7 @@ import org.opencv.objdetect.*;
 *
 * @author GRIP
 */
-public class TapePipeline implements VisionPipeline {
+public class TapePipeline {
 
 	//Outputs
 	private Mat blurOutput = new Mat();
@@ -41,7 +39,7 @@ public class TapePipeline implements VisionPipeline {
 	/**
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
 	 */
-	@Override	public void process(Mat source0) {
+	public void process(Mat source0) {
 		// Step Blur0:
 		Mat blurInput = source0;
 		BlurType blurType = BlurType.get("Gaussian Blur");
@@ -50,9 +48,9 @@ public class TapePipeline implements VisionPipeline {
 
 		// Step HSV_Threshold0:
 		Mat hsvThresholdInput = blurOutput;
-		double[] hsvThresholdHue = {51.798561151079134, 93.99317406143345};
-		double[] hsvThresholdSaturation = {121.53776978417265, 218.01194539249144};
-		double[] hsvThresholdValue = {91.72661870503596, 255.0};
+		double[] hsvThresholdHue = {45.32374100719424, 101.67235494880548};
+		double[] hsvThresholdSaturation = {0.0, 255.0};
+		double[] hsvThresholdValue = {171.98741007194246, 255.0};
 		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 
 		// Step CV_erode0:

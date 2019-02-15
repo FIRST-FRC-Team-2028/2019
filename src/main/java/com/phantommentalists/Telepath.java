@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
+import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.subsystems.CargoIntake;
 import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.subsystems.Elevator;
@@ -63,17 +63,15 @@ public class Telepath extends TimedRobot {
    * Default constructor
    */
   public Telepath() {
-    if ( Parameters.CAMERA_AVAILABLE) {
-      cam1.setResolution(Parameters.CAM_WIDTH, Parameters.CAM_HEIGHT);
-      cam1.setFPS(30);
-      cam1.setExposureManual(25);
-      // defaultCommand = new DefaultCommand(drive);
-      cameraThread = new CameraThread();
-      cameraThread.start();
-      server.setSource(cam1);
-      sink.setSource(cam1);
-    }
+    cam1.setResolution(Parameters.CAM_WIDTH, Parameters.CAM_HEIGHT);
+    cam1.setFPS(30);
+    cam1.setExposureManual(16);
 
+    server.setSource(cam1);
+    sink.setSource(cam1);
+    // defaultCommand = new DefaultCommand(drive);
+    cameraThread = new CameraThread();
+    cameraThread.start();
     if (Parameters.DRIVE_AVAILABLE) {
       drive = new Drive(this);
     }
@@ -144,6 +142,24 @@ public class Telepath extends TimedRobot {
   }
 
   /**
+   * Getter for the OI
+   * 
+   * @return OI
+   */
+  public OI getOI() {
+    return oi;
+  }
+
+  /**
+   * Getter for the Camera Thread
+   * 
+   * @return Camera Thread
+   */
+  public CameraThread getCameraThread() {
+    return cameraThread;
+  }
+
+  /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
    */
@@ -211,6 +227,21 @@ public class Telepath extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
+    if (Parameters.DRIVE_AVAILABLE) {
+      drive.process();
+    }
+    if (Parameters.HANDLER_AVAILABLE) {
+      handler.process();
+    }
+    if (Parameters.ELEVATOR_AVAILABLE) {
+      elevator.process();
+    }
+    if (Parameters.INTAKE_AVAILABLE) {
+      cargoIntake.process();
+    }
+    if (Parameters.LIFTER_AVAILABLE) {
+      lifter.process();
+    }
   }
 
   @Override
@@ -219,6 +250,14 @@ public class Telepath extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    /**
+     * 
+     * FIXME For debugging only. Remove before comp
+     * 
+     */
+    if(Parameters.ELEVATOR_AVAILABLE) {
+      elevator.setMode(AutoMode.ZEROING);
+    }
   }
 
   /**
@@ -232,6 +271,22 @@ public class Telepath extends TimedRobot {
       SmartDashboard.putNumber("'right' x", cameraThread.getRight().x2);
     }
     pressure.disable();
+
+    if (Parameters.DRIVE_AVAILABLE) {
+      drive.process();
+    }
+    if (Parameters.HANDLER_AVAILABLE) {
+      handler.process();
+    }
+    if (Parameters.ELEVATOR_AVAILABLE) {
+      elevator.process();
+    }
+    if (Parameters.INTAKE_AVAILABLE) {
+      cargoIntake.process();
+    }
+    if (Parameters.LIFTER_AVAILABLE) {
+      lifter.process();
+    }
   }
 
   /**
@@ -240,6 +295,20 @@ public class Telepath extends TimedRobot {
   @Override
   public void testPeriodic() 
   {
-
+    if (Parameters.DRIVE_AVAILABLE) {
+      drive.process();
+    }
+    if (Parameters.HANDLER_AVAILABLE) {
+      handler.process();
+    }
+    if (Parameters.ELEVATOR_AVAILABLE) {
+      elevator.process();
+    }
+    if (Parameters.INTAKE_AVAILABLE) {
+      cargoIntake.process();
+    }
+    if (Parameters.LIFTER_AVAILABLE) {
+      lifter.process();
+    }
   }
 }

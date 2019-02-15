@@ -7,6 +7,7 @@
 
 package com.phantommentalists.commands;
 
+import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
 import com.phantommentalists.subsystems.Elevator;
@@ -19,9 +20,11 @@ public class DefaultElevatorCommand extends Command {
    * Manually controls the elevator
    */
   private Elevator elevator;
+  private OI oi;
 
   public DefaultElevatorCommand(Telepath r) {
     elevator = r.getElevator();
+    oi = r.getOI();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(elevator);
@@ -36,14 +39,15 @@ public class DefaultElevatorCommand extends Command {
   //Use buttons to move up or down if held
   @Override
   protected void execute() {
-    if (Telepath.oi.getElevatorUp().get()) {
+    if (oi.getElevatorUp().get()) {
       elevator.setPower(Parameters.ELEVATOR_MANUAL_SPEED);
-      SmartDashboard.putString("Hello", "Goodbye");
+ 
     }
-    else if(Telepath.oi.getElevatorDown().get()) {
+    else if(oi.getElevatorDown().get()) {
       elevator.setPower(-Parameters.ELEVATOR_MANUAL_SPEED);
-      SmartDashboard.putString("Hi", "Bye");
+
     }
+    SmartDashboard.putNumber("Elevator Position", elevator.getPosition());
   }
 
   // Make this return true when this Command no longer needs to run execute()
