@@ -10,6 +10,8 @@ package com.phantommentalists;
 import com.phantommentalists.Parameters.MultiController;
 import com.phantommentalists.commands.AlignCommand;
 import com.phantommentalists.commands.GoToElevatorPositionCommand;
+import com.phantommentalists.commands.ElevatorRunUpCommand;
+import com.phantommentalists.commands.ElevatorRunDownCommand;
 import com.phantommentalists.commands.SpinCommand;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -54,6 +56,8 @@ public class OI {
     button.whileHeld(new SpinCommand(r));
     button2.whileHeld(new AlignCommand(r));
     if ( Parameters.BUTTONBOX_AVAILABLE) {
+      buttonElevatorUp.whileHeld(new ElevatorRunUpCommand(r));
+      buttonElevatorDown.whileHeld(new ElevatorRunDownCommand(r));
       buttonHatch1get.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_LOW, r));
       buttonCargo1get.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_LOW, r));
       buttonHatch2.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_MIDDLE, r));
@@ -61,11 +65,9 @@ public class OI {
       buttonHatch3.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_HIGH, r));
       buttonCargo3.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_HIGH, r));
     }
-    //private Parameters.MultiController controllerType = type;
     String type = DriverStation.getInstance().getJoystickName(0);
     SmartDashboard.putString("controller name ", type);
     SmartDashboard.putNumber("controller type",  DriverStation.getInstance().getJoystickType(0));
-    //MultiController dummy=numtoMC(DriverStation.getInstance().getJoystickType(0));
     MultiController dummy=Parameters.multiContFromNum(DriverStation.getInstance().getJoystickType(0));
     controllerType = dummy;
     //try
@@ -157,6 +159,11 @@ public class OI {
     }
   }
 
+  public double getSlider() {
+    System.out.println(stick.getRawAxis(3));
+    return stick.getRawAxis(3);
+  }
+
   // Moved to Parameters.java with MicroController definition
   // private MultiController numtoMC(int num)
   // {
@@ -191,11 +198,4 @@ public class OI {
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
 
-  public Button getElevatorUp() {
-    return buttonElevatorUp;
-  }
-
-  public Button getElevatorDown() {
-    return buttonElevatorDown;
-  }
 }

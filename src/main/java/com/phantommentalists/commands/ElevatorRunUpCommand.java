@@ -7,57 +7,40 @@
 
 package com.phantommentalists.commands;
 
-import com.phantommentalists.OI;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
 import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.subsystems.Elevator;
 
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DefaultElevatorCommand extends Command {
+public class ElevatorRunUpCommand extends Command {
   /**
-   * Manually controls the elevator
+   * Run the elevator up open loop
    */
   private Elevator elevator;
-  private OI oi;
 
-  public DefaultElevatorCommand(Telepath r) {
+  public ElevatorRunUpCommand(Telepath r) {
     elevator = r.getElevator();
-    oi = r.getOI();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(elevator);
+    System.out.println("UpElevatorRun construct");
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    elevator.setMode(AutoMode.MANUAL);
+    System.out.println("ElevatorRunUp init");
   }
 
   // Called repeatedly when this Command is scheduled to run
-  //Use buttons to move up or down if held
   @Override
   protected void execute() {
-    /*Button buttonUp=oi.getElevatorUp();
-    if(elevator.getMode() == AutoMode.ZEROING) return;
-    if (buttonUp.get()) {
-      elevator.setPower(Parameters.ELEVATOR_MANUAL_SPEED);
- 
-    }
-    else if(oi.getElevatorDown().get()) {
-      elevator.setPower(-Parameters.ELEVATOR_MANUAL_SPEED);
-
-    }else
-    {
-      elevator.stopMotor();
-    }*/
-    elevator.stopMotor();
-    // elevator.setPower(oi.getSlider());
-    // SmartDashboard.putNumber("Elevator Position", elevator.getPosition());
+    elevator.setPower(Parameters.ELEVATOR_MANUAL_SPEED);
+    System.out.println("UpElevatorRun exec");
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -69,6 +52,7 @@ public class DefaultElevatorCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    elevator.stopMotor();
   }
 
   // Called when another command which requires one or more of the same

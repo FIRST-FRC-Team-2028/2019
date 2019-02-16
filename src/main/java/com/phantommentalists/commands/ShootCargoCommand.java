@@ -7,16 +7,21 @@
 
 package com.phantommentalists.commands;
 
+import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
 import com.phantommentalists.subsystems.Handler;
 
 import edu.wpi.first.wpilibj.command.Command;
+
+import java.time.*;
 
 public class ShootCargoCommand extends Command {
   /**
    * It shoots the cargo into the port
    */
   private Handler handler;
+
+  private LocalTime startTime;
 
   public ShootCargoCommand(Telepath r) {
     handler = r.getHandler();
@@ -28,6 +33,7 @@ public class ShootCargoCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    startTime = LocalTime.now();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -39,7 +45,11 @@ public class ShootCargoCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return !handler.isCargoHeld();
+    LocalTime shootTime = LocalTime.now();
+    if (shootTime.getSecond() - startTime.getSecond() > Parameters.SHOOT_CARGO_TIME) {
+      return true;
+    }
+    return false;
   }
 
   // Called once after isFinished returns true

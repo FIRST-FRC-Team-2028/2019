@@ -34,17 +34,21 @@ public class GoToElevatorPositionCommand extends Command {
   @Override
   protected void initialize() {
     elevator.setMode(AutoMode.AUTO);
+    System.out.println("GoToElevator init");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     elevator.setPosition(position);
+    System.out.println("GoToElevator exec");
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    int error = elevator.getPosition() - position.getSetPoint();
+    System.out.println("Elevator Error = " + error);
     if (Math.abs(elevator.getPosition() - position.getSetPoint()) < Parameters.ELEVATOR_POSITION_ERROR) {
       return true;
     }

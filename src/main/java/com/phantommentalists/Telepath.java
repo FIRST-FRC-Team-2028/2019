@@ -294,6 +294,7 @@ public class Telepath extends TimedRobot {
       SmartDashboard.putNumber("'right' x", cameraThread.getRight().x2);
     }
     if(Parameters.COMPRESSOR_AVAILABLE){
+      // FIXME
       pressure.disable();
     }
 
