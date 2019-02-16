@@ -98,7 +98,9 @@ public class Telepath extends TimedRobot {
     }
     oi = new OI(this);
     pdp = new PDP(); 
-    pressure = new Pressure();
+    if (Parameters.COMPRESSOR_AVAILABLE) {
+      pressure = new Pressure();
+    }
   }
 
   /**
@@ -291,7 +293,9 @@ public class Telepath extends TimedRobot {
       SmartDashboard.putNumber("'left' x", cameraThread.getLeft().x2);
       SmartDashboard.putNumber("'right' x", cameraThread.getRight().x2);
     }
-    pressure.disable();
+    if(Parameters.COMPRESSOR_AVAILABLE){
+      pressure.disable();
+    }
 
     if (Parameters.DRIVE_AVAILABLE) {
       drive.process();
