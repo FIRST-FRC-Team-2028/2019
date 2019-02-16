@@ -54,24 +54,29 @@ public class Telepath extends TimedRobot {
   Command autonomousCommand;
   Command defaultCommand;
   // SendableChooser<Command> chooser = new SendableChooser<>();
-  UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture(0);
-  UsbCamera cam2 = CameraServer.getInstance().startAutomaticCapture(1);
-  VideoSink server = CameraServer.getInstance().getServer();
-  CvSink sink = CameraServer.getInstance().getVideo();
+  UsbCamera cam1;
+  UsbCamera cam2;
+  VideoSink server;
+  CvSink sink;
 
   /**
    * Default constructor
    */
   public Telepath() {
-    cam1.setResolution(Parameters.CAM_WIDTH, Parameters.CAM_HEIGHT);
-    cam1.setFPS(30);
-    cam1.setExposureManual(16);
+    if (Parameters.CAMERA_AVAILABLE){
+      cam1 = CameraServer.getInstance().startAutomaticCapture(0);
+      cam2 = CameraServer.getInstance().startAutomaticCapture(1);
+      server = CameraServer.getInstance().getServer();
+      sink = CameraServer.getInstance().getVideo();cam1.setResolution(Parameters.CAM_WIDTH, Parameters.CAM_HEIGHT);
+      cam1.setFPS(30);
+      cam1.setExposureManual(16);
 
-    server.setSource(cam1);
-    sink.setSource(cam1);
-    // defaultCommand = new DefaultCommand(drive);
-    cameraThread = new CameraThread();
-    cameraThread.start();
+      server.setSource(cam1);
+      sink.setSource(cam1);
+      // defaultCommand = new DefaultCommand(drive);
+      cameraThread = new CameraThread();
+      cameraThread.start();
+    }
     if (Parameters.DRIVE_AVAILABLE) {
       drive = new Drive(this);
     }

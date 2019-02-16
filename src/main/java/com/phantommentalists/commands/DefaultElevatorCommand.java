@@ -10,6 +10,7 @@ package com.phantommentalists.commands;
 import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
+import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -39,6 +40,7 @@ public class DefaultElevatorCommand extends Command {
   //Use buttons to move up or down if held
   @Override
   protected void execute() {
+    if(elevator.getMode() == AutoMode.ZEROING) return;
     if (oi.getElevatorUp().get()) {
       elevator.setPower(Parameters.ELEVATOR_MANUAL_SPEED);
  
@@ -46,6 +48,9 @@ public class DefaultElevatorCommand extends Command {
     else if(oi.getElevatorDown().get()) {
       elevator.setPower(-Parameters.ELEVATOR_MANUAL_SPEED);
 
+    }else
+    {
+      elevator.stopMotor();
     }
     SmartDashboard.putNumber("Elevator Position", elevator.getPosition());
   }

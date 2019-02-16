@@ -121,7 +121,8 @@ public class Elevator extends Subsystem
             upDown.configReverseSoftLimitThreshold(Parameters.ElevatorPosition.LOWER_LIMIT.getSetPoint());
             upDown.configForwardSoftLimitEnable(true);
             upDown.configReverseSoftLimitEnable(true);
-		}
+        }
+        System.out.println("ZeroElevator");
     }
 
     /**

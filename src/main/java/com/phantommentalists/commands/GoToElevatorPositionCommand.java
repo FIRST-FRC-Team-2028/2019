@@ -45,7 +45,7 @@ public class GoToElevatorPositionCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (elevator.getPosition() - position.getSetPoint() < Parameters.ELEVATOR_POSITION_ERROR) {
+    if (Math.abs(elevator.getPosition() - position.getSetPoint()) < Parameters.ELEVATOR_POSITION_ERROR) {
       return true;
     }
     return false;
