@@ -295,4 +295,6 @@ public class Parameters {
   public static final double LIFT_LEVELER_Ki = 0.0;
   public static final double LIFT_LEVELER_Kd = 0.0;
   public static final double LIFT_LEVELER_TOLERANCE = 3.0;
+  public static final boolean ULTRASONIC_AVAILABLE = false;
+
 }

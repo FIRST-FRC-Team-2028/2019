@@ -64,6 +64,35 @@ public class Drive extends Subsystem {
   }
 
 
+  public void reflectiveAlignDrive(double x)
+  {
+    double diffl = 0.0;
+    double diffr = 0.0;
+
+    if(x < Parameters.CAM_WIDTH/4)
+    {
+      diffl = 0.25;
+      diffr = -0.25;
+    }
+    else if(x < (Parameters.CAM_WIDTH/2)-(Parameters.CAM_WIDTH/8))
+    {
+      diffl = -0.15;
+      diffr = 0.15;
+    }
+    else if(x >= (Parameters.CAM_WIDTH/2)+(Parameters.CAM_WIDTH/8))
+    {
+      diffl = 0.15;
+      diffr = -0.15;
+    }
+    else if(x >= (3*Parameters.CAM_WIDTH)/4)
+    {
+      diffr = 0.25;
+      diffl = -0.25;
+    }
+    
+    left.setPercentOutput(0.1 + diffl);
+    right.setPercentOutput(0.1 + diffr);
+  }
   /**
    * takes camera parameters to drive towards reflective tape.
    * @param x
@@ -74,6 +103,7 @@ public class Drive extends Subsystem {
     double diffl = 0.0;
     double diffr = 0.0;
     
+
     if(x < Parameters.CAM_WIDTH/4)
     {
       diffl = 0.2;
@@ -95,36 +125,44 @@ public class Drive extends Subsystem {
       diffl = -0.2;
     }
 
-    if(distance > 100 && diffl > 0)
+
+    if(distance > 100)
     {
       diffl += 0.05;
       diffr += -0.05;
     }
-    else if (distance > 80 && diffl > 0)
+    else if (distance > 80 )
     {
       diffl += 0.07;
       diffl += -0.07;
     }
-    else if (distance > 60 && diffl > 0)
+    else if (distance > 60)
     {
       diffl += 0.1;
       diffr += -0.1;
     }
-    else if (distance > 40 && diffl > 0)
+    else if (distance > 40)
     {
       diffl += 0.15;
       diffr += -0.15;
     }
-    else if (distance > 20 && diffl > 0)
+    else if (distance > 20)
     {
       diffl += 0.17;
       diffr += -0.17;
     }
-    else if (distance < 20 && diffl > 0)
+    else if (distance < 20)
     {
       diffl += 0.2;
       diffr += -0.2;
     }
+    
+    if (distance > 100 && diffl < 0)
+    {
+      diffl *= -1;
+      diffr *= -1;
+    }
+
 
     left.setPercentOutput(0.2 + diffl);
     right.setPercentOutput(0.2 + diffr);

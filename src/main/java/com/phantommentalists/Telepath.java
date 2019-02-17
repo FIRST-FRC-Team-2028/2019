@@ -8,6 +8,7 @@
 package com.phantommentalists;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.GyroBase;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -39,18 +40,19 @@ import edu.wpi.cscore.VideoSink;
  */
 public class Telepath extends TimedRobot {
 
+  
   private Handler handler;
   private Elevator elevator;
-  private CargoIntake cargoIntake;
+  private static CargoIntake cargoIntake;
   private Drive drive;
   private OI oi;
-  private CameraThread cameraThread;
   private Pressure pressure;
   private Lifter lifter;
   private GyroBase gyro;
   private PIDController liftLeveler;
   private PDP pdp;
-
+  public static CameraThread cameraThread;
+  public AnalogInput ultra;
   Command autonomousCommand;
   Command defaultCommand;
   // SendableChooser<Command> chooser = new SendableChooser<>();
@@ -58,6 +60,7 @@ public class Telepath extends TimedRobot {
   UsbCamera cam2;
   VideoSink server;
   CvSink sink;
+  
 
   /**
    * Default constructor
@@ -77,6 +80,11 @@ public class Telepath extends TimedRobot {
       cameraThread = new CameraThread();
       cameraThread.start();
     }
+    if(Parameters.ULTRASONIC_AVAILABLE)
+    {
+      ultra = new AnalogInput(0);
+    }
+  
     if (Parameters.DRIVE_AVAILABLE) {
       drive = new Drive(this);
     }
@@ -112,6 +120,10 @@ public class Telepath extends TimedRobot {
     return drive;
   }
 
+  public AnalogInput getUltrasonic()
+  {
+    return ultra;
+  }
   /**
    * Getter for the Handler subsystem
    * 
