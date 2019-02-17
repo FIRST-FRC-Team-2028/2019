@@ -34,7 +34,7 @@ public class DeployCargoIntakeCommand extends Command {
   @Override
   protected void execute() {
     cargoIntake.deploy();
-    cargoIntake.turnOnRollers();
+    // FIXME cargoIntake.turnOnRollers();
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -28,6 +28,7 @@ public class CargoHandlerLoadCommand extends CommandGroup {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    handler.stopCargoHandler();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -40,7 +41,8 @@ public class CargoHandlerLoadCommand extends CommandGroup {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return handler.isCargoHeld();
+    // return handler.isCargoHeld();
+    return false;
   }
 
   // Called once after isFinished returns true
@@ -53,5 +55,6 @@ public class CargoHandlerLoadCommand extends CommandGroup {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    handler.stopCargoHandler();
   }
 }

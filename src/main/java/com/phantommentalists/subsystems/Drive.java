@@ -30,7 +30,7 @@ public class Drive extends Subsystem {
       private double shiftTime = 0.0;
 
       private double ratio;
-      private double maxCurrent=-1.;
+      private double maxCurrent = -1.;
 
       private Telepath robot;
 
@@ -230,7 +230,8 @@ public class Drive extends Subsystem {
   public void tankDrive(double lefta, double righta)
   {
     // TODO limit speed when CG is high
-    gearshift(lefta, righta);
+    double limiter = 1.0;  // FIXME to limit;
+    gearshift(lefta*limiter, righta*limiter);
     left.setPercentOutput(lefta);
     right.setPercentOutput(righta);
   }

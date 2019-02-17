@@ -7,63 +7,55 @@
 
 package com.phantommentalists.commands;
 
-import com.phantommentalists.Parameters;
+import com.phantommentalists.OI;
 import com.phantommentalists.Telepath;
-import com.phantommentalists.subsystems.Handler;
+import com.phantommentalists.subsystems.CargoIntake;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import java.time.*;
-
-public class ShootCargoCommand extends Command {
+public class DefaultCargoIntakeCommand extends Command {
   /**
-   * It shoots the cargo into the port
+   * FIXME Comment
    */
-  private Handler handler;
+  private CargoIntake cargoIntake;
+  private OI oi;
 
-  private LocalTime startTime;
-
-  public ShootCargoCommand(Telepath r) {
-    handler = r.getHandler();
+  public DefaultCargoIntakeCommand(Telepath r) {
+    cargoIntake = r.getCargoIntake();
+    oi = r.getOI();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(handler);
+    requires(cargoIntake);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    startTime = LocalTime.now();
-    handler.stopCargoHandler();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    handler.shootCargo();
+    //FIXME What do we do with the extend/retract?
+    
+    cargoIntake.turnOffRollers();
+    cargoIntake.setPower(oi.getSlider());
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    // LocalTime shootTime = LocalTime.now();
-    // if (shootTime.getSecond() - startTime.getSecond() > Parameters.SHOOT_CARGO_TIME) {
-    //   return true;
-    // }
-    // return false;
     return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    handler.stopCargoHandler();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    handler.stopCargoHandler();
   }
 }

@@ -47,7 +47,7 @@ public class CargoHandler{
   }
 
   public boolean isCargoHeld() {
-    // FIX ME: Get current state from sensor
+    // FIXME Get current state from sensor
     return cargoSensor.get();
-  }
+  } 
 }

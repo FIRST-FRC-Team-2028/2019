@@ -87,7 +87,7 @@ public class Telepath extends TimedRobot {
       elevator = new Elevator(this);
     }
     if (Parameters.INTAKE_AVAILABLE) {
-      cargoIntake = new CargoIntake();
+      cargoIntake = new CargoIntake(this);
     }
     if (Parameters.LIFTER_AVAILABLE) {
       lifter = new Lifter(this);
@@ -295,7 +295,7 @@ public class Telepath extends TimedRobot {
     }
     if(Parameters.COMPRESSOR_AVAILABLE){
       // FIXME
-      pressure.disable();
+      // pressure.disable();
     }
 
     if (Parameters.DRIVE_AVAILABLE) {

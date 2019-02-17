@@ -8,7 +8,6 @@
 package com.phantommentalists.commands;
 
 import com.phantommentalists.Telepath;
-import com.phantommentalists.subsystems.Drive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -33,6 +32,7 @@ public class DriveToHatchCommand extends Command {
   @Override
   protected void execute() {
     //TODO use Ricky's Align method
+    
   }
 
   // Make this return true when this Command no longer needs to run execute()

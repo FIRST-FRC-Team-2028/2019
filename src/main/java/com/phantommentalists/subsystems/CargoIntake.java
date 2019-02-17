@@ -14,9 +14,12 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.phantommentalists.Parameters;
+import com.phantommentalists.Telepath;
 import com.phantommentalists.Parameters.CanId;
+import com.phantommentalists.commands.DefaultCargoIntakeCommand;
 
 /*
  * CargoIntake is the mechanism that pulls the cargo off the floor into the CargoHandler.
@@ -26,14 +29,16 @@ import com.phantommentalists.Parameters.CanId;
 public class CargoIntake extends Subsystem {
   TalonSRX roller;
   DoubleSolenoid extender;
+  private Telepath robot;
 
   /**
    * Default constructor
    */
-  public CargoIntake() {
+  public CargoIntake(Telepath r) {
     if (Parameters.INTAKE_AVAILABLE) {
+      robot = r;
       roller = new TalonSRX(CanId.CARGO_INTAKE.getCanId());
-      extender = new DoubleSolenoid(Parameters.PneumaticChannel.CARGO_INTAKE_EXTENDER.getChannel(), Parameters.PneumaticChannel.CARGO_INTAKE_EXTENDER_RETRACT.getChannel());
+      extender = new DoubleSolenoid(Parameters.PneumaticChannel.CARGO_INTAKE_EXTENDER.getChannel(), Parameters.PneumaticChannel.CARGO_INTAKE_RETRACT.getChannel());
 
       roller.set(ControlMode.PercentOutput, 0.0);
       roller.setNeutralMode(NeutralMode.Brake);
@@ -64,6 +69,18 @@ public class CargoIntake extends Subsystem {
   public void retract() {
     if (Parameters.INTAKE_AVAILABLE) {
       extender.set(Parameters.CARGO_INTAKE_RETRACT);
+    }
+  }
+
+  /**
+   * Use slider to vary roller speed during testing
+   * 
+   * @return
+   */
+  public void setPower(double motorPower) {
+    if (Parameters.INTAKE_AVAILABLE) {
+      roller.set(ControlMode.PercentOutput, (motorPower+1)/2); 
+      // slider input = -1 to 1, motor out = 0 to 1
     }
   }
 
@@ -109,9 +126,14 @@ public class CargoIntake extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
+    setDefaultCommand(new DefaultCargoIntakeCommand(robot));
   }
 
   public void process() {
-    
+    if(Parameters.INTAKE_AVAILABLE) {
+      SmartDashboard.putNumber("Cargo Intake: Voltage", roller.getMotorOutputVoltage());
+      SmartDashboard.putNumber("Cargo Intake: Current", roller.getOutputCurrent());
+      SmartDashboard.putNumber("Cargo Intake: Percent", roller.getMotorOutputPercent());
+    }
   }
 }

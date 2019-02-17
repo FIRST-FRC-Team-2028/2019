@@ -103,6 +103,21 @@ public class Elevator extends Subsystem
 		return 0;
     }
 
+    /**
+     * Returns elevator height as a range from 0 to 1
+     */
+    public double getCGHeight()
+    {
+        if(Parameters.ELEVATOR_AVAILABLE)
+        {
+            int y = getPosition();
+            double x = (y - Parameters.ElevatorPosition.LOWER_LIMIT.getSetPoint())/
+            (Parameters.ElevatorPosition.UPPER_LIMIT.getSetPoint() - Parameters.ElevatorPosition.LOWER_LIMIT.getSetPoint()) ;
+            return x;
+        }
+        return 0.0;
+    }
+
     public void setPosition(ElevatorPosition switchPosition)
     {
         if(Parameters.ELEVATOR_AVAILABLE)
