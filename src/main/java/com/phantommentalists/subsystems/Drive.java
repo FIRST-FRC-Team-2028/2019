@@ -64,6 +64,35 @@ public class Drive extends Subsystem {
   }
 
 
+  public void reflectiveAlignDrive(double x)
+  {
+    double diffl = 0.0;
+    double diffr = 0.0;
+
+    if(x < Parameters.CAM_WIDTH/4)
+    {
+      diffl = 0.25;
+      diffr = -0.25;
+    }
+    else if(x < (Parameters.CAM_WIDTH/2)-(Parameters.CAM_WIDTH/8))
+    {
+      diffl = -0.15;
+      diffr = 0.15;
+    }
+    else if(x >= (Parameters.CAM_WIDTH/2)+(Parameters.CAM_WIDTH/8))
+    {
+      diffl = 0.15;
+      diffr = -0.15;
+    }
+    else if(x >= (3*Parameters.CAM_WIDTH)/4)
+    {
+      diffr = 0.25;
+      diffl = -0.25;
+    }
+    
+    left.setPercentOutput(0.1 + diffl);
+    right.setPercentOutput(0.1 + diffr);
+  }
   /**
    * takes camera parameters to drive towards reflective tape.
    * @param x
