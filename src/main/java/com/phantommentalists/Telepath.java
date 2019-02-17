@@ -39,17 +39,18 @@ import edu.wpi.cscore.VideoSink;
  */
 public class Telepath extends TimedRobot {
 
+  
   private Handler handler;
   private Elevator elevator;
-  private CargoIntake cargoIntake;
+  private static CargoIntake cargoIntake;
   private Drive drive;
   private OI oi;
-  private CameraThread cameraThread;
   private Pressure pressure;
   private Lifter lifter;
   private GyroBase gyro;
   private PIDController liftLeveler;
   private PDP pdp;
+  public static CameraThread cameraThread;
 
   Command autonomousCommand;
   Command defaultCommand;

@@ -11,6 +11,7 @@ import com.phantommentalists.CameraThread;
 import com.phantommentalists.Telepath;
 import com.phantommentalists.subsystems.Drive;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class AlignReflectCommand extends Command {
@@ -19,6 +20,9 @@ public class AlignReflectCommand extends Command {
 
   com.phantommentalists.TapePipeline.Line rightLine;
 
+  AnalogInput ultra;
+
+  double ultrasonic;
 
   Drive drive;
 
@@ -26,6 +30,8 @@ public class AlignReflectCommand extends Command {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     this.drive = drive;
+    ultrasonic = 0;
+    ultra = new AnalogInput(0);
     requires(drive);
   }
 
@@ -40,7 +46,8 @@ public class AlignReflectCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    drive.reflectiveAlignDrive(leftLine.x1, 2);
+    ultrasonic = ((ultra.getValue()-59.55)/7.727)+6;
+    drive.reflectiveAlignDrive(leftLine.x1, ultrasonic);
   }
 
   // Make this return true when this Command no longer needs to run execute()

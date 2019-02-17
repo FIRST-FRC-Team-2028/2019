@@ -1,16 +1,13 @@
 package com.phantommentalists;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 import com.phantommentalists.CameraAlignment.Line;
 
 import org.opencv.core.*;
-import org.opencv.highgui.HighGui;
-import org.opencv.videoio.VideoCapture;
+
 
 import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -56,47 +53,47 @@ public class CameraThread extends Thread
                     // grip.process(mat);
                     tape.process(mat);
                     int linecount = 0;
-                    int count = 0;
+                    // int count = 0;
                     double highest = 999999.0d;
                     double secondhighest = 0d;
                     Line hightemp = initialization;
-                    Line secondhightemp = initialization;
+                    // Line secondhightemp = initialization;
                     com.phantommentalists.TapePipeline.Line leftlinetemp = initialization2;
                     com.phantommentalists.TapePipeline.Line rightlinetemp = initialization2;
                     // ArrayList<Line> lines = grip.filterLinesOutput();
                     // System.out.println(grip.filterLinesOutput());
                     Runtime.getRuntime().gc();
-                    for(Line i : grip.findLinesOutput())
-                    {
-                        if(i.length()<Parameters.CAM_FILTER_LINES_MINIMUM_LENGTH)
-                        {
-                            continue;
-                        }
-                        if((i.angle() < 30 || i.angle() > 150) && (i.angle() < 210 || i.angle() > 330))
-                        {
-                            continue;
-                        }
-                        if((i.y2) < 20)
-                        {
-                            continue;
-                        }
-                        if(i.y2 < highest)
-                        {
-                            secondhightemp = hightemp;
-                            hightemp = i;
-                            secondhighest = highest;
-                            highest = i.y2;
-                        }
-                        // System.out.println("Line Length: " + i.length());
-                        // System.out.println("x1: " + i.x1);
-                        // System.out.println("y1: " + i.y1);
-                        // System.out.println("x2: " + i.x2);
-                        // System.out.println("y2: " + i.y2);
-                        // System.out.println("angle: " + i.angle());
-                        // System.out.println("================NEW LINE================");
-                        // linecount++;
-                        // count++;
-                    }
+                    // for(Line i : grip.findLinesOutput())
+                    // {
+                    //     if(i.length()<Parameters.CAM_FILTER_LINES_MINIMUM_LENGTH)
+                    //     {
+                    //         continue;
+                    //     }
+                    //     if((i.angle() < 30 || i.angle() > 150) && (i.angle() < 210 || i.angle() > 330))
+                    //     {
+                    //         continue;
+                    //     }
+                    //     if((i.y2) < 20)
+                    //     {
+                    //         continue;
+                    //     }
+                    //     if(i.y2 < highest)
+                    //     {
+                    //         secondhightemp = hightemp;
+                    //         hightemp = i;
+                    //         secondhighest = highest;
+                    //         highest = i.y2;
+                    //     }
+                    //     System.out.println("Line Length: " + i.length());
+                    //     System.out.println("x1: " + i.x1);
+                    //     System.out.println("y1: " + i.y1);
+                    //     System.out.println("x2: " + i.x2);
+                    //     System.out.println("y2: " + i.y2);
+                    //     System.out.println("angle: " + i.angle());
+                    //     System.out.println("================NEW LINE================");
+                    //     linecount++;
+                    //     count++;
+                    // }
 
                     for(com.phantommentalists.TapePipeline.Line i : tape.findLinesOutput())
                     {
@@ -219,6 +216,7 @@ public class CameraThread extends Thread
         }
         return count;
     }
+
     public Line getLeftline()
     {
         return highperm;
@@ -227,10 +225,28 @@ public class CameraThread extends Thread
     {
         return secondhighperm;
     }
+
+    public double getDistance()
+    {
+        // Tft/Tpixel = FOVft/FOVpixel and FOVft = 2*w = 2*d*tan(@)
+        // d = Tft*FOVpixel / (2*Tpixel*tan(@))
+        double Tpixel = getLeft().length();
+        double distance = (0.458333);
+        return distance;
+    }
+
+    /**
+     * returns the left line gotten from the left piece of tape on the rocket/port.
+     * @return
+     */
     public com.phantommentalists.TapePipeline.Line getLeft()
     {
         return leftlineperm;
     }
+    /**
+     * returns the right line gotten from the left piece of tape on the rocket/port.
+     * @return
+     */
     public com.phantommentalists.TapePipeline.Line getRight()
     {
         return rightlineperm;
