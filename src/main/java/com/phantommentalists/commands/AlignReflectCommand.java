@@ -25,20 +25,22 @@ public class AlignReflectCommand extends Command {
   double ultrasonic;
 
   Drive drive;
+  Telepath robot;
 
-  public AlignReflectCommand(Drive drive) {
+  public AlignReflectCommand(Drive drive, Telepath robot) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     this.drive = drive;
     ultrasonic = 0;
     ultra = new AnalogInput(0);
+    this.robot=robot;
     requires(drive);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    CameraThread cam = Telepath.cameraThread;
+    CameraThread cam = robot.getCameraThread();
     leftLine = cam.getLeft();
     rightLine = cam.getRight();
   }

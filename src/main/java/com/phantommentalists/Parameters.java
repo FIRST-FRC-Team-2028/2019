@@ -29,7 +29,7 @@ public class Parameters {
   public static final boolean CARGO_HANDLER_AVAILABLE = false;
   public static final boolean LIFTER_AVAILABLE = false;
   public static final boolean GYRO_AVAILABLE = false;
-  public static final boolean BUTTONBOX_AVAILABLE = false;
+  public static final boolean BUTTONBOX_AVAILABLE = true;
   
   public static final double CARGO_INTAKE_ROLLER_SPEED = 1.0;
   public static final Value CARGO_INTAKE_EXTEND = Value.kForward;
@@ -92,9 +92,11 @@ public class Parameters {
   public static final int BUTTON_HATCH_3 = 1;
   public static final int BUTTON_CARGO_3 = 2;
   
+  public static final int ELEVATOR_PID_CRUISE_VELOCITY = 1200;
+  public static final int ELEVATOR_PID_CRUISE_ACCEL = 1200;
   public static final double ELEVATOR_ZEROING_SPEED = -0.25;
-  public static final int ELEVATOR_POSITION_ERROR = 10;
-  public static final double ELEVATOR_MANUAL_SPEED = 0.5;
+  public static final int ELEVATOR_POSITION_ERROR = 100;
+  public static final double ELEVATOR_MANUAL_SPEED = 0.3;
   public static final double ELEVATOR_ZEROING_CURRENT_LIMIT = 3.5;
   public static final int ELEVATOR_ZEROING_ENCODER_LIMIT = 10;
   public enum ElevatorPosition {
@@ -107,7 +109,7 @@ public class Parameters {
     CARGO_HIGH(28500),
     HAB_ZONE_LEVEL_2(400),
     HAB_ZONE_LEVEL_3(5000),
-    UPPER_LIMIT(30000);
+    UPPER_LIMIT(20000);
 
     private int ticks;
 
@@ -194,11 +196,11 @@ public class Parameters {
 
     ELEVATOR(40, true, 4),
     
-    CARGO_INTAKE(52, false, 7),
-    CARGO_HANDLER(50, false, 8),
+    CARGO_INTAKE(52, false, 10),
+    CARGO_HANDLER(50, false, 6),
 
     HATCH_LEAD_SCREW_MOTOR(51, false, 5), 
-    LIFTER_LIFT_MOTOR(30, false, 5), 
+    LIFTER_LIFT_MOTOR(30, false, 7), 
     LIFTER_DRIVE_MOTOR(31, false, 11);
 
     private int canId;
@@ -225,7 +227,7 @@ public class Parameters {
   }
 
   public enum Pid {
-    ELEVATOR(0, 0, 0, 0), 
+    ELEVATOR(0.045, 0, 0, 0.01), 
     HATCH_LEADSCREW(0, 0, 0, 0);
 
     private double p;
@@ -272,6 +274,7 @@ public class Parameters {
   public static final double CARGO_HANDLER_INTAKE_SPEED = 1.0;
   public static final double CARGO_HANDLER_SHOOT_SPEED = -1.0;
   public static final int CARGO_HANDLER_SENSOR = 0;
+  public static final int SHOOT_CARGO_TIME = 2;
 
   //public static final double LIFTER_LIFT_MOTOR_DEPLOY_SPEED = 0.4;
   /**
@@ -289,6 +292,7 @@ public class Parameters {
   public static final double LIFT_LEVELER_Ki = 0.0;
   public static final double LIFT_LEVELER_Kd = 0.0;
   public static final double LIFT_LEVELER_TOLERANCE = 3.0;
+
 
 
 }

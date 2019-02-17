@@ -51,10 +51,18 @@ public class Elevator extends Subsystem
             upDown.config_kP(1, Pid.ELEVATOR.getP(), 0);
 			upDown.config_kI(1, Pid.ELEVATOR.getI(), 0);
 		    upDown.config_kD(1, Pid.ELEVATOR.getD(), 0);
-		    upDown.config_kF(1, Pid.ELEVATOR.getF(), 0);
+            upDown.config_kF(1, Pid.ELEVATOR.getF(), 0);
+            upDown.configNominalOutputForward(0);
+            upDown.configNominalOutputReverse(0);
+            upDown.configPeakOutputForward(1);
+            upDown.configPeakOutputReverse(-1);
+            upDown.configMotionCruiseVelocity(Parameters.ELEVATOR_PID_CRUISE_VELOCITY);
+            upDown.configMotionAcceleration(Parameters.ELEVATOR_PID_CRUISE_ACCEL);
+            upDown.configAllowableClosedloopError(1, Parameters.ELEVATOR_POSITION_ERROR, 0);
             upDown.set(ControlMode.PercentOutput, 0.0);
             upDown.setNeutralMode(NeutralMode.Brake);
-            upDown.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+            upDown.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 1, 0);
+            upDown.setSensorPhase(true);
             upDown.configForwardSoftLimitThreshold(Parameters.ElevatorPosition.UPPER_LIMIT.getSetPoint());
             upDown.configReverseSoftLimitThreshold(Parameters.ElevatorPosition.LOWER_LIMIT.getSetPoint());
             upDown.configForwardSoftLimitEnable(false);
@@ -98,8 +106,13 @@ public class Elevator extends Subsystem
 		{
             if (mode == AutoMode.AUTO)
             {
-			    upDown.set(ControlMode.Position, switchPosition.getSetPoint());
+                // upDown.set(ControlMode.Position, switchPosition.getSetPoint());
+                upDown.set(ControlMode.MotionMagic, switchPosition.getSetPoint());
+                int motorClosedLoopError = upDown.getClosedLoopError();
+                System.out.println("Motor Closed Loop Error: " + motorClosedLoopError);
+                System.out.println("Motor Closed Loop Target" + upDown.getClosedLoopTarget());
                 setpoint = switchPosition;
+                System.out.println("Elevator setPos auto "+switchPosition.getSetPoint());
             }
 		}
     }
@@ -118,7 +131,8 @@ public class Elevator extends Subsystem
             upDown.configReverseSoftLimitThreshold(Parameters.ElevatorPosition.LOWER_LIMIT.getSetPoint());
             upDown.configForwardSoftLimitEnable(true);
             upDown.configReverseSoftLimitEnable(true);
-		}
+        }
+        System.out.println("ZeroElevator");
     }
 
     /**
@@ -236,6 +250,7 @@ public class Elevator extends Subsystem
                     elevatorPreviousEncoderCount = position;
                 }
             }
+            SmartDashboard.putNumber("Elevator: Voltage", upDown.getMotorOutputVoltage());
             SmartDashboard.putNumber("Elevator: Current", getCurrent());
             SmartDashboard.putNumber("Elevator: Position", position);
             SmartDashboard.putString("Elevator: Mode", mode.toString());

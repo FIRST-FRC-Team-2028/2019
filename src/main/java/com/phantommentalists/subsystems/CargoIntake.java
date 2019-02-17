@@ -67,6 +67,15 @@ public class CargoIntake extends Subsystem {
     }
   }
 
+  /**
+   * Tells if the cargo intake is deployed by reading the 
+   * state of the double solenoid.
+   * Side Effects: isDeployed may return true despite cargo 
+   * intake not being fully deployed. Actual deploy time
+   * may be off by 0.5 to 1 seconds.
+   * 
+   * @return true if extender is extended. False otherwise
+   */
   public boolean isDeployed() {
     if (Parameters.INTAKE_AVAILABLE) {
       Value ds = extender.get();
@@ -78,6 +87,15 @@ public class CargoIntake extends Subsystem {
     return false;
   }
 
+  /**
+   * Tells if the cargo intake is retracted by reading the 
+   * state of the double solenoid.
+   * Side Effects: isRetracted may return true despite cargo 
+   * intake not being fully retracted. Actual deploy time
+   * may be off by 0.5 to 1 seconds.
+   * 
+   * @return true if extender is retracted. False otherwise
+   */
   public boolean isRetracted() {
     if (Parameters.INTAKE_AVAILABLE) {
       Value ds = extender.get();

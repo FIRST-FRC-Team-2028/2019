@@ -209,7 +209,7 @@ public class Drive extends Subsystem {
     double currentTime = timer.get();
     for (double load: robot.getPDP().getDriveCurrent(Parameters.DRIVE_GEAR_BOX_TYPE)){
       amps+=load;
-      System.err.println("pdp"+pdpnum+" "+load);
+      //System.err.println("pdp"+pdpnum+" "+load);
       pdpnum+=1;
     }
     if (amps > Parameters.DRIVE_SHIFT_CURRENT) {
@@ -238,6 +238,7 @@ public class Drive extends Subsystem {
 
   public void tankDrive(double lefta, double righta)
   {
+    // TODO limit speed when CG is high
     gearshift(lefta, righta);
     left.setPercentOutput(lefta);
     right.setPercentOutput(righta);
