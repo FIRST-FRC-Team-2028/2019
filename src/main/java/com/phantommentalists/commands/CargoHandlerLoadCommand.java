@@ -7,6 +7,7 @@
 
 package com.phantommentalists.commands;
 
+import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
 import com.phantommentalists.subsystems.Handler;
 
@@ -14,28 +15,36 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class CargoHandlerLoadCommand extends CommandGroup {
   /**
-   * FIXME Comment
+   * It loads the Cargo into the Cargo Handler by turning on the rollers
+   * There's no mechanism to determine when the command is finished
    */
   private Handler handler;
 
   public CargoHandlerLoadCommand(Telepath r) {
+    if(Parameters.HANDLER_AVAILABLE){
     handler = r.getHandler();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(handler);
+    }
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    handler.stopCargoHandler();
+    if(Parameters.HANDLER_AVAILABLE)
+    {
+      handler.stopCargoHandler();
+    }
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     //Cargo Handler turns on rollers
+    if(Parameters.HANDLER_AVAILABLE){
     handler.loadCargo();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -48,13 +57,17 @@ public class CargoHandlerLoadCommand extends CommandGroup {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    if(Parameters.HANDLER_AVAILABLE){
     handler.stopCargoHandler();
+    }
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    if(Parameters.HANDLER_AVAILABLE){
     handler.stopCargoHandler();
+    }
   }
 }

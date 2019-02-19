@@ -79,8 +79,7 @@ public class CargoIntake extends Subsystem {
    */
   public void setPower(double motorPower) {
     if (Parameters.INTAKE_AVAILABLE) {
-      roller.set(ControlMode.PercentOutput, (motorPower+1)/2); 
-      // slider input = -1 to 1, motor out = 0 to 1
+      roller.set(ControlMode.PercentOutput, motorPower); 
     }
   }
 

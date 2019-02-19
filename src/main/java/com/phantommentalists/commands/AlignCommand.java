@@ -27,7 +27,6 @@ public class AlignCommand extends Command {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(r.getDrive());
-    
   }
 
   // Called just before this Command runs the first time
@@ -37,6 +36,7 @@ public class AlignCommand extends Command {
     CameraThread cam = robot.getCameraThread();
     left = cam.getLeftline();
     right = cam.getRightline();
+    // FIXME MrG says DownShift
   }
 
   // Called repeatedly when this Command is scheduled to run

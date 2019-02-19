@@ -38,6 +38,7 @@ public class AlignReflectCommand extends Command {
     CameraThread cam = robot.getCameraThread();
     leftLine = cam.getLeft();
     rightLine = cam.getRight();
+    // FIXME MrG says DownShift
   }
 
   // Called repeatedly when this Command is scheduled to run

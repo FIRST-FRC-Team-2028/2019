@@ -10,6 +10,7 @@ package com.phantommentalists.commands;
 import edu.wpi.first.wpilibj.command.Command;
 
 import com.phantommentalists.OI;
+import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
 
 public class DefaultDriveCommand extends Command {
@@ -34,7 +35,8 @@ public class DefaultDriveCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    robot.getDrive().tankDrive(oi.getLeftStick(), oi.getRightStick());
+    double multiplier = Parameters.DRIVE_SPEED_LIMITER_ELEVATOR_CG + (1.0 - Parameters.DRIVE_SPEED_LIMITER_ELEVATOR_CG)*(1.0 - robot.getElevator().getCGHeight());
+    robot.getDrive().tankDrive(multiplier*oi.getLeftStick(), multiplier*oi.getRightStick());
   }
 
   // Make this return true when this Command no longer needs to run execute()

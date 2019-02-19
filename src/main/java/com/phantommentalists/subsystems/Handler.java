@@ -12,7 +12,9 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.phantommentalists.Parameters;
+import com.phantommentalists.Telepath;
 import com.phantommentalists.Parameters.AutoMode;
+import com.phantommentalists.commands.DefaultHandlerCommand;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -41,14 +43,16 @@ public class Handler extends Subsystem {
   private AutoMode mode;
   
   private boolean zeroed;
+  Telepath robot;
 
   /**
    * Default constructor. This method initializes all data members of the class
    */
-  public Handler() 
+  public Handler(Telepath r) 
   {
     cargoHandler = new CargoHandler();
     hatchHandler = new HatchHandler();
+    robot=r;
 
     leadScrewMotor = new TalonSRX(Parameters.CanId.HATCH_LEAD_SCREW_MOTOR.getCanId());
     leadScrewMotor.config_kP(0, Parameters.Pid.HATCH_LEADSCREW.getP(), 0);
@@ -60,13 +64,15 @@ public class Handler extends Subsystem {
     // leadScrewMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
     // leadScrewMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
     leadScrewMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+    leadScrewMotor.setSensorPhase(true);
     // leadScrewMotor.configForwardSoftLimitThreshold(Parameters.HANDLER_LIMIT);
     
     // FIXME Set soft limit switches
     //
     solenoid = new Solenoid(Parameters.PneumaticChannel.HANDLER_CLIMBER_ARM.getChannel());
 
-    mode = AutoMode.ZEROING;
+    //mode = AutoMode.ZEROING;
+    mode = AutoMode.MANUAL;
     zeroed = false;
   }
 
@@ -76,7 +82,7 @@ public class Handler extends Subsystem {
   @Override
   public void initDefaultCommand() 
   {
-    // NOOP
+    setDefaultCommand(new DefaultHandlerCommand(robot));
   }
   /**
    * Updates all the internal variables
@@ -93,6 +99,7 @@ public class Handler extends Subsystem {
             zeroPosition();
           }
         }
+
         SmartDashboard.putNumber("Hatch Handler: Current", leadScrewMotor.getOutputCurrent());
         SmartDashboard.putNumber("Hatch Handler: Position", leadScrewMotor.getSensorCollection().getQuadraturePosition());
         SmartDashboard.putString("Hatch Handler: Mode", mode.toString());

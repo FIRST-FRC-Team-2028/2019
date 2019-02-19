@@ -7,27 +7,29 @@
 
 package com.phantommentalists.commands;
 
-import com.phantommentalists.OI;
-import com.phantommentalists.Parameters;
+//import com.phantommentalists.OI;
+//import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
-import com.phantommentalists.Parameters.AutoMode;
+//import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.subsystems.Elevator;
 
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.buttons.Button;
+//import edu.wpi.first.wpilibj.buttons.JoystickButton;
+//import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DefaultElevatorCommand extends Command {
   /**
    * Manually controls the elevator
    */
   private Elevator elevator;
-  private OI oi;
+  private Telepath robot;
+  ///private OI oi;
 
   public DefaultElevatorCommand(Telepath r) {
     elevator = r.getElevator();
-    oi = r.getOI();
+    robot = r;
+    //oi = r.getOI();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(elevator);
@@ -56,6 +58,10 @@ public class DefaultElevatorCommand extends Command {
       elevator.stopMotor();
     }*/
     elevator.stopMotor();
+    if(robot.getHandler().isHatchDeployed())
+    {
+      elevator.dontDestroyHatchHandler();
+    }
     // elevator.setPower(oi.getSlider());
     // SmartDashboard.putNumber("Elevator Position", elevator.getPosition());
   }

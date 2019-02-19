@@ -7,7 +7,6 @@
 
 package com.phantommentalists.commands;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
 import com.phantommentalists.Parameters.AutoMode;
@@ -37,7 +36,7 @@ public class ElevatorRunDownCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    elevator.setPower(-1.0*Parameters.ELEVATOR_MANUAL_SPEED);
+    elevator.setPower(-0.5*Parameters.ELEVATOR_MANUAL_SPEED);
   }
 
   // Make this return true when this Command no longer needs to run execute()

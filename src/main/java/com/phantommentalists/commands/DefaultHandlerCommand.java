@@ -7,74 +7,56 @@
 
 package com.phantommentalists.commands;
 
-import com.phantommentalists.Parameters;
+import com.phantommentalists.OI;
 import com.phantommentalists.Telepath;
 import com.phantommentalists.subsystems.Handler;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import java.time.*;
-
-public class ShootCargoCommand extends Command {
-  /**
-   * It shoots the cargo into the port
-   */
+/**
+ * Default Command to be run by the Handler subsystem
+ * 
+ */
+public class DefaultHandlerCommand extends Command {
   private Handler handler;
-
-  private LocalTime startTime;
-
-  public ShootCargoCommand(Telepath r) {
-    if(Parameters.HANDLER_AVAILABLE){
-    handler = r.getHandler();
+  private Telepath robot;
+  private OI oi;
+  
+  public DefaultHandlerCommand(Telepath r) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    handler=r.getHandler();
+    oi=r.getOI();
     requires(handler);
-    }
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    startTime = LocalTime.now();
-    this.setTimeout(1);
-    if(Parameters.HANDLER_AVAILABLE){
-    handler.stopCargoHandler();
-    }
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(Parameters.HANDLER_AVAILABLE){
-    handler.shootCargo();
-    }
+    handler.setLeadScrewPower(oi.getSlider());
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    // LocalTime shootTime = LocalTime.now();
-    // if (shootTime.getSecond() - startTime.getSecond() > Parameters.SHOOT_CARGO_TIME) {
-    //   return true;
-    //  }
-    // return false;
-    return this.isTimedOut();
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    if(Parameters.HANDLER_AVAILABLE){
-    handler.stopCargoHandler();
-    }
+    handler.setLeadScrewPower(0.);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    if(Parameters.HANDLER_AVAILABLE){
-      handler.stopCargoHandler();
-    }
+    handler.setLeadScrewPower(0.);
   }
 }

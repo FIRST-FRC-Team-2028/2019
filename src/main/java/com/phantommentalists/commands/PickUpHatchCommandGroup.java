@@ -14,7 +14,12 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class PickUpHatchCommandGroup extends CommandGroup {
   /**
-   * FIXME Comment
+   * Moves the elevator to the HATCH_LEVEL_1 position
+   * To pickup the hatch the command extend/deploys Hatch Handler
+   * Deploying it runs in parallel with the elevator
+   * Drive to hatch (sensed somehow or viewed by camera)
+   * Collapse vacuum cups by extending a pneumatic cylinder that pulls
+   * on other pneumatic cylinders (only one solenoid operated valve is needed)
    */
   public PickUpHatchCommandGroup(Telepath r) {
     // Add Commands here:

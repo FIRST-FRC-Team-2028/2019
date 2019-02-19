@@ -233,13 +233,10 @@ public class Drive extends Subsystem {
    */
   private void gearshift(double leftspeed, double rightspeed){
     double amps=0;
-    int pdpnum=0;
     DoubleSolenoid.Value newGear = Parameters.DRIVE_HIGH_GEAR;
     double currentTime = timer.get();
     for (double load: robot.getPDP().getDriveCurrent(Parameters.DRIVE_GEAR_BOX_TYPE)){
       amps+=load;
-      //System.err.println("pdp"+pdpnum+" "+load);
-      pdpnum+=1;
     }
     if (amps > Parameters.DRIVE_SHIFT_CURRENT) {
       newGear=Parameters.DRIVE_LOW_GEAR;
@@ -267,9 +264,7 @@ public class Drive extends Subsystem {
 
   public void tankDrive(double lefta, double righta)
   {
-    // TODO limit speed when CG is high
-    double limiter = 1.0;  // FIXME to limit;
-    gearshift(lefta*limiter, righta*limiter);
+    gearshift(lefta, righta);
     left.setPercentOutput(lefta);
     right.setPercentOutput(righta);
   }

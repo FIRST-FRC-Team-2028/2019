@@ -32,6 +32,7 @@ public class CargoHandler{
     rollers = new TalonSRX(Parameters.CanId.CARGO_HANDLER.getCanId());
     cargoSensor = new DigitalInput(Parameters.CARGO_HANDLER_SENSOR);
     rollers.setInverted(Parameters.CanId.CARGO_HANDLER.isInverted());
+    rollers.set(ControlMode.PercentOutput, 0.0);
   }
 
   public void loadCargo() {

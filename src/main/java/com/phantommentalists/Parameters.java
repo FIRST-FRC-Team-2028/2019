@@ -26,14 +26,12 @@ public class Parameters {
   public static final boolean COMPRESSOR_AVAILABLE = true;
   public static final boolean ELEVATOR_AVAILABLE = true;
   public static final boolean HANDLER_AVAILABLE = true;
-  public static final boolean CARGO_HANDLER_AVAILABLE = true;
+  public static final boolean CARGO_HANDLER_AVAILABLE = false;
   public static final boolean LIFTER_AVAILABLE = false;
   public static final boolean GYRO_AVAILABLE = false;
   public static final boolean BUTTONBOX_AVAILABLE = true;
   
-  public static final double CARGO_INTAKE_ROLLER_SPEED = 1.0;
-  public static final Value CARGO_INTAKE_EXTEND = Value.kForward;
-  public static final Value CARGO_INTAKE_RETRACT = Value.kReverse;
+
 
   public static final double CAM_FILTER_LINES_ANGLE_LESSER = 1.0;
   public static final double CAM_FILTER_LINES_ANGLE_GREATER = 359.0;
@@ -82,9 +80,10 @@ public class Parameters {
   //buttons on Dual Arcade 0
   public static final int BUTTON_LIFTER_RETRACT = 10;
   public static final int BUTTON_LIFTER_DEPLOY = 9;
+  public static final int BUTTON_CARGO_INTAKE = 8;
   public static final int BUTTON_ELEVATOR_UP = 4; // 7 doesn't work, use 4 on left button box
   public static final int BUTTON_CARGO_INTAKE_EXTEND = 5;
-  public static final int BUTTON_CARGO_INTAKE_RETRACT = 6; 
+  //public static final int BUTTON_CARGO_INTAKE_RETRACT = 6; 
   //buttons on Dual Arcade 1
   public static final int BUTTON_ELEVATOR_DOWN = 8;
   public static final int BUTTON_HATCH_1 = 5;
@@ -95,11 +94,11 @@ public class Parameters {
   public static final int BUTTON_CARGO_3 = 2;
 
   
-  public static final int ELEVATOR_PID_CRUISE_VELOCITY = 1200;
-  public static final int ELEVATOR_PID_CRUISE_ACCEL = 1200;
+  public static final int ELEVATOR_PID_CRUISE_VELOCITY = 2000;
+  public static final int ELEVATOR_PID_CRUISE_ACCEL = 2000;
   public static final double ELEVATOR_ZEROING_SPEED = -0.25;
-  public static final int ELEVATOR_POSITION_ERROR = 100;
-  public static final double ELEVATOR_MANUAL_SPEED = 0.3;
+  public static final int ELEVATOR_POSITION_ERROR = 1500;
+  public static final double ELEVATOR_MANUAL_SPEED = 0.6;
   public static final double ELEVATOR_ZEROING_CURRENT_LIMIT = 3.5;
   public static final int ELEVATOR_ZEROING_ENCODER_LIMIT = 10;
   public enum ElevatorPosition {
@@ -107,12 +106,12 @@ public class Parameters {
     HATCH_LOW(900),
     HATCH_MIDDLE(15000),
     HATCH_HIGH(27000),
-    CARGO_LOW(1500),
-    CARGO_MIDDLE(17500),
-    CARGO_HIGH(28500),
+    CARGO_LOW(5300),
+    CARGO_MIDDLE(16500),
+    CARGO_HIGH(26500),
     HAB_ZONE_LEVEL_2(400),
     HAB_ZONE_LEVEL_3(5000),
-    UPPER_LIMIT(20000);
+    UPPER_LIMIT(27000);
 
     private int ticks;
 
@@ -144,6 +143,7 @@ public class Parameters {
   public static final int DRIVE_CURRENT_LIMIT_PEAK_DURATION = 300;
   public static final boolean DRIVE_SHIFTER_ENABLE = true;
   public static final double DRIVE_SHIFT_TIME_INTERVAL = 1.0;
+  public static final double DRIVE_SPEED_LIMITER_ELEVATOR_CG = 0.2;
 
   public enum DriveGearbox {
     /** We're deploying on practice robot with dual CIM motor gearbox */
@@ -161,8 +161,8 @@ public class Parameters {
     DRIVE_SHIFT_HIGH(3), 
     DRIVE_SHIFT_LOW(4), 
     HANDLER_CLIMBER_ARM(5),
-    CARGO_INTAKE_EXTENDER(7),
-    CARGO_INTAKE_RETRACT(6);
+    CARGO_INTAKE_EXTENDER(6),
+    CARGO_INTAKE_RETRACT(7);
 
     private int channel;
 
@@ -230,7 +230,7 @@ public class Parameters {
   }
 
   public enum Pid {
-    ELEVATOR(0.045, 0, 0, 0.011527), 
+    ELEVATOR(0.4, 0, 0, 0.011527), 
     HATCH_LEADSCREW(0, 0, 0, 0);
 
     private double p;
@@ -279,6 +279,10 @@ public class Parameters {
   public static final int CARGO_HANDLER_SENSOR = 0;
   public static final int SHOOT_CARGO_TIME = 2;
 
+  public static final double CARGO_INTAKE_ROLLER_SPEED = 0.7;
+  public static final Value CARGO_INTAKE_EXTEND = Value.kForward;
+  public static final Value CARGO_INTAKE_RETRACT = Value.kReverse;
+
   //public static final double LIFTER_LIFT_MOTOR_DEPLOY_SPEED = 0.4;
   /**
    * 80/1 is the gear ratio of the elevator
@@ -296,5 +300,4 @@ public class Parameters {
   public static final double LIFT_LEVELER_Kd = 0.0;
   public static final double LIFT_LEVELER_TOLERANCE = 3.0;
   public static final boolean ULTRASONIC_AVAILABLE = false;
-
 }

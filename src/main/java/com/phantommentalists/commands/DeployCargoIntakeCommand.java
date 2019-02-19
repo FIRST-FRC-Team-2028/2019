@@ -14,7 +14,8 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DeployCargoIntakeCommand extends Command {
   /**
-   * FIXME Comment
+   * Extends the Cargo Intake and it runs its rollers at the same time
+   * FIXME Find out if we need a delay when turning on rollers
    */
   private CargoIntake cargoIntake;
 
@@ -28,6 +29,7 @@ public class DeployCargoIntakeCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    this.setTimeout(0.5);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -40,12 +42,13 @@ public class DeployCargoIntakeCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return cargoIntake.isDeployed();
+    return cargoIntake.isDeployed() &&  this.isTimedOut();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    cargoIntake.turnOnRollers();
   }
 
   // Called when another command which requires one or more of the same

@@ -100,6 +100,17 @@ public class Elevator extends Subsystem
 		return 0;
     }
 
+    public void dontDestroyHatchHandler()
+    {
+        if(getPosition() > Parameters.ElevatorPosition.CARGO_MIDDLE.getSetPoint())
+        {
+            upDown.set(ControlMode.PercentOutput, 0);
+        }
+        if(getPosition() < Parameters.ElevatorPosition.HATCH_LOW.getSetPoint())
+        {
+            upDown.set(ControlMode.PercentOutput, 0.2);
+        }
+    }
     /**
      * Returns elevator height as a range from 0 to 1
      */
@@ -141,6 +152,7 @@ public class Elevator extends Subsystem
 		{
             zeroed = true;
             mode = AutoMode.MANUAL;
+            SmartDashboard.putNumber("Elevator zeroed from:", getPosition());
             upDown.setSelectedSensorPosition(0);
             upDown.configForwardSoftLimitThreshold(Parameters.ElevatorPosition.UPPER_LIMIT.getSetPoint());
             upDown.configReverseSoftLimitThreshold(Parameters.ElevatorPosition.LOWER_LIMIT.getSetPoint());

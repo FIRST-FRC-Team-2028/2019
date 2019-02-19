@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DeployHatchHandlerCommand extends Command {
   /**
-   * FIXME Comment
+   * Deploys the Hatch Handler
    */
   private Handler handler;
 

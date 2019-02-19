@@ -14,8 +14,12 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class PickUpCargoCommandGroup extends CommandGroup {
 /**
- * FIXME Comment
- */
+*Move the elevator to the zero position
+*Deploy and runs the Cargo Intake
+*While the Cargo Intake is being deployed, run the Cargo Handler
+*Run Cargo Handler until we have a ball
+*Retract Cargo Intake
+*/
 public PickUpCargoCommandGroup(Telepath r) {
     // Add Commands here:
     // e.g. addSequential(new Command1());
@@ -39,8 +43,9 @@ public PickUpCargoCommandGroup(Telepath r) {
     requires(r.getHandler());
 
     //Move the elevator to the zero position
-    addSequential(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.LOWER_LIMIT, r));
+    addSequential(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.LOWER_LIMIT, r, 0));
     //Deploy and runs the Cargo Intake
+    // TODO Test interrupt mechanisms of CommandGroups
     //While the Cargo Intake is being deployed, run the Cargo Handler
     addParallel(new DeployCargoIntakeCommand(r));
     //Run Cargo Handler until we have a ball

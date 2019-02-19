@@ -7,11 +7,12 @@
 
 package com.phantommentalists;
 
-import com.phantommentalists.Parameters.MultiController;
 import com.phantommentalists.commands.AlignCommand;
 import com.phantommentalists.commands.CargoHandlerLoadCommand;
 import com.phantommentalists.commands.GoToElevatorPositionCommand;
 import com.phantommentalists.commands.PickUpCargoCommandGroup;
+import com.phantommentalists.commands.PlaceCargoCommandGroup;
+import com.phantommentalists.commands.RetractCargoIntakeCommand;
 import com.phantommentalists.commands.ElevatorRunUpCommand;
 import com.phantommentalists.commands.ElevatorRunDownCommand;
 import com.phantommentalists.commands.SpinCommand;
@@ -48,11 +49,11 @@ public class OI {
   Button buttonElevatorDown = new JoystickButton(buttonBoxRight, Parameters.BUTTON_ELEVATOR_DOWN);
 
   Button buttonCargoIntakeExtend = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_INTAKE_EXTEND);
-  Button buttonCargoIntakeRetract = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_INTAKE_RETRACT);
+  //Button buttonCargoIntakeRetract = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_INTAKE_RETRACT);
  
   Button buttonCargoLoad = new JoystickButton(buttonBoxLeft, 10);
   Button buttonCargoShoot = new JoystickButton(buttonBoxLeft, 9);
-
+  Button buttonCargoHandlerSuck = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_INTAKE);
   Button buttonHatch1get = new JoystickButton(buttonBoxRight, Parameters.BUTTON_HATCH_1);
   Button buttonCargo1get = new JoystickButton(buttonBoxRight, Parameters.BUTTON_CARGO_1);
   Button buttonHatch2 = new JoystickButton(buttonBoxRight, Parameters.BUTTON_HATCH_2);
@@ -70,30 +71,33 @@ public class OI {
       buttonElevatorUp.whileHeld(new ElevatorRunUpCommand(r));
       buttonElevatorDown.whileHeld(new ElevatorRunDownCommand(r));
       buttonHatch1get.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_LOW, r));
-      buttonCargo1get.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_LOW, r));
+      buttonCargo1get.whenPressed(new PlaceCargoCommandGroup(Parameters.ElevatorPosition.CARGO_LOW, r));
       buttonHatch2.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_MIDDLE, r));
-      buttonCargo2.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_MIDDLE, r));
+      buttonCargo2.whenPressed(new PlaceCargoCommandGroup(Parameters.ElevatorPosition.CARGO_MIDDLE, r));
       buttonHatch3.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_HIGH, r));
-      buttonCargo3.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_HIGH, r));
-      
-      buttonCargoLoad.whileHeld(new CargoHandlerLoadCommand(r));
+      buttonCargo3.whenPressed(new PlaceCargoCommandGroup(Parameters.ElevatorPosition.CARGO_HIGH, r));
+
+      // buttonCargoLoad.whileHeld(new CargoHandlerLoadCommand(r));
+      buttonCargoLoad.whileHeld(new PickUpCargoCommandGroup(r));
+      buttonCargoLoad.whenReleased(new RetractCargoIntakeCommand(r));
+      buttonCargoHandlerSuck.whileHeld(new ShootCargoCommand(r));
       buttonCargoShoot.whileHeld(new ShootCargoCommand(r));
 
       buttonCargoIntakeExtend.whileHeld(new ExtendCargoIntakeTestCommand(r));
-      buttonCargoIntakeRetract.whileHeld(new RetractCargoIntakeTestCommand(r));
+      //buttonCargoIntakeRetract.whileHeld(new RetractCargoIntakeTestCommand(r));
+      buttonCargoIntakeExtend.whenReleased(new RetractCargoIntakeTestCommand(r));
     }
     String type = DriverStation.getInstance().getJoystickName(0);
     SmartDashboard.putString("controller name ", type);
     SmartDashboard.putNumber("controller type",  DriverStation.getInstance().getJoystickType(0));
-    MultiController dummy=Parameters.multiContFromNum(DriverStation.getInstance().getJoystickType(0));
-    controllerType = dummy;
+    controllerType = Parameters.multiContFromNum(DriverStation.getInstance().getJoystickType(0));
     //try
     //{
     if(controllerType != null){
       SmartDashboard.putNumber("Current type", controllerType.getnum());
       }
     //} catch (Exception nullException) {
-     // screamAndDie("Unrecognized controller!");
+    //      screamAndDie("Unrecognized controller!");
     //}
   }
   
@@ -177,7 +181,7 @@ public class OI {
   }
 
   public double getSlider() {
-    System.out.println(stick.getRawAxis(3));
+    //System.out.println(stick.getRawAxis(3));
     return stick.getRawAxis(3);
   }
 

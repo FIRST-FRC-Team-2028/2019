@@ -8,17 +8,18 @@
 package com.phantommentalists.commands;
 
 import com.phantommentalists.Telepath;
+import com.phantommentalists.Parameters;
 import com.phantommentalists.Parameters.ElevatorPosition;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+
 public class PlaceCargoCommandGroup extends CommandGroup {
+
   /**
-   * It has to place the cargo on the specified level by
-   * Driving to the port
-   * Elevating the Handler to the desired level
-   * Driving and elevating runs in parallel
-   * Shoot the cargo
+   * It has to place the cargo on the specified level by Driving to the port
+   * Elevating the Handler to the desired level Driving and elevating runs in
+   * parallel Shoot the cargo
    */
   public PlaceCargoCommandGroup(ElevatorPosition whichCargo, Telepath r) {
     // Add Commands here:
@@ -43,7 +44,7 @@ public class PlaceCargoCommandGroup extends CommandGroup {
     requires(r.getHandler());
 
     //Driving to the port
-    addParallel(new DriveToHatchCommand(r));
+         // addParallel(new DriveToHatchCommand(r));
     //FIXME check if the alignment system works for cargo and hatch
     //Elevating the Handler to the desired level
     addSequential(new GoToElevatorPositionCommand(whichCargo, r));
@@ -51,6 +52,8 @@ public class PlaceCargoCommandGroup extends CommandGroup {
     // FIXME How well does elevation stay id drive takes more time than Elevator?
     //Shoot the cargo
     addSequential(new ShootCargoCommand(r));
+
+    addSequential(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_LOW,r));
     /**
      * TODO Return Elevator to floor
      */

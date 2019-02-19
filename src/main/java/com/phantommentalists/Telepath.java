@@ -89,7 +89,7 @@ public class Telepath extends TimedRobot {
       drive = new Drive(this);
     }
     if (Parameters.HANDLER_AVAILABLE) {
-      handler = new Handler();
+      handler = new Handler(this);
     }
     if (Parameters.ELEVATOR_AVAILABLE) {
       elevator = new Elevator(this);

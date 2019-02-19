@@ -7,7 +7,6 @@
 
 package com.phantommentalists.commands;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
 import com.phantommentalists.Parameters.AutoMode;
@@ -20,6 +19,7 @@ public class ElevatorRunUpCommand extends Command {
    * Run the elevator up open loop
    */
   private Elevator elevator;
+  double power;
 
   public ElevatorRunUpCommand(Telepath r) {
     elevator = r.getElevator();
@@ -34,12 +34,15 @@ public class ElevatorRunUpCommand extends Command {
   protected void initialize() {
     elevator.setMode(AutoMode.MANUAL);
     System.out.println("ElevatorRunUp init");
+    power = Parameters.ELEVATOR_MANUAL_SPEED/2.0;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    elevator.setPower(Parameters.ELEVATOR_MANUAL_SPEED);
+    power = power + Parameters.ELEVATOR_MANUAL_SPEED/20.0;
+    power = Math.min(power, Parameters.ELEVATOR_MANUAL_SPEED);
+    elevator.setPower(power);
     System.out.println("UpElevatorRun exec");
   }
 
@@ -53,11 +56,13 @@ public class ElevatorRunUpCommand extends Command {
   @Override
   protected void end() {
     elevator.stopMotor();
+    System.out.println("UpElevatorRun end");
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    System.out.println("UpElevatorRun interrupted");
   }
 }

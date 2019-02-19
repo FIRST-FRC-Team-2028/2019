@@ -44,10 +44,12 @@ public class HatchHandler extends Subsystem {
     suction.set(Value.kForward);
   }
 
+
   public boolean hasVacuum() {
     /** 
      * FIXME How do we sense whether vacuum is established or released?
      */
+
     return false;
   }
 }
