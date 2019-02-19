@@ -8,6 +8,7 @@
 package com.phantommentalists.commands;
 
 import com.phantommentalists.Telepath;
+import com.phantommentalists.subsystems.Drive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -16,11 +17,13 @@ public class DriveToHatchCommand extends Command {
    * Uses the align method to line up with the tape
    * This is because it is able to place and pick up hatches accurately
    */
+  private Drive drive;
 
   public DriveToHatchCommand(Telepath r) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(r.getDrive());
+    drive = r.getDrive();
+    requires(drive);
   }
 
   // Called just before this Command runs the first time
@@ -32,7 +35,6 @@ public class DriveToHatchCommand extends Command {
   @Override
   protected void execute() {
     //TODO use Ricky's Align method
-    
   }
 
   // Make this return true when this Command no longer needs to run execute()

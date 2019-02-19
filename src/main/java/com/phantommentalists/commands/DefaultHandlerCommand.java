@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DefaultHandlerCommand extends Command {
   private Handler handler;
-  private Telepath robot;
   private OI oi;
   
   public DefaultHandlerCommand(Telepath r) {
@@ -39,6 +38,7 @@ public class DefaultHandlerCommand extends Command {
   @Override
   protected void execute() {
     handler.setLeadScrewPower(oi.getSlider());
+    //FIXME switch to a button or such for competition
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -50,13 +50,13 @@ public class DefaultHandlerCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    handler.setLeadScrewPower(0.);
+    handler.stopHatchHandler();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    handler.setLeadScrewPower(0.);
+    handler.stopHatchHandler();
   }
 }

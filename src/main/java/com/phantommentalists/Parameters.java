@@ -268,10 +268,10 @@ public class Parameters {
 
   public static final double HATCHHANDLER_MOTOR_SPEED = 0.0;
   public static final int HATCHHANDLER_ZERO_POSITION = 0;
-  public static final double HATCHHANDLER_DEPLOY_POSITION = 10;
+  public static final double HATCHHANDLER_DEPLOY_POSITION = 110;
   public static final double HATCHHANDLER_ZEROING_SPEED = 0;
-  public static final double HATCHHANDLER_RETRACTED_POSITION = 20;
-  public static final double HATCHHANDLER_ZEROING_CURRENT_LIMIT = 2.0;
+  public static final double HATCHHANDLER_RETRACTED_POSITION = 10;
+  public static final double HATCHHANDLER_ZEROING_CURRENT_LIMIT = 5.0;
   public static final double HATCHHANDLER_SET_POINT_CLOSE = 100;
 
   public static final double CARGO_HANDLER_INTAKE_SPEED = -1.0;

@@ -44,8 +44,10 @@ public class DefaultElevatorCommand extends Command {
   //Use buttons to move up or down if held
   @Override
   protected void execute() {
-    /*Button buttonUp=oi.getElevatorUp();
+    /*
     if(elevator.getMode() == AutoMode.ZEROING) return;
+    //TODO Interact with a hatch check
+    Button buttonUp=oi.getElevatorUp();
     if (buttonUp.get()) {
       elevator.setPower(Parameters.ELEVATOR_MANUAL_SPEED);
  
