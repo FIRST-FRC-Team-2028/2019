@@ -13,9 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CameraThread extends Thread
 {
-
-    private boolean done;
-
     private CameraAlignment grip;
     private TapePipeline tape;
     CvSink sink;
@@ -121,7 +118,7 @@ public class CameraThread extends Thread
 
                         if(f <= 3)
                         {
-                            if(angle < 90)
+                            if(angle > 90)
                             {
                                 continue;
                             }
@@ -133,35 +130,35 @@ public class CameraThread extends Thread
                         }
                         else if(f <= 5)
                         {
-                            if(angle < 90)
+                            if(angle > 90)
                             {
                                 continue;
                             }
-                            if(i.x1 < leftlinetemp.x1)
+                            if(i.x1 > rightlinetemp.x1)
                             {
-                                rightlinetemp = leftlinetemp;
-                                leftlinetemp = i;
+                                leftlinetemp = rightlinetemp;
+                                rightlinetemp = i;
                             }
                         }
                         else if(f <= 7)
                         {
-                            if(angle < 90)
+                            if(angle > 90)
                             {
                                 continue;
                             }
-                            else if(i.x1 < leftlinetemp.x1)
+                            else if(i.x1 > rightlinetemp.x1)
                             {
-                                rightlinetemp = leftlinetemp;
-                                leftlinetemp = i;
+                                leftlinetemp = rightlinetemp;
+                                rightlinetemp = i;
                             }
                         }
                         else if(f <= 9)
                         {
-                            if(angle < 90)
+                            if(angle > 90)
                             {
                                 continue;
                             }
-                            if(Math.abs(Parameters.CAM_WIDTH-i.x1) < Math.abs(Parameters.CAM_WIDTH-leftlinetemp.x1))
+                            if(Math.abs((Parameters.CAM_WIDTH/2) - i.x1) < Math.abs((Parameters.CAM_WIDTH/2) - leftlinetemp.x1))
                             {
                                 rightlinetemp = leftlinetemp;
                                 leftlinetemp = i;
@@ -217,7 +214,9 @@ public class CameraThread extends Thread
         return count;
     }
 
-    public Line getLeftline()
+    public Line getLeftline(
+
+    )
     {
         return highperm;
     }
@@ -228,11 +227,12 @@ public class CameraThread extends Thread
 
     public double getDistance()
     {
-        // Tft/Tpixel = FOVft/FOVpixel and FOVft = 2*w = 2*d*tan(@)
-        // d = Tft*FOVpixel / (2*Tpixel*tan(@))
-        double Tpixel = getLeft().length();
-        double distance = (0.458333);
-        return distance;
+        return 0;
+    //     // Tft/Tpixel = FOVft/FOVpixel and FOVft = 2*w = 2*d*tan(@)
+    //     // d = Tft*FOVpixel / (2*Tpixel*tan(@))
+    //     double Tpixel = getLeft().length();
+    //     double distance = (0.458333);
+    //     return distance;
     }
 
     /**

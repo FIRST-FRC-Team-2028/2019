@@ -44,7 +44,9 @@ public class PickUpHatchCommandGroup extends CommandGroup {
     requires(r.getDrive());
 
     //Move the elevator to the HATCH_LEVEL_1 position
-    addParallel(new GoToElevatorPositionCommand(ElevatorPosition.HATCH_LOW, r));
+    addSequential(new GoToElevatorPositionCommand(ElevatorPosition.HATCH_LOW, r));
+    
+    addParallel(new ElevatorHoldPositionTimeCommand(r, 4));
     //To pickup the hatch the command extends/deploys Hatch Handler
     addSequential(new DeployHatchHandlerCommand(r));
     //Deploying it runs in parallel with the elevator

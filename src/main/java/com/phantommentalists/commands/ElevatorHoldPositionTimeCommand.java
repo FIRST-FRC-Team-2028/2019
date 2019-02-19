@@ -7,80 +7,55 @@
 
 package com.phantommentalists.commands;
 
-//import com.phantommentalists.OI;
-//import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
-//import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.subsystems.Elevator;
 
-//import edu.wpi.first.wpilibj.buttons.JoystickButton;
-//import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.command.Command;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DefaultElevatorCommand extends Command {
-  /**
-   * Manually controls the elevator
-   */
-  private Elevator elevator;
-  private Telepath robot;
-  ///private OI oi;
+public class ElevatorHoldPositionTimeCommand extends Command {
 
-  public DefaultElevatorCommand(Telepath r) {
-    elevator = r.getElevator();
-    robot = r;
-    //oi = r.getOI();
+  Telepath robot;
+  Elevator elevator;
+  double setpoint;
+  double timeout;
+  public ElevatorHoldPositionTimeCommand(Telepath r, double timeout_) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    robot = r;
+    elevator = robot.getElevator();
+    timeout = timeout_;
     requires(elevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    setpoint = elevator.getPosition();
+    this.setTimeout(timeout);
   }
 
   // Called repeatedly when this Command is scheduled to run
-  //Use buttons to move up or down if held
   @Override
   protected void execute() {
-    /*Button buttonUp=oi.getElevatorUp();
-    if(elevator.getMode() == AutoMode.ZEROING) return;
-    if (buttonUp.get()) {
-      elevator.setPower(Parameters.ELEVATOR_MANUAL_SPEED);
- 
-    }
-    else if(oi.getElevatorDown().get()) {
-      elevator.setPower(-Parameters.ELEVATOR_MANUAL_SPEED);
-
-    }else
-    {
-      elevator.stopMotor();
-    }*/
-    elevator.stopMotor();
-
-    if ( !robot.getHandler().isHatchretracted() )
-    {
-      elevator.dontDestroyHatchHandler();
-    }
-    // elevator.setPower(oi.getSlider());
-    // SmartDashboard.putNumber("Elevator Position", elevator.getPosition());
+    elevator.holdPosition(setpoint);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return isTimedOut();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    elevator.setPower(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    elevator.setPower(0);
   }
 }

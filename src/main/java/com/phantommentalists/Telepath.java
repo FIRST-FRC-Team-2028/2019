@@ -68,9 +68,10 @@ public class Telepath extends TimedRobot {
   public Telepath() {
     if (Parameters.CAMERA_AVAILABLE){
       cam1 = CameraServer.getInstance().startAutomaticCapture(0);
-      cam2 = CameraServer.getInstance().startAutomaticCapture(1);
+      // cam2 = CameraServer.getInstance().startAutomaticCapture(1);
       server = CameraServer.getInstance().getServer();
-      sink = CameraServer.getInstance().getVideo();cam1.setResolution(Parameters.CAM_WIDTH, Parameters.CAM_HEIGHT);
+      sink = CameraServer.getInstance().getVideo();
+      cam1.setResolution(Parameters.CAM_WIDTH, Parameters.CAM_HEIGHT);
       cam1.setFPS(30);
       cam1.setExposureManual(16);
 
@@ -78,8 +79,9 @@ public class Telepath extends TimedRobot {
       sink.setSource(cam1);
       // defaultCommand = new DefaultCommand(drive);
       cameraThread = new CameraThread();
-      cameraThread.start();
+      // cameraThread.start();
     }
+    
     if(Parameters.ULTRASONIC_AVAILABLE)
     {
       ultra = new AnalogInput(0);

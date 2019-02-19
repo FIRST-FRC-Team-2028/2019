@@ -20,15 +20,17 @@ public class AlignReflectCommand extends Command {
   com.phantommentalists.TapePipeline.Line rightLine;
 
   double ultrasonic;
+  CameraThread cam;
 
   Drive drive;
   Telepath robot;
 
-  public AlignReflectCommand(Drive drive, Telepath robot) {
+  public AlignReflectCommand(Telepath robot) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    this.drive = drive;
-    this.robot=robot;
+    this.robot = robot;
+    cam = robot.getCameraThread();
+    this.drive = robot.getDrive();
     requires(drive);
   }
 
@@ -36,6 +38,7 @@ public class AlignReflectCommand extends Command {
   @Override
   protected void initialize() {
     CameraThread cam = robot.getCameraThread();
+    cam.start();
     leftLine = cam.getLeft();
     rightLine = cam.getRight();
     // FIXME MrG says DownShift
@@ -54,18 +57,19 @@ public class AlignReflectCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    
+    cam.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    cam.stop();
   }
 }

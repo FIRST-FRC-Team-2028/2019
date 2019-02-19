@@ -23,6 +23,7 @@ public class GoToElevatorPositionCommand extends Command {
   private Elevator elevator;
   boolean isTiming;
   int delay = 1;
+  
   public GoToElevatorPositionCommand(ElevatorPosition position, Telepath r) {
     elevator = r.getElevator();
     // Use requires() here to declare subsystem dependencies
@@ -55,14 +56,10 @@ public class GoToElevatorPositionCommand extends Command {
     System.out.println("GoToElevator exec");
     int error = elevator.getPosition() - position.getSetPoint();
     if (Math.abs(error) < Parameters.ELEVATOR_POSITION_ERROR) {
-      if(isTiming)
+      if(!isTiming)
       {
-
-      }
-      else
-      {
-      this.setTimeout(delay);
-      isTiming = true;
+        this.setTimeout(delay);
+        isTiming = true;
       }
     }
   }
@@ -88,5 +85,6 @@ public class GoToElevatorPositionCommand extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+  
   }
 }

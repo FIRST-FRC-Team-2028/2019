@@ -102,13 +102,13 @@ public class Elevator extends Subsystem
 
     public void dontDestroyHatchHandler()
     {
-        if(getPosition() > Parameters.ElevatorPosition.CARGO_MIDDLE.getSetPoint())
+        if(getPosition() > Parameters.ElevatorPosition.CARGO_LOW.getSetPoint())
         {
             upDown.set(ControlMode.PercentOutput, 0);
         }
         if(getPosition() < Parameters.ElevatorPosition.HATCH_LOW.getSetPoint())
         {
-            upDown.set(ControlMode.PercentOutput, 0.2);
+            upDown.set(ControlMode.Velocity, 80);
         }
     }
     /**
@@ -138,9 +138,14 @@ public class Elevator extends Subsystem
                 System.out.println("Motor Closed Loop Error: " + motorClosedLoopError);
                 System.out.println("Motor Closed Loop Target" + upDown.getClosedLoopTarget());
                 setpoint = switchPosition;
-                System.out.println("Elevator setPos auto "+switchPosition.getSetPoint());
+                System.out.println("Elevator setPos auto " + switchPosition.getSetPoint());
             }
 		}
+    }
+
+    public void holdPosition(double position)
+    {
+        upDown.set(ControlMode.Position, position);
     }
 
     /**

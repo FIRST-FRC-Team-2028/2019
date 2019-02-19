@@ -182,10 +182,12 @@ public class Handler extends Subsystem {
 
   public boolean isHatchDeployed()
   {
-    if (Math.abs(leadScrewMotor.getSelectedSensorPosition() - Parameters.HATCHHANDLER_DEPLOY_POSITION) <= Parameters.HATCHHANDLER_SET_POINT_CLOSE) {
-      return true;
-    }
-    return false;
+    // if (Math.abs(leadScrewMotor.getSelectedSensorPosition() - Parameters.HATCHHANDLER_DEPLOY_POSITION) <= Parameters.HATCHHANDLER_SET_POINT_CLOSE) {
+    //   return true;
+    // }
+    // return false;
+    // FIXME please
+    return true;
   }
 
   public boolean isHatchretracted()

@@ -51,6 +51,7 @@ public class PlaceCargoCommandGroup extends CommandGroup {
     //Driving and elevating runs in parallel
     // FIXME How well does elevation stay id drive takes more time than Elevator?
     //Shoot the cargo
+    addParallel(new ElevatorHoldPositionTimeCommand(r, 2.));
     addSequential(new ShootCargoCommand(r));
 
     addSequential(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_LOW,r));

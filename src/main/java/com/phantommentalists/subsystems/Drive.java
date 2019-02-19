@@ -71,23 +71,23 @@ public class Drive extends Subsystem {
 
     if(x < Parameters.CAM_WIDTH/4)
     {
-      diffl = 0.25;
-      diffr = -0.25;
+      diffl = 0.20;
+      diffr = -0.20;
     }
-    else if(x < (Parameters.CAM_WIDTH/2)-(Parameters.CAM_WIDTH/8))
+    else if(x < (Parameters.CAM_WIDTH/2)-(Parameters.CAM_WIDTH/7))
     {
-      diffl = -0.15;
-      diffr = 0.15;
+      diffl = -0.10;
+      diffr = 0.10;
     }
-    else if(x >= (Parameters.CAM_WIDTH/2)+(Parameters.CAM_WIDTH/8))
+    else if(x >= (Parameters.CAM_WIDTH/2)+(Parameters.CAM_WIDTH/7))
     {
-      diffl = 0.15;
-      diffr = -0.15;
+      diffl = 0.10;
+      diffr = -0.10;
     }
     else if(x >= (3*Parameters.CAM_WIDTH)/4)
     {
-      diffr = 0.25;
-      diffl = -0.25;
+      diffr = 0.20;
+      diffl = -0.20;
     }
     
     left.setPercentOutput(0.1 + diffl);

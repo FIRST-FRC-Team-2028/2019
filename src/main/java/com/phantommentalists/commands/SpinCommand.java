@@ -12,9 +12,7 @@ import com.phantommentalists.Telepath;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class SpinCommand extends Command {
-  /**
-   * FIXME Comment
-   */
+
   private Telepath robot;
 
   public SpinCommand(Telepath r) {

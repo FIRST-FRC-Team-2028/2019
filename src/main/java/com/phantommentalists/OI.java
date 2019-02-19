@@ -8,6 +8,7 @@
 package com.phantommentalists;
 
 import com.phantommentalists.commands.AlignCommand;
+import com.phantommentalists.commands.AlignReflectCommand;
 import com.phantommentalists.commands.CargoHandlerLoadCommand;
 import com.phantommentalists.commands.GoToElevatorPositionCommand;
 import com.phantommentalists.commands.PickUpCargoCommandGroup;
@@ -66,7 +67,7 @@ public class OI {
   public OI(Telepath r)
   {
     button.whileHeld(new SpinCommand(r));
-    button2.whileHeld(new AlignCommand(r));
+    button2.whileHeld(new AlignReflectCommand(r));
     if ( Parameters.BUTTONBOX_AVAILABLE) {
       buttonElevatorUp.whileHeld(new ElevatorRunUpCommand(r));
       buttonElevatorDown.whileHeld(new ElevatorRunDownCommand(r));
@@ -80,7 +81,7 @@ public class OI {
       // buttonCargoLoad.whileHeld(new CargoHandlerLoadCommand(r));
       buttonCargoLoad.whileHeld(new PickUpCargoCommandGroup(r));
       buttonCargoLoad.whenReleased(new RetractCargoIntakeCommand(r));
-      buttonCargoHandlerSuck.whileHeld(new ShootCargoCommand(r));
+      buttonCargoHandlerSuck.whileHeld(new CargoHandlerLoadCommand(r));
       buttonCargoShoot.whileHeld(new ShootCargoCommand(r));
 
       buttonCargoIntakeExtend.whileHeld(new ExtendCargoIntakeTestCommand(r));
