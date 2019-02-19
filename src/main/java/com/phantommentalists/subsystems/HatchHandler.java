@@ -21,9 +21,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class HatchHandler extends Subsystem {
 
   private DoubleSolenoid suction;
+  private boolean loadedHatch;
   public HatchHandler() {
     suction = new DoubleSolenoid(Parameters.PneumaticChannel.HANDLER_CREATE_VACUUM.getChannel(), Parameters.PneumaticChannel.HANDLER_RELEASE_VACUUM.getChannel());
-
+    loadedHatch = false;
+    //TODO How do we start the match with a hatch?
   }
 
   @Override
@@ -36,20 +38,21 @@ public class HatchHandler extends Subsystem {
    */
   public void releaseHatch() {
     suction.set(Value.kReverse);
+    loadedHatch = false;
   }
   /**
    * Applys vacuum to the hatch handlers
    */
   public void loadHatch() {
     suction.set(Value.kForward);
+    loadedHatch = true;
   }
 
 
   public boolean hasVacuum() {
     /** 
-     * FIXME How do we sense whether vacuum is established or released?
+     * We can't check; we have to watch what we've done
      */
-
-    return false;
+    return loadedHatch;
   }
 }

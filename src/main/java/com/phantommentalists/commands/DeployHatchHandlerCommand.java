@@ -53,6 +53,7 @@ public class DeployHatchHandlerCommand extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    
+    handler.retractHatch();
+    //TODO If interrupted is the Hatch Handler in the way
   }
 }

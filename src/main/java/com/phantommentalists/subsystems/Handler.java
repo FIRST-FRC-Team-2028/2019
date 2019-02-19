@@ -71,8 +71,9 @@ public class Handler extends Subsystem {
     //
     solenoid = new Solenoid(Parameters.PneumaticChannel.HANDLER_CLIMBER_ARM.getChannel());
 
-    //mode = AutoMode.ZEROING;
-    mode = AutoMode.MANUAL;
+    mode = AutoMode.ZEROING;
+    //FIXME Manual mode is only for testing, zeroing mode is for competition
+    //mode = AutoMode.MANUAL;
     zeroed = false;
   }
 
@@ -232,6 +233,7 @@ public class Handler extends Subsystem {
   {
     boolean held = cargoHandler.isCargoHeld();
     return held;
+    //FIXME There is no sensor for the Cargo Handler
   }
 
   public void extendClimbingArms() 

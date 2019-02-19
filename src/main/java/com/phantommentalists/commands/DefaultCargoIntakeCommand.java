@@ -41,7 +41,7 @@ public class DefaultCargoIntakeCommand extends Command {
   protected void execute() {
     // slider input = -1 to 1, motor out = 0 to 1
     //cargoIntake.setPower((oi.getSlider()+1)/2);
-    cargoIntake.setPower(0.);
+    cargoIntake.setPower(0.0);
   }
 
   // Make this return true when this Command no longer needs to run execute()

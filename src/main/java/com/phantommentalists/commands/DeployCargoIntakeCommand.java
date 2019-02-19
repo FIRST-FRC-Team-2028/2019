@@ -55,5 +55,6 @@ public class DeployCargoIntakeCommand extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    //FIXME should it turn off if interrupted?
   }
 }

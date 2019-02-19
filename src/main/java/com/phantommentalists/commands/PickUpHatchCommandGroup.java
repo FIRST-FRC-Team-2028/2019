@@ -56,5 +56,6 @@ public class PickUpHatchCommandGroup extends CommandGroup {
     //Collapse vacuum cups by extending a pneumatic cylinder that pulls
     //on other pneumatic cylinders (only one solenoid operated valve is needed)
     addSequential(new GrabHatchCommand(r));
+    //TODO Do we need to drive backwards just a bit to check if grabbed?
   }
 }

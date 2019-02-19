@@ -57,6 +57,7 @@ public class PlaceCargoCommandGroup extends CommandGroup {
     addSequential(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_LOW,r));
     /**
      * TODO Return Elevator to floor
+     * It returns to the floor when it's interuppted
      */
   }
 }
