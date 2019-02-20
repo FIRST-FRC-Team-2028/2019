@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DefaultCargoIntakeCommand extends Command {
   /**
    * Turns on the rollers of the Cargo Intake manually with the slider
-   * TODO This command is only used for debugging, should not be used for competition
+   * 
    */
   private CargoIntake cargoIntake;
   private OI oi;

@@ -61,10 +61,10 @@ public class DefaultElevatorCommand extends Command {
     }*/
     elevator.stopMotor();
 
-    if ( !robot.getHandler().isHatchretracted() )
-    {
-      elevator.dontDestroyHatchHandler();
-    }
+    // if ( !robot.getHandler().isHatchretracted() )
+    // {
+    //   elevator.dontDestroyHatchHandler();
+    // }
     // elevator.setPower(oi.getSlider());
     // SmartDashboard.putNumber("Elevator Position", elevator.getPosition());
   }

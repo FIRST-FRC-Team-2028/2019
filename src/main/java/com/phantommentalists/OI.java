@@ -7,12 +7,13 @@
 
 package com.phantommentalists;
 
-import com.phantommentalists.commands.AlignCommand;
 import com.phantommentalists.commands.AlignReflectCommand;
 import com.phantommentalists.commands.CargoHandlerLoadCommand;
 import com.phantommentalists.commands.GoToElevatorPositionCommand;
+import com.phantommentalists.commands.GrabHatchCommand;
 import com.phantommentalists.commands.PickUpCargoCommandGroup;
 import com.phantommentalists.commands.PlaceCargoCommandGroup;
+import com.phantommentalists.commands.ReleaseHatchCommand;
 import com.phantommentalists.commands.RetractCargoIntakeCommand;
 import com.phantommentalists.commands.ElevatorRunUpCommand;
 import com.phantommentalists.commands.ElevatorRunDownCommand;
@@ -52,6 +53,7 @@ public class OI {
   Button buttonCargoIntakeExtend = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_INTAKE_EXTEND);
   //Button buttonCargoIntakeRetract = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_INTAKE_RETRACT);
  
+  Button buttonHatchExtend = new JoystickButton(buttonBoxRight, 10);
   Button buttonCargoLoad = new JoystickButton(buttonBoxLeft, 10);
   Button buttonCargoShoot = new JoystickButton(buttonBoxLeft, 9);
   Button buttonCargoHandlerSuck = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_INTAKE);
@@ -61,6 +63,10 @@ public class OI {
   Button buttonCargo2 = new JoystickButton(buttonBoxRight, Parameters.BUTTON_CARGO_2);
   Button buttonHatch3 = new JoystickButton(buttonBoxRight, Parameters.BUTTON_HATCH_3);
   Button buttonCargo3 = new JoystickButton(buttonBoxRight, Parameters.BUTTON_CARGO_3);
+
+  Button buttonHatchSuck = new JoystickButton(stick, 5);
+  Button buttonHatchBlow = new JoystickButton(stick, 3);
+
   public Button buttonLifterRetract = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_LIFTER_RETRACT);
   public Button buttonLifterDeploy = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_LIFTER_DEPLOY);
 
@@ -77,6 +83,13 @@ public class OI {
       buttonCargo2.whenPressed(new PlaceCargoCommandGroup(Parameters.ElevatorPosition.CARGO_MIDDLE, r));
       buttonHatch3.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_HIGH, r));
       buttonCargo3.whenPressed(new PlaceCargoCommandGroup(Parameters.ElevatorPosition.CARGO_HIGH, r));
+
+      buttonHatchSuck.whenPressed(new GrabHatchCommand(r));
+      buttonHatchBlow.whenPressed(new ReleaseHatchCommand(r));
+
+      // buttonHatchExtend.whenPressed(new DeployHatchHandlerCommand(r));
+      // buttonHatchExtend.whenReleased(new HatchHandlerRetractCommand(r));
+
 
       // buttonCargoLoad.whileHeld(new CargoHandlerLoadCommand(r));
       buttonCargoLoad.whileHeld(new PickUpCargoCommandGroup(r));

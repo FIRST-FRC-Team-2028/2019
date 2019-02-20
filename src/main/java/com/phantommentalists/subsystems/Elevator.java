@@ -158,7 +158,8 @@ public class Elevator extends Subsystem
             zeroed = true;
             mode = AutoMode.MANUAL;
             SmartDashboard.putNumber("Elevator zeroed from:", getPosition());
-            upDown.setSelectedSensorPosition(0);
+            // upDown.setSelectedSensorPosition(0);
+            upDown.getSensorCollection().setQuadraturePosition(0, 0);
             upDown.configForwardSoftLimitThreshold(Parameters.ElevatorPosition.UPPER_LIMIT.getSetPoint());
             upDown.configReverseSoftLimitThreshold(Parameters.ElevatorPosition.LOWER_LIMIT.getSetPoint());
             upDown.configForwardSoftLimitEnable(true);
@@ -174,7 +175,9 @@ public class Elevator extends Subsystem
     {
         if(Parameters.ELEVATOR_AVAILABLE)
         {
-            mode = AutoMode.MANUAL;
+            if(zeroed){
+                mode = AutoMode.MANUAL;
+            }
             upDown.set(ControlMode.PercentOutput, 0.0);
         }
     }
@@ -282,6 +285,7 @@ public class Elevator extends Subsystem
                     elevatorPreviousEncoderCount = position;
                 }
             }
+
             SmartDashboard.putNumber("Elevator: Voltage", upDown.getMotorOutputVoltage());
             SmartDashboard.putNumber("Elevator: Current", getCurrent());
             SmartDashboard.putNumber("Elevator: Position", position);

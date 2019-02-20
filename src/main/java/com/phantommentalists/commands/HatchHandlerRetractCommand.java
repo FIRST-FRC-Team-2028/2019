@@ -7,69 +7,47 @@
 
 package com.phantommentalists.commands;
 
-import com.phantommentalists.CameraThread;
-import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
-import com.phantommentalists.subsystems.Drive;
+import com.phantommentalists.subsystems.Handler;
+
 import edu.wpi.first.wpilibj.command.Command;
 
-public class AlignReflectCommand extends Command {
-
-  com.phantommentalists.TapePipeline.Line leftLine;
-
-  com.phantommentalists.TapePipeline.Line rightLine;
-
-  double ultrasonic;
-  CameraThread cam;
-
-  Drive drive;
-  Telepath robot;
-
-  public AlignReflectCommand(Telepath robot) {
+public class HatchHandlerRetractCommand extends Command {
+  private Handler handler;
+  public HatchHandlerRetractCommand(Telepath r) {
+    handler = r.getHandler();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    this.robot = robot;
-    cam = robot.getCameraThread();
-    this.drive = robot.getDrive();
-    requires(drive);
+    requires(handler);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    CameraThread cam = robot.getCameraThread();
-    cam.start();
-    leftLine = cam.getLeft();
-    rightLine = cam.getRight();
-    // FIXME MrG says DownShift
+    
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(Parameters.ULTRASONIC_AVAILABLE){
-      ultrasonic = ((robot.getUltrasonic().getValue()-59.55)/7.727)+6;
-      drive.reflectiveAlignDrive(rightLine.x1, ultrasonic);
-    }
-    drive.reflectiveAlignDrive(rightLine.x1);
+    handler.retractHatch();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return handler.isHatchretracted();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    cam.stop();
+    
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    cam.stop();
   }
 }

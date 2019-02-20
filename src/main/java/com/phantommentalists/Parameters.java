@@ -26,7 +26,7 @@ public class Parameters {
   public static final boolean COMPRESSOR_AVAILABLE = true;
   public static final boolean ELEVATOR_AVAILABLE = true;
   public static final boolean HANDLER_AVAILABLE = true;
-  public static final boolean CARGO_HANDLER_AVAILABLE = false;
+  // public static final boolean CARGO_HANDLER_AVAILABLE = false;
   public static final boolean LIFTER_AVAILABLE = false;
   public static final boolean GYRO_AVAILABLE = false;
   public static final boolean BUTTONBOX_AVAILABLE = true;
@@ -156,8 +156,8 @@ public class Parameters {
   
   /** Enum to hold all information about pneumatic solenoids */
   public enum PneumaticChannel {
-    HANDLER_CREATE_VACUUM(1),
-    HANDLER_RELEASE_VACUUM(2),
+    HANDLER_CREATE_VACUUM(0),
+    HANDLER_RELEASE_VACUUM(1),
     DRIVE_SHIFT_HIGH(3), 
     DRIVE_SHIFT_LOW(4), 
     HANDLER_CLIMBER_ARM(5),
@@ -268,10 +268,10 @@ public class Parameters {
 
   public static final double HATCHHANDLER_MOTOR_SPEED = 0.0;
   public static final int HATCHHANDLER_ZERO_POSITION = 0;
-  public static final double HATCHHANDLER_DEPLOY_POSITION = 110;
-  public static final double HATCHHANDLER_ZEROING_SPEED = 0;
+  public static final int HATCHHANDLER_DEPLOY_POSITION = 110;
+  public static final double HATCHHANDLER_ZEROING_SPEED = -0.2;
   public static final double HATCHHANDLER_RETRACTED_POSITION = 10;
-  public static final double HATCHHANDLER_ZEROING_CURRENT_LIMIT = 5.0;
+  public static final double HATCHHANDLER_ZEROING_CURRENT_LIMIT = 2.0;
   public static final double HATCHHANDLER_SET_POINT_CLOSE = 100;
 
   public static final double CARGO_HANDLER_INTAKE_SPEED = -1.0;

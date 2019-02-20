@@ -65,9 +65,13 @@ public class Handler extends Subsystem {
     // leadScrewMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
     leadScrewMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
     leadScrewMotor.setSensorPhase(true);
+    leadScrewMotor.setInverted(true);
     // leadScrewMotor.configForwardSoftLimitThreshold(Parameters.HANDLER_LIMIT);
-    
-    // FIXME Set soft limit switches
+    leadScrewMotor.configForwardSoftLimitThreshold(Parameters.HATCHHANDLER_DEPLOY_POSITION);
+    leadScrewMotor.configReverseSoftLimitThreshold(Parameters.HATCHHANDLER_ZERO_POSITION);
+    leadScrewMotor.configForwardSoftLimitEnable(false);
+    leadScrewMotor.configReverseSoftLimitEnable(false);
+    // TODO set actual encoder values for limit
     //
     solenoid = new Solenoid(Parameters.PneumaticChannel.HANDLER_CLIMBER_ARM.getChannel());
 
@@ -183,12 +187,12 @@ public class Handler extends Subsystem {
 
   public boolean isHatchDeployed()
   {
-    // if (Math.abs(leadScrewMotor.getSelectedSensorPosition() - Parameters.HATCHHANDLER_DEPLOY_POSITION) <= Parameters.HATCHHANDLER_SET_POINT_CLOSE) {
-    //   return true;
-    // }
-    // return false;
+    if (Math.abs(leadScrewMotor.getSelectedSensorPosition() - Parameters.HATCHHANDLER_DEPLOY_POSITION) <= Parameters.HATCHHANDLER_SET_POINT_CLOSE) {
+      return true;
+    }
+    return false;
     // FIXME please
-    return true;
+    // return true;
   }
 
   public boolean isHatchretracted()

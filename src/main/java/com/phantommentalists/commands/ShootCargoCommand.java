@@ -21,8 +21,6 @@ public class ShootCargoCommand extends Command {
    */
   private Handler handler;
 
-  private LocalTime startTime;
-
   public ShootCargoCommand(Telepath r) {
     if(Parameters.HANDLER_AVAILABLE){
     handler = r.getHandler();
@@ -35,7 +33,6 @@ public class ShootCargoCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    startTime = LocalTime.now();
     this.setTimeout(1);
     if(Parameters.HANDLER_AVAILABLE){
     handler.stopCargoHandler();

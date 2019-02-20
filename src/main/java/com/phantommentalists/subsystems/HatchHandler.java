@@ -10,6 +10,7 @@ package com.phantommentalists.subsystems;
 import com.phantommentalists.Parameters;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -21,9 +22,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class HatchHandler extends Subsystem {
 
   private DoubleSolenoid suction;
+  private Solenoid succ;
+  private Solenoid blucc;
   private boolean loadedHatch;
   public HatchHandler() {
     suction = new DoubleSolenoid(Parameters.PneumaticChannel.HANDLER_CREATE_VACUUM.getChannel(), Parameters.PneumaticChannel.HANDLER_RELEASE_VACUUM.getChannel());
+    // succ = new Solenoid(Parameters.PneumaticChannel.HANDLER_CREATE_VACUUM.getChannel());
+    // blucc = new Solenoid(Parameters.PneumaticChannel.HANDLER_RELEASE_VACUUM.getChannel());
     loadedHatch = false;
     //TODO How do we start the match with a hatch?
   }
