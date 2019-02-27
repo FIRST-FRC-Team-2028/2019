@@ -49,10 +49,12 @@ public class PlaceCargoCommandGroup extends CommandGroup {
     //Elevating the Handler to the desired level
     addSequential(new GoToElevatorPositionCommand(whichCargo, r));
     //Driving and elevating runs in parallel
-    // FIXME How well does elevation stay id drive takes more time than Elevator?
+    // FIXME How well does elevation stay if drive takes more time than Elevator?
     //Shoot the cargo
     addParallel(new ElevatorHoldPositionTimeCommand(r, 2.));
-    addSequential(new ShootCargoCommand(r));
+    if(Parameters.CARGO_HANDLER_AVAILABLE){
+      addSequential(new ShootCargoCommand(r));
+    }
 
     addSequential(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_LOW,r));
     /**

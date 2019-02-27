@@ -7,6 +7,7 @@
 
 package com.phantommentalists.commands;
 
+import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
 import com.phantommentalists.subsystems.CargoIntake;
 
@@ -20,10 +21,12 @@ public class DeployCargoIntakeCommand extends Command {
   private CargoIntake cargoIntake;
 
   public DeployCargoIntakeCommand(Telepath r) {
-    cargoIntake = r.getCargoIntake();
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(cargoIntake);
+    if(Parameters.INTAKE_AVAILABLE){
+      cargoIntake = r.getCargoIntake();
+      // Use requires() here to declare subsystem dependencies
+      // eg. requires(chassis);
+      requires(cargoIntake);
+    }
   }
 
   // Called just before this Command runs the first time
@@ -35,20 +38,25 @@ public class DeployCargoIntakeCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    cargoIntake.deploy();
-    // FIXME cargoIntake.turnOnRollers();
+    if(Parameters.INTAKE_AVAILABLE){
+      cargoIntake.deploy();
+      // FIXME cargoIntake.turnOnRollers();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return cargoIntake.isDeployed() &&  this.isTimedOut();
+    if(Parameters.INTAKE_AVAILABLE){
+      return cargoIntake.isDeployed() &&  this.isTimedOut();
+    }else return true;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    cargoIntake.turnOnRollers();
+    if(Parameters.INTAKE_AVAILABLE){
+      cargoIntake.turnOnRollers();}
   }
 
   // Called when another command which requires one or more of the same

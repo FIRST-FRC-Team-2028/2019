@@ -50,8 +50,12 @@ public class Handler extends Subsystem {
    */
   public Handler(Telepath r) 
   {
-    cargoHandler = new CargoHandler();
-    hatchHandler = new HatchHandler();
+    if (Parameters.CARGO_HANDLER_AVAILABLE){
+     cargoHandler = new CargoHandler();
+    }
+    if(Parameters.HATCH_HANDLER_AVAILABLE){
+      hatchHandler = new HatchHandler();
+    }
     robot=r;
 
     leadScrewMotor = new TalonSRX(Parameters.CanId.HATCH_LEAD_SCREW_MOTOR.getCanId());
@@ -128,10 +132,23 @@ public class Handler extends Subsystem {
   /** 
    * Create a vacuum for each of the 3 hatch handlers.
    * Note: There is currently no way to know if a hatch handler is sealed on the hatch.
+   * Loading a hatch is a 2 step process
+   * Close the vent
+   * After a small delay apply a vaccuum
    */
-  public void loadHatch() 
+  public void applyVaccuum() 
   {
-    hatchHandler.loadHatch();
+    hatchHandler.applyVaccuum();
+  }
+
+  /**
+   * Loading a hatch is a 2 step process
+   * Close the vent
+   * After a small delay apply a vaccuum
+   */
+  public void closeVent()
+  {
+    hatchHandler.closeVent();
   }
 
   /**

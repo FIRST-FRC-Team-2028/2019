@@ -23,25 +23,31 @@ public class DefaultCargoIntakeCommand extends Command {
   private OI oi;
 
   public DefaultCargoIntakeCommand(Telepath r) {
-    cargoIntake = r.getCargoIntake();
+    if(Parameters.INTAKE_AVAILABLE){
+      cargoIntake = r.getCargoIntake();
+      // Use requires() here to declare subsystem dependencies
+      // eg. requires(chassis);
+      requires(cargoIntake);
+    }
     oi = r.getOI();
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(cargoIntake);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    cargoIntake.turnOffRollers();
+    if(Parameters.INTAKE_AVAILABLE){
+      cargoIntake.turnOffRollers();
+    }
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     // slider input = -1 to 1, motor out = 0 to 1
-    //cargoIntake.setPower((oi.getSlider()+1)/2);
-    cargoIntake.setPower(0.0);
+    // for testing: cargoIntake.setPower((oi.getSlider()+1)/2);
+    if(Parameters.INTAKE_AVAILABLE){
+      cargoIntake.setPower(0.0);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -34,9 +34,11 @@ public class DefaultDriveCommand extends Command {
   }
 
   // Called repeatedly when this Command is scheduled to run
+  // Limit the drive speed when the elevator is high to avoid tipping
   @Override
   protected void execute() {
-    double multiplier = Parameters.DRIVE_SPEED_LIMITER_ELEVATOR_CG + (1.0 - Parameters.DRIVE_SPEED_LIMITER_ELEVATOR_CG)*(1.0 - robot.getElevator().getCGHeight());
+    double multiplier = Parameters.DRIVE_SPEED_LIMITER_ELEVATOR_CG
+     + (1.0 - Parameters.DRIVE_SPEED_LIMITER_ELEVATOR_CG)*(1.0 - robot.getElevator().getCGHeight());
     robot.getDrive().tankDrive(multiplier*oi.getLeftStick(), multiplier*oi.getRightStick());
   }
 

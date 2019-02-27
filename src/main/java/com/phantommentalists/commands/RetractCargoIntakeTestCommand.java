@@ -7,6 +7,7 @@
 
 package com.phantommentalists.commands;
 
+import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
 import com.phantommentalists.subsystems.CargoIntake;
 
@@ -17,8 +18,10 @@ public class RetractCargoIntakeTestCommand extends Command {
   public RetractCargoIntakeTestCommand(Telepath r) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    cargoIntake = r.getCargoIntake();
-    requires(cargoIntake);
+    if(Parameters.INTAKE_AVAILABLE){
+      cargoIntake = r.getCargoIntake();
+      requires(cargoIntake);
+    }
   }
 
   // Called just before this Command runs the first time
@@ -29,7 +32,10 @@ public class RetractCargoIntakeTestCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    cargoIntake.retract();
+    
+    if(Parameters.INTAKE_AVAILABLE){
+      cargoIntake.retract();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

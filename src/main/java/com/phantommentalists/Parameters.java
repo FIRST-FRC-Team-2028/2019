@@ -22,11 +22,12 @@ public class Parameters {
    */
   public static final boolean DRIVE_AVAILABLE = true;
   public static final boolean CAMERA_AVAILABLE = false;
-  public static final boolean INTAKE_AVAILABLE = true;
+  public static final boolean INTAKE_AVAILABLE = false;
   public static final boolean COMPRESSOR_AVAILABLE = true;
   public static final boolean ELEVATOR_AVAILABLE = true;
   public static final boolean HANDLER_AVAILABLE = true;
-  // public static final boolean CARGO_HANDLER_AVAILABLE = false;
+  public static final boolean HATCH_HANDLER_AVAILABLE = true;
+  public static final boolean CARGO_HANDLER_AVAILABLE = true;
   public static final boolean LIFTER_AVAILABLE = false;
   public static final boolean GYRO_AVAILABLE = false;
   public static final boolean BUTTONBOX_AVAILABLE = true;
@@ -92,10 +93,13 @@ public class Parameters {
   public static final int BUTTON_CARGO_2 = 4;
   public static final int BUTTON_HATCH_3 = 1;
   public static final int BUTTON_CARGO_3 = 2;
+  public static final int SWITCH_BLUE = 11;
 
   
-  public static final int ELEVATOR_PID_CRUISE_VELOCITY = 2000;
-  public static final int ELEVATOR_PID_CRUISE_ACCEL = 2000;
+  public static final int ELEVATOR_PID_CRUISE_VELOCITY_UP = 2000;
+  public static final int ELEVATOR_PID_CRUISE_ACCEL_UP = 2000;
+  public static final int ELEVATOR_PID_CRUISE_VELOCITY_DOWN = 100;
+  public static final int ELEVATOR_PID_CRUISE_ACCEL_DOWN = 100;
   public static final double ELEVATOR_ZEROING_SPEED = -0.25;
   public static final int ELEVATOR_POSITION_ERROR = 1500;
   public static final double ELEVATOR_MANUAL_SPEED = 0.6;
@@ -103,9 +107,9 @@ public class Parameters {
   public static final int ELEVATOR_ZEROING_ENCODER_LIMIT = 10;
   public enum ElevatorPosition {
     LOWER_LIMIT(200),
-    HATCH_LOW(900),
-    HATCH_MIDDLE(15000),
-    HATCH_HIGH(27000),
+    HATCH_LOW(6105),
+    HATCH_MIDDLE(16500),
+    HATCH_HIGH(26700),
     CARGO_LOW(5300),
     CARGO_MIDDLE(16500),
     CARGO_HIGH(26500),
@@ -143,7 +147,7 @@ public class Parameters {
   public static final int DRIVE_CURRENT_LIMIT_PEAK_DURATION = 300;
   public static final boolean DRIVE_SHIFTER_ENABLE = true;
   public static final double DRIVE_SHIFT_TIME_INTERVAL = 1.0;
-  public static final double DRIVE_SPEED_LIMITER_ELEVATOR_CG = 0.2;
+  public static final double DRIVE_SPEED_LIMITER_ELEVATOR_CG = 0.3;
 
   public enum DriveGearbox {
     /** We're deploying on practice robot with dual CIM motor gearbox */
@@ -161,8 +165,10 @@ public class Parameters {
     DRIVE_SHIFT_HIGH(3), 
     DRIVE_SHIFT_LOW(4), 
     HANDLER_CLIMBER_ARM(5),
-    CARGO_INTAKE_EXTENDER(6),
-    CARGO_INTAKE_RETRACT(7);
+    //CARGO_INTAKE_EXTENDER(6),
+    //CARGO_INTAKE_RETRACT(7), 
+    HANDLER_VENT_CLOSED(6), 
+    HANDLER_VENT_OPEN(7);
 
     private int channel;
 
@@ -271,8 +277,9 @@ public class Parameters {
   public static final int HATCHHANDLER_DEPLOY_POSITION = 110;
   public static final double HATCHHANDLER_ZEROING_SPEED = -0.2;
   public static final double HATCHHANDLER_RETRACTED_POSITION = 10;
-  public static final double HATCHHANDLER_ZEROING_CURRENT_LIMIT = 2.0;
+  public static final double HATCHHANDLER_ZEROING_CURRENT_LIMIT = 2.0;  //amps
   public static final double HATCHHANDLER_SET_POINT_CLOSE = 100;
+  public static final double HATCHHANDLER_VACCUUM_DELAY = 1.0;  //seconds
 
   public static final double CARGO_HANDLER_INTAKE_SPEED = -1.0;
   public static final double CARGO_HANDLER_SHOOT_SPEED = 1.0;

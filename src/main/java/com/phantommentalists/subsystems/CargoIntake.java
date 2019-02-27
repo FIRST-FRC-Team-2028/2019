@@ -28,7 +28,7 @@ import com.phantommentalists.commands.DefaultCargoIntakeCommand;
  */
 public class CargoIntake extends Subsystem {
   TalonSRX roller;
-  DoubleSolenoid extender;
+  TalonSRX extender;
   private Telepath robot;
 
   /**
@@ -38,13 +38,14 @@ public class CargoIntake extends Subsystem {
     if (Parameters.INTAKE_AVAILABLE) {
       robot = r;
       roller = new TalonSRX(CanId.CARGO_INTAKE.getCanId());
-      extender = new DoubleSolenoid(Parameters.PneumaticChannel.CARGO_INTAKE_EXTENDER.getChannel(), Parameters.PneumaticChannel.CARGO_INTAKE_RETRACT.getChannel());
+      //FIXME
+      //extender = new DoubleSolenoid(Parameters.PneumaticChannel.CARGO_INTAKE_EXTENDER.getChannel(), Parameters.PneumaticChannel.CARGO_INTAKE_RETRACT.getChannel());
 
       roller.set(ControlMode.PercentOutput, 0.0);
       roller.setNeutralMode(NeutralMode.Brake);
       roller.setInverted(Parameters.CanId.CARGO_INTAKE.isInverted());
 
-      extender.set(Parameters.CARGO_INTAKE_RETRACT);
+      //extender.set(Parameters.CARGO_INTAKE_RETRACT);
     }
   }
 
@@ -60,15 +61,23 @@ public class CargoIntake extends Subsystem {
     }
   }
 
+  /**
+   * run the extender motor
+   * Run to encoder deployed position 
+   */
   public void deploy() {
     if (Parameters.INTAKE_AVAILABLE) {
-      extender.set(Parameters.CARGO_INTAKE_EXTEND);
+      //extender.set(Parameters.CARGO_INTAKE_EXTEND);
     }
   }
 
+  /**
+   * run extender motor to retract
+   * Run to zero encoder position
+   */
   public void retract() {
     if (Parameters.INTAKE_AVAILABLE) {
-      extender.set(Parameters.CARGO_INTAKE_RETRACT);
+      //extender.set(Parameters.CARGO_INTAKE_RETRACT);
     }
   }
 
@@ -94,7 +103,7 @@ public class CargoIntake extends Subsystem {
    */
   public boolean isDeployed() {
     if (Parameters.INTAKE_AVAILABLE) {
-      Value ds = extender.get();
+      Value ds = Value.kForward; //FIXME extender.get();
       if (ds == Value.kForward)
       {
         return true;
@@ -114,7 +123,7 @@ public class CargoIntake extends Subsystem {
    */
   public boolean isRetracted() {
     if (Parameters.INTAKE_AVAILABLE) {
-      Value ds = extender.get();
+      Value ds = Value.kReverse; //FIXME extender.get();
       if (ds == Value.kReverse)
       {
         return true;

@@ -56,8 +56,7 @@ public class Elevator extends Subsystem
             upDown.configNominalOutputReverse(0);
             upDown.configPeakOutputForward(1);
             upDown.configPeakOutputReverse(-1);
-            upDown.configMotionCruiseVelocity(Parameters.ELEVATOR_PID_CRUISE_VELOCITY);
-            upDown.configMotionAcceleration(Parameters.ELEVATOR_PID_CRUISE_ACCEL);
+            setMotionMagicParametersUp();
             upDown.configAllowableClosedloopError(1, Parameters.ELEVATOR_POSITION_ERROR, 0);
             upDown.set(ControlMode.PercentOutput, 0.0);
             upDown.setNeutralMode(NeutralMode.Brake);
@@ -132,6 +131,15 @@ public class Elevator extends Subsystem
 		{
             if (mode == AutoMode.AUTO)
             {
+                //set the velocity and the acceleration by determining if the elevator
+                //is going up or down
+                //go slower going down because gravity is helping
+                if(switchPosition.getSetPoint() > getPosition()){
+                    setMotionMagicParametersUp();
+                }
+                else if (switchPosition.getSetPoint() < getPosition()){
+                    setMotionMagicParametersDown();
+                }
                 // upDown.set(ControlMode.Position, switchPosition.getSetPoint());
                 upDown.set(ControlMode.MotionMagic, switchPosition.getSetPoint());
                 int motorClosedLoopError = upDown.getClosedLoopError();
@@ -141,6 +149,15 @@ public class Elevator extends Subsystem
                 System.out.println("Elevator setPos auto " + switchPosition.getSetPoint());
             }
 		}
+    }
+
+    public void setMotionMagicParametersUp(){
+        upDown.configMotionCruiseVelocity(Parameters.ELEVATOR_PID_CRUISE_VELOCITY_UP);
+        upDown.configMotionAcceleration(Parameters.ELEVATOR_PID_CRUISE_ACCEL_UP);
+    }
+    public void setMotionMagicParametersDown(){
+        upDown.configMotionCruiseVelocity(Parameters.ELEVATOR_PID_CRUISE_VELOCITY_DOWN);
+        upDown.configMotionAcceleration(Parameters.ELEVATOR_PID_CRUISE_ACCEL_DOWN);
     }
 
     public void holdPosition(double position)

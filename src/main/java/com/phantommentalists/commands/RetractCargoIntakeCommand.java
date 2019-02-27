@@ -7,6 +7,7 @@
 
 package com.phantommentalists.commands;
 
+import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -21,7 +22,9 @@ public class RetractCargoIntakeCommand extends Command {
     robot = r;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(robot.getCargoIntake());
+    if(Parameters.INTAKE_AVAILABLE){
+      requires(robot.getCargoIntake());
+    }
   }
 
   // Called just before this Command runs the first time
@@ -32,14 +35,19 @@ public class RetractCargoIntakeCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    robot.getCargoIntake().turnOffRollers();
-    robot.getCargoIntake().retract();
+    if(Parameters.INTAKE_AVAILABLE){
+      robot.getCargoIntake().turnOffRollers();
+      robot.getCargoIntake().retract();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return robot.getCargoIntake().isRetracted();
+    if(Parameters.INTAKE_AVAILABLE){
+      return robot.getCargoIntake().isRetracted();
+    }
+    else return true;
   }
 
   // Called once after isFinished returns true

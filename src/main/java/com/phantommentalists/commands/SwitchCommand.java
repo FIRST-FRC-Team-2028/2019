@@ -7,24 +7,18 @@
 
 package com.phantommentalists.commands;
 
-import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
-import com.phantommentalists.subsystems.CargoIntake;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ExtendCargoIntakeTestCommand extends Command {
-  CargoIntake cargoIntake;
-  Timer timer;
-
-  public ExtendCargoIntakeTestCommand(Telepath r) {
+public class SwitchCommand extends Command {
+  Telepath robot;
+  boolean switchPosition;
+  public SwitchCommand(Telepath r, boolean state) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    if(Parameters.INTAKE_AVAILABLE){
-      cargoIntake = r.getCargoIntake();
-      requires(cargoIntake);
-    }
+    robot = r;
+    switchPosition = state;
   }
 
   // Called just before this Command runs the first time
@@ -35,22 +29,18 @@ public class ExtendCargoIntakeTestCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    
-    if(Parameters.INTAKE_AVAILABLE){
-      cargoIntake.deploy();
-    }
+    robot.setBlue(switchPosition);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    System.out.println("extendCargoIntakeCommand end method");
   }
 
   // Called when another command which requires one or more of the same

@@ -21,6 +21,7 @@ import com.phantommentalists.commands.SpinCommand;
 import com.phantommentalists.commands.ExtendCargoIntakeTestCommand;
 import com.phantommentalists.commands.RetractCargoIntakeTestCommand;
 import com.phantommentalists.commands.ShootCargoCommand;
+import com.phantommentalists.commands.SwitchCommand;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -63,6 +64,7 @@ public class OI {
   Button buttonCargo2 = new JoystickButton(buttonBoxRight, Parameters.BUTTON_CARGO_2);
   Button buttonHatch3 = new JoystickButton(buttonBoxRight, Parameters.BUTTON_HATCH_3);
   Button buttonCargo3 = new JoystickButton(buttonBoxRight, Parameters.BUTTON_CARGO_3);
+  Button switchBlue = new JoystickButton(buttonBoxRight, Parameters.SWITCH_BLUE);
 
   Button buttonHatchSuck = new JoystickButton(stick, 5);
   Button buttonHatchBlow = new JoystickButton(stick, 3);
@@ -100,6 +102,8 @@ public class OI {
       buttonCargoIntakeExtend.whileHeld(new ExtendCargoIntakeTestCommand(r));
       //buttonCargoIntakeRetract.whileHeld(new RetractCargoIntakeTestCommand(r));
       buttonCargoIntakeExtend.whenReleased(new RetractCargoIntakeTestCommand(r));
+      switchBlue.whileHeld(new SwitchCommand(r, true));
+      switchBlue.whenPressed(new SwitchCommand(r, false));
     }
     String type = DriverStation.getInstance().getJoystickName(0);
     SmartDashboard.putString("controller name ", type);

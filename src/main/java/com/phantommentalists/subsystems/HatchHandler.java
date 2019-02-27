@@ -10,7 +10,6 @@ package com.phantommentalists.subsystems;
 import com.phantommentalists.Parameters;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -22,15 +21,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class HatchHandler extends Subsystem {
 
   private DoubleSolenoid suction;
-  private Solenoid succ;
-  private Solenoid blucc;
+  private DoubleSolenoid vent;
   private boolean loadedHatch;
+  double timeout;
   public HatchHandler() {
     suction = new DoubleSolenoid(Parameters.PneumaticChannel.HANDLER_CREATE_VACUUM.getChannel(), Parameters.PneumaticChannel.HANDLER_RELEASE_VACUUM.getChannel());
-    // succ = new Solenoid(Parameters.PneumaticChannel.HANDLER_CREATE_VACUUM.getChannel());
-    // blucc = new Solenoid(Parameters.PneumaticChannel.HANDLER_RELEASE_VACUUM.getChannel());
+    vent = new DoubleSolenoid(Parameters.PneumaticChannel.HANDLER_VENT_CLOSED.getChannel(), Parameters.PneumaticChannel.HANDLER_VENT_OPEN.getChannel());
     loadedHatch = false;
-    //TODO How do we start the match with a hatch?
   }
 
   @Override
@@ -40,18 +37,30 @@ public class HatchHandler extends Subsystem {
   }
   /**
    * Releases the vacuum on the hatch handlers
+   * By opening the vent
+   * Cycle the vaccuum solenoid
    */
   public void releaseHatch() {
     suction.set(Value.kReverse);
+    vent.set(Value.kReverse);
     loadedHatch = false;
   }
   /**
-   * Applys vacuum to the hatch handlers
+   * Loading the hatch is a 2 step process
+   * Close the vent
+   * After a small delay apply a vaccuum
    */
-  public void loadHatch() {
+  public void closeVent() {
+    vent.set(Value.kForward);
+    loadedHatch = true;
+  }
+
+  public void applyVaccuum() {
     suction.set(Value.kForward);
     loadedHatch = true;
   }
+
+
 
 
   public boolean hasVacuum() {

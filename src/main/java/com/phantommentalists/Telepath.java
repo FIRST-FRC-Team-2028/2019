@@ -60,6 +60,7 @@ public class Telepath extends TimedRobot {
   UsbCamera cam2;
   VideoSink server;
   CvSink sink;
+  boolean blueSwitch;
   
 
   /**
@@ -111,6 +112,16 @@ public class Telepath extends TimedRobot {
     if (Parameters.COMPRESSOR_AVAILABLE) {
       pressure = new Pressure();
     }
+  }
+
+  void setBlue(boolean state)
+  {
+    blueSwitch = state;
+  }
+
+  boolean getBlue()
+  {
+    return blueSwitch;
   }
 
   /**
