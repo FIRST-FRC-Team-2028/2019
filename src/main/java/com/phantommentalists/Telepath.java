@@ -22,7 +22,7 @@ import com.phantommentalists.subsystems.CargoIntake;
 import com.phantommentalists.subsystems.Drive;
 import com.phantommentalists.subsystems.Elevator;
 import com.phantommentalists.subsystems.Handler;
-import com.phantommentalists.subsystems.Lifter;
+//import com.phantommentalists.subsystems.Lifter;
 import com.phantommentalists.subsystems.PDP;
 import com.phantommentalists.subsystems.Pressure;
 
@@ -47,7 +47,7 @@ public class Telepath extends TimedRobot {
   private Drive drive;
   private OI oi;
   private Pressure pressure;
-  private Lifter lifter;
+  //private Lifter lifter;
   private GyroBase gyro;
   private PIDController liftLeveler;
   private PDP pdp;
@@ -100,13 +100,13 @@ public class Telepath extends TimedRobot {
     if (Parameters.INTAKE_AVAILABLE) {
       cargoIntake = new CargoIntake(this);
     }
-    if (Parameters.LIFTER_AVAILABLE) {
-      lifter = new Lifter(this);
-    }
-    if (Parameters.GYRO_AVAILABLE) {
-      gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
-      liftLeveler = new PIDController(Parameters.LIFT_LEVELER_Kp, Parameters.LIFT_LEVELER_Ki, Parameters.LIFT_LEVELER_Kd, gyro, lifter);
-    }
+    //if (Parameters.LIFTER_AVAILABLE) {
+      //lifter = new Lifter(this);
+    //}
+    //if (Parameters.GYRO_AVAILABLE) {
+      //gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
+      //liftLeveler = new PIDController(Parameters.LIFT_LEVELER_Kp, Parameters.LIFT_LEVELER_Ki, Parameters.LIFT_LEVELER_Kd, gyro, lifter);
+    //}
     oi = new OI(this);
     pdp = new PDP(); 
     if (Parameters.COMPRESSOR_AVAILABLE) {
@@ -177,9 +177,9 @@ public class Telepath extends TimedRobot {
    * 
    * @return Lifter - The lifter subsystem
    */
-  public Lifter getLifter() {
-    return lifter;
-  }
+  //public Lifter getLifter() {
+    //return lifter;
+  //}
 
   /**
    * Getter for the OI
@@ -287,9 +287,9 @@ public class Telepath extends TimedRobot {
     if (Parameters.INTAKE_AVAILABLE) {
       cargoIntake.process();
     }
-    if (Parameters.LIFTER_AVAILABLE) {
-      lifter.process();
-    }
+    //if (Parameters.LIFTER_AVAILABLE) {
+    //  lifter.process();
+    //}
   }
 
   @Override
@@ -335,9 +335,9 @@ public class Telepath extends TimedRobot {
     if (Parameters.INTAKE_AVAILABLE) {
       cargoIntake.process();
     }
-    if (Parameters.LIFTER_AVAILABLE) {
-      lifter.process();
-    }
+    //if (Parameters.LIFTER_AVAILABLE) {
+    //  lifter.process();
+    //}
   }
 
   /**
@@ -358,8 +358,8 @@ public class Telepath extends TimedRobot {
     if (Parameters.INTAKE_AVAILABLE) {
       cargoIntake.process();
     }
-    if (Parameters.LIFTER_AVAILABLE) {
-      lifter.process();
-    }
+    //if (Parameters.LIFTER_AVAILABLE) {
+      //lifter.process();
+    //}
   }
 }
