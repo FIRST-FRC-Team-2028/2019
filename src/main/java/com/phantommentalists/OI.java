@@ -9,6 +9,7 @@ package com.phantommentalists;
 
 import com.phantommentalists.commands.AlignReflectCommand;
 import com.phantommentalists.commands.CargoHandlerLoadCommand;
+import com.phantommentalists.commands.CargoIntakeLoadCommand;
 import com.phantommentalists.commands.GoToElevatorPositionCommand;
 import com.phantommentalists.commands.GrabHatchCommand;
 import com.phantommentalists.commands.PickUpCargoCommandGroup;
@@ -52,12 +53,12 @@ public class OI {
   Button buttonElevatorDown = new JoystickButton(buttonBoxRight, Parameters.BUTTON_ELEVATOR_DOWN);
 
   Button buttonCargoIntakeExtend = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_INTAKE_EXTEND);
-  //Button buttonCargoIntakeRetract = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_INTAKE_RETRACT);
+  Button buttonCargoIntakeRetract = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_INTAKE_RETRACT);
  
   Button buttonHatchExtend = new JoystickButton(buttonBoxRight, 10);
-  Button buttonCargoLoad = new JoystickButton(buttonBoxLeft, 10);
-  Button buttonCargoShoot = new JoystickButton(buttonBoxLeft, 9);
-  Button buttonCargoHandlerSuck = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_INTAKE);
+  Button buttonCargoLoad = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_RUN_BOTH_ROLLERS);
+  Button buttonCargoShoot = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_HANDLER_INTAKE);
+  Button buttonCargoHandlerSuck = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_HANDLER_INTAKE);
   Button buttonHatch1get = new JoystickButton(buttonBoxRight, Parameters.BUTTON_HATCH_1);
   Button buttonCargo1get = new JoystickButton(buttonBoxRight, Parameters.BUTTON_CARGO_1);
   Button buttonHatch2 = new JoystickButton(buttonBoxRight, Parameters.BUTTON_HATCH_2);
@@ -66,11 +67,11 @@ public class OI {
   Button buttonCargo3 = new JoystickButton(buttonBoxRight, Parameters.BUTTON_CARGO_3);
   Button switchBlue = new JoystickButton(buttonBoxRight, Parameters.SWITCH_BLUE);
 
-  Button buttonHatchSuck = new JoystickButton(stick, 5);
-  Button buttonHatchBlow = new JoystickButton(stick, 3);
+  Button buttonHatchSuck = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_HATCHHANDLER_SUCK);
+  Button buttonHatchBlow = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_HATCHHANDLER_BLOW);
 
-  public Button buttonLifterRetract = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_LIFTER_RETRACT);
-  public Button buttonLifterDeploy = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_LIFTER_DEPLOY);
+  // public Button buttonLifterRetract = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_LIFTER_RETRACT);
+  // public Button buttonLifterDeploy = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_LIFTER_DEPLOY);
 
   public OI(Telepath r)
   {
@@ -94,14 +95,17 @@ public class OI {
 
 
       // buttonCargoLoad.whileHeld(new CargoHandlerLoadCommand(r));
-      buttonCargoLoad.whileHeld(new PickUpCargoCommandGroup(r));
-      buttonCargoLoad.whenReleased(new RetractCargoIntakeCommand(r));
+      // buttonCargoLoad.whileHeld(new PickUpCargoCommandGroup(r));
+      // buttonCargoLoad.whenReleased(new RetractCargoIntakeCommand(r));
+
       buttonCargoHandlerSuck.whileHeld(new CargoHandlerLoadCommand(r));
+      buttonCargoLoad.whileHeld(new CargoIntakeLoadCommand(r));
       buttonCargoShoot.whileHeld(new ShootCargoCommand(r));
 
       buttonCargoIntakeExtend.whileHeld(new ExtendCargoIntakeTestCommand(r));
-      //buttonCargoIntakeRetract.whileHeld(new RetractCargoIntakeTestCommand(r));
-      buttonCargoIntakeExtend.whenReleased(new RetractCargoIntakeTestCommand(r));
+      buttonCargoIntakeRetract.whileHeld(new RetractCargoIntakeTestCommand(r));
+    
+      //buttonCargoIntakeExtend.whenReleased(new RetractCargoIntakeTestCommand(r));
       switchBlue.whileHeld(new SwitchCommand(r, true));
       switchBlue.whenPressed(new SwitchCommand(r, false));
     }

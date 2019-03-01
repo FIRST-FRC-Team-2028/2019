@@ -114,12 +114,12 @@ public class Telepath extends TimedRobot {
     }
   }
 
-  void setBlue(boolean state)
+  public void setBlue(boolean state)
   {
     blueSwitch = state;
   }
 
-  boolean getBlue()
+  public boolean getBlue()
   {
     return blueSwitch;
   }

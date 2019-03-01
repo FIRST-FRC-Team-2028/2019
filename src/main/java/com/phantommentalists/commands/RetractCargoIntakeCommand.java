@@ -45,7 +45,7 @@ public class RetractCargoIntakeCommand extends Command {
   @Override
   protected boolean isFinished() {
     if(Parameters.INTAKE_AVAILABLE){
-      return robot.getCargoIntake().isRetracted();
+      return robot.getCargoIntake().isAtEnd();
     }
     else return true;
   }
@@ -53,11 +53,13 @@ public class RetractCargoIntakeCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    robot.getCargoIntake().stopExtendMotor();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    robot.getCargoIntake().stopExtendMotor();
   }
 }

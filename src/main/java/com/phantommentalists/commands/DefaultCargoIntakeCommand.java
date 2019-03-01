@@ -13,6 +13,7 @@ import com.phantommentalists.Telepath;
 import com.phantommentalists.subsystems.CargoIntake;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DefaultCargoIntakeCommand extends Command {
   /**
@@ -47,6 +48,9 @@ public class DefaultCargoIntakeCommand extends Command {
     // for testing: cargoIntake.setPower((oi.getSlider()+1)/2);
     if(Parameters.INTAKE_AVAILABLE){
       cargoIntake.setPower(0.0);
+      // cargoIntake.setPowerExtender(-oi.getSlider());
+      //cargoIntake.setPowerExtender(0.);
+      SmartDashboard.putNumber("OI Slider: ", oi.getSlider());
     }
   }
 
@@ -59,11 +63,13 @@ public class DefaultCargoIntakeCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    cargoIntake.stopExtendMotor();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    cargoIntake.stopExtendMotor();
   }
 }

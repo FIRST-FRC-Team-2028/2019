@@ -61,7 +61,7 @@ public class DefaultElevatorCommand extends Command {
     }*/
     elevator.stopMotor();
 
-    // if ( !robot.getHandler().isHatchretracted() )
+    // if ( !robot.getHandler().isHatchRetracted() )
     // {
     //   elevator.dontDestroyHatchHandler();
     // }

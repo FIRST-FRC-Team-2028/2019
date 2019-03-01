@@ -40,12 +40,15 @@ public class CargoIntake extends Subsystem {
       roller = new TalonSRX(CanId.CARGO_INTAKE.getCanId());
       //FIXME
       //extender = new DoubleSolenoid(Parameters.PneumaticChannel.CARGO_INTAKE_EXTENDER.getChannel(), Parameters.PneumaticChannel.CARGO_INTAKE_RETRACT.getChannel());
+      extender = new TalonSRX(CanId.CARGO_INTAKE_EXT.getCanId());
 
       roller.set(ControlMode.PercentOutput, 0.0);
       roller.setNeutralMode(NeutralMode.Brake);
       roller.setInverted(Parameters.CanId.CARGO_INTAKE.isInverted());
 
-      //extender.set(Parameters.CARGO_INTAKE_RETRACT);
+      extender.set(ControlMode.PercentOutput, 0.0);
+      extender.setNeutralMode(NeutralMode.Brake);
+      extender.setInverted(Parameters.CanId.CARGO_INTAKE.isInverted());
     }
   }
 
@@ -68,6 +71,13 @@ public class CargoIntake extends Subsystem {
   public void deploy() {
     if (Parameters.INTAKE_AVAILABLE) {
       //extender.set(Parameters.CARGO_INTAKE_EXTEND);
+      if(getCurrent() < 12){
+      extender.set(ControlMode.PercentOutput, Parameters.CARGO_EXTENDER_SPEED);
+      }
+      else
+      {
+        stopExtendMotor();
+      }
     }
   }
 
@@ -78,6 +88,13 @@ public class CargoIntake extends Subsystem {
   public void retract() {
     if (Parameters.INTAKE_AVAILABLE) {
       //extender.set(Parameters.CARGO_INTAKE_RETRACT);
+      if(getCurrent() < 12){
+      extender.set(ControlMode.PercentOutput, Parameters.CARGO_EXTENDER_RETRACT_SPEED);
+      }
+      else
+      {
+        stopExtendMotor();
+      }
     }
   }
 
@@ -93,6 +110,25 @@ public class CargoIntake extends Subsystem {
   }
 
   /**
+   * Use slider to vary extender speed during testing
+   * 
+   * @return
+   */
+  public void setPowerExtender(double motorPower) {
+    if (Parameters.INTAKE_AVAILABLE) {
+      if(getCurrent() < 12){
+      extender.set(ControlMode.PercentOutput, motorPower); 
+      //extender.set(ControlMode.PercentOutput, 0.1); 
+      SmartDashboard.putNumber("Intakepercent", motorPower);
+      }
+      else
+      {
+        stopExtendMotor();
+      }
+    }
+  }
+
+  /**
    * Tells if the cargo intake is deployed by reading the 
    * state of the double solenoid.
    * Side Effects: isDeployed may return true despite cargo 
@@ -103,11 +139,6 @@ public class CargoIntake extends Subsystem {
    */
   public boolean isDeployed() {
     if (Parameters.INTAKE_AVAILABLE) {
-      Value ds = Value.kForward; //FIXME extender.get();
-      if (ds == Value.kForward)
-      {
-        return true;
-      }
     }
     return false;
   }
@@ -123,13 +154,26 @@ public class CargoIntake extends Subsystem {
    */
   public boolean isRetracted() {
     if (Parameters.INTAKE_AVAILABLE) {
-      Value ds = Value.kReverse; //FIXME extender.get();
-      if (ds == Value.kReverse)
-      {
+    }
+    return false;
+  }
+
+  public boolean isAtEnd() {
+    if (Parameters.INTAKE_AVAILABLE) {
+      if (getCurrent() > Parameters.CARGO_INTAKE_EXTENDER_CURRENT_LIMIT) {
         return true;
       }
     }
     return false;
+  }
+
+  public double getCurrent() 
+  {
+      return extender.getOutputCurrent();
+  }
+
+  public void stopExtendMotor() {
+    extender.set(ControlMode.PercentOutput, 0);
   }
 
   @Override
@@ -142,6 +186,9 @@ public class CargoIntake extends Subsystem {
       SmartDashboard.putNumber("Cargo Intake: Voltage", roller.getMotorOutputVoltage());
       SmartDashboard.putNumber("Cargo Intake: Current", roller.getOutputCurrent());
       SmartDashboard.putNumber("Cargo Intake: Percent", roller.getMotorOutputPercent());
+      SmartDashboard.putNumber("Cargo Intake extender: Voltage", extender.getMotorOutputVoltage());
+      SmartDashboard.putNumber("Cargo Intake extender: Current", extender.getOutputCurrent());
+      SmartDashboard.putNumber("Cargo Intake extender: Percent", extender.getMotorOutputPercent());
     }
   }
 }

@@ -8,9 +8,11 @@
 package com.phantommentalists.commands;
 
 import com.phantommentalists.OI;
+import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
 import com.phantommentalists.subsystems.Handler;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -20,6 +22,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DefaultHandlerCommand extends Command {
   private Handler handler;
   private OI oi;
+  private Timer timer;
   
   public DefaultHandlerCommand(Telepath r) {
     // Use requires() here to declare subsystem dependencies
@@ -37,8 +40,17 @@ public class DefaultHandlerCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    handler.setLeadScrewPower(oi.getSlider());
+    //handler.setLeadScrewPower(oi.getSlider());
     //FIXME switch to a button or such for competition
+    //make sure that the hatch handler is retracted 
+    //before the end of the match
+    double matchTime = timer.getMatchTime();
+    if (matchTime < Parameters.HATCH_RETURN_BEFORE_END_MATCH) {
+      handler.retractHatch();
+      if (handler.isHatchRetracted() == true) {
+        handler.stopHatchHandler();
+      }
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

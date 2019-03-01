@@ -24,6 +24,7 @@ public class HatchHandler extends Subsystem {
   private DoubleSolenoid vent;
   private boolean loadedHatch;
   double timeout;
+  
   public HatchHandler() {
     suction = new DoubleSolenoid(Parameters.PneumaticChannel.HANDLER_CREATE_VACUUM.getChannel(), Parameters.PneumaticChannel.HANDLER_RELEASE_VACUUM.getChannel());
     vent = new DoubleSolenoid(Parameters.PneumaticChannel.HANDLER_VENT_CLOSED.getChannel(), Parameters.PneumaticChannel.HANDLER_VENT_OPEN.getChannel());
@@ -59,9 +60,6 @@ public class HatchHandler extends Subsystem {
     suction.set(Value.kForward);
     loadedHatch = true;
   }
-
-
-
 
   public boolean hasVacuum() {
     /** 

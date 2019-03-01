@@ -44,6 +44,7 @@ public class ExtendCargoIntakeTestCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    // return cargoIntake.isAtEnd();
     return false;
   }
 
@@ -51,11 +52,13 @@ public class ExtendCargoIntakeTestCommand extends Command {
   @Override
   protected void end() {
     System.out.println("extendCargoIntakeCommand end method");
+    cargoIntake.stopExtendMotor();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    cargoIntake.stopExtendMotor();
   }
 }

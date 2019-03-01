@@ -81,7 +81,7 @@ public class Handler extends Subsystem {
 
     mode = AutoMode.ZEROING;
     //FIXME Manual mode is only for testing, zeroing mode is for competition
-    //mode = AutoMode.MANUAL;
+    mode = AutoMode.MANUAL;
     zeroed = false;
   }
 
@@ -116,17 +116,17 @@ public class Handler extends Subsystem {
     }
 
   /** 
-   * TBD
+   * TBD TODO
    * 
    * @param AutoMode sets the auto pilot mode for the handler
    */
-  public void setMode(AutoMode autoMode) 
+  public void setMode(AutoMode mode) 
   {
-    if (autoMode == AutoMode.AUTO && !zeroed)
+    if (mode == AutoMode.AUTO && !zeroed)
     {
       return;
     }
-    mode = autoMode;
+    this.mode = mode;
   }
   
   /** 
@@ -212,7 +212,7 @@ public class Handler extends Subsystem {
     // return true;
   }
 
-  public boolean isHatchretracted()
+  public boolean isHatchRetracted()
   {
     if (Math.abs(leadScrewMotor.getSelectedSensorPosition() - Parameters.HATCHHANDLER_ZERO_POSITION) <= Parameters.HATCHHANDLER_SET_POINT_CLOSE) {
       return true;
