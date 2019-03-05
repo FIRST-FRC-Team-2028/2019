@@ -21,7 +21,7 @@ public class Parameters {
    * Flag that tells the code systems exist 
    */
   public static final boolean DRIVE_AVAILABLE = true;
-  public static final boolean CAMERA_AVAILABLE = false;
+  public static final boolean CAMERA_AVAILABLE = true;
   public static final boolean INTAKE_AVAILABLE = true;
   public static final boolean COMPRESSOR_AVAILABLE = true;
   public static final boolean ELEVATOR_AVAILABLE = true;
@@ -38,8 +38,8 @@ public class Parameters {
   public static final double CAM_FILTER_LINES_ANGLE_GREATER = 359.0;
   public static final double CAM_FILTER_LINES_MINIMUM_LENGTH = 1.0;
 
-  public static final int CAM_WIDTH = 346;
-  public static final int CAM_HEIGHT = 280;
+  public static final int CAM_WIDTH = 180;
+  public static final int CAM_HEIGHT = 140;
   
   //using multiple controllers
   public enum MultiController {
@@ -57,17 +57,20 @@ public class Parameters {
       return this.num;
     }
   }
-  public static MultiController multiContFromNum(int num)
-  {
-    for (MultiController m : MultiController.values())
-    {
-      if (m.getnum() == num)
-      {
-        return m;
-      }
-    }
-    return null;
-  }
+  // public static MultiController multiContFromNum(int num)
+  // {
+  //   // System.out.println("multiContFromNum(" + num + ")");
+  //   // for (MultiController m : MultiController.values())
+  //   // {
+  //   //   if (m.getnum() == num)
+  //   //   {
+  //   //     System.out.println("\tFound: " + m.toString());
+  //   //     return m;
+  //   //   }
+  //   // }
+  //   // System.out.println("\tNo MultiController found");
+  //   // return null;
+  // }
 
   public static final int STICK_GET_LEFT_Y_AXIS = 1;
   public static final int STICK_GET_RIGHT_Y_AXIS = 2;
@@ -81,11 +84,11 @@ public class Parameters {
   //buttons on Dual Arcade 0
   // public static final int BUTTON_LIFTER_RETRACT = 10;
   // public static final int BUTTON_LIFTER_DEPLOY = 9;
-  public static final int BUTTON_CARGO_HANDLER_INTAKE = 6;
+  public static final int BUTTON_CARGO_HANDLER_INTAKE = 8;
   public static final int BUTTON_ELEVATOR_UP = 4; // 7 doesn't work, use 4 on left button box
   public static final int BUTTON_CARGO_INTAKE_EXTEND = 5;
   public static final int BUTTON_CARGO_INTAKE_RETRACT = 10;
-  public static final int BUTTON_CARGO_RUN_BOTH_ROLLERS = 6;
+  // public static final int BUTTON_CARGO_RUN_BOTH_ROLLERS = 6;
   //public static final int BUTTON_CARGO_INTAKE_RETRACT = 6; 
   //buttons on Dual Arcade 1
   public static final int BUTTON_ELEVATOR_DOWN = 8;
@@ -100,8 +103,8 @@ public class Parameters {
   
   public static final int ELEVATOR_PID_CRUISE_VELOCITY_UP = 2000;
   public static final int ELEVATOR_PID_CRUISE_ACCEL_UP = 2000;
-  public static final int ELEVATOR_PID_CRUISE_VELOCITY_DOWN = 100;
-  public static final int ELEVATOR_PID_CRUISE_ACCEL_DOWN = 100;
+  public static final int ELEVATOR_PID_CRUISE_VELOCITY_DOWN = 1000;
+  public static final int ELEVATOR_PID_CRUISE_ACCEL_DOWN = 1000;
   public static final double ELEVATOR_ZEROING_SPEED = -0.25;
   public static final int ELEVATOR_POSITION_ERROR = 1500;
   public static final double ELEVATOR_MANUAL_SPEED = 0.6;
@@ -139,8 +142,9 @@ public class Parameters {
   }
 
 
+  public static final double DRIVE_LIMITER_MULTIPLIER = 0.75;
   public static final double DRIVE_SHIFT_CURRENT = 60;
-  public static final double DRIVE_SHIFT_SPEED = 0.35;
+  public static final double DRIVE_SHIFT_SPEED = 0.75;
   public static final double DRIVE_LEFT_RIGHT_SPEED_DIFF = 0.4;
   public static final Value DRIVE_HIGH_GEAR = Value.kForward;
   public static final Value DRIVE_LOW_GEAR = Value.kReverse;
@@ -241,7 +245,7 @@ public class Parameters {
 
   public enum Pid {
     ELEVATOR(0.4, 0, 0, 0.011527), 
-    HATCH_LEADSCREW(0, 0, 0, 0);
+    HATCH_LEADSCREW(0.25, 0, 0, 0);
 
     private double p;
     private double i;
@@ -278,12 +282,12 @@ public class Parameters {
 
   public static final double HATCHHANDLER_MOTOR_SPEED = 0.0;
   public static final int HATCHHANDLER_ZERO_POSITION = 0;
-  public static final int HATCHHANDLER_DEPLOY_POSITION = 110;
+  public static final int HATCHHANDLER_DEPLOY_POSITION = -87000;
   public static final double HATCHHANDLER_ZEROING_SPEED = -0.2;
   public static final double HATCHHANDLER_RETRACTED_POSITION = 10;
-  public static final double HATCHHANDLER_ZEROING_CURRENT_LIMIT = 2.0;  //amps
+  public static final double HATCHHANDLER_ZEROING_CURRENT_LIMIT = 0.9;  //amps
   public static final double HATCHHANDLER_SET_POINT_CLOSE = 100;
-  public static final double HATCHHANDLER_VACCUUM_DELAY = 1.0;  //seconds
+  public static final double HATCHHANDLER_VACCUUM_DELAY = 0.65;  //seconds
   public static final double HATCH_RETURN_BEFORE_END_MATCH = 0.0;
 
   public static final double CARGO_HANDLER_INTAKE_SPEED = -1.0;
@@ -295,8 +299,8 @@ public class Parameters {
   //public static final Value CARGO_INTAKE_EXTEND = Value.kForward;
   //public static final Value CARGO_INTAKE_RETRACT = Value.kReverse;
   public static final double CARGO_INTAKE_EXTENDER_CURRENT_LIMIT = 300.0;
-  public static final double CARGO_EXTENDER_RETRACT_SPEED = -0.5;
-  public static final double CARGO_EXTENDER_SPEED = 0.5;
+  public static final double CARGO_EXTENDER_RETRACT_SPEED = -1.0;
+  public static final double CARGO_EXTENDER_SPEED = 1.0;
 
   //public static final double LIFTER_LIFT_MOTOR_DEPLOY_SPEED = 0.4;
   /**
@@ -318,4 +322,5 @@ public class Parameters {
   
 public static final int BUTTON_HATCHHANDLER_SUCK = 1;
 public static final int BUTTON_HATCHHANDLER_BLOW = 2;
+public static final int BUTTON_INTAKE_ROLLERS = 7;
 }

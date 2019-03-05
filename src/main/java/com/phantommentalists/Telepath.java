@@ -73,13 +73,15 @@ public class Telepath extends TimedRobot {
       server = CameraServer.getInstance().getServer();
       sink = CameraServer.getInstance().getVideo();
       cam1.setResolution(Parameters.CAM_WIDTH, Parameters.CAM_HEIGHT);
-      cam1.setFPS(30);
-      cam1.setExposureManual(16);
+      cam1.setFPS(20);
+      // cam1.setExposureManual(16);
 
       server.setSource(cam1);
       sink.setSource(cam1);
       // defaultCommand = new DefaultCommand(drive);
-      cameraThread = new CameraThread();
+
+      // //cameraThread = new CameraThread();
+      
       // cameraThread.start();
     }
     
@@ -315,8 +317,8 @@ public class Telepath extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     if (Parameters.CAMERA_AVAILABLE){
-      SmartDashboard.putNumber("'left' x", cameraThread.getLeft().x2);
-      SmartDashboard.putNumber("'right' x", cameraThread.getRight().x2);
+      // SmartDashboard.putNumber("'left' x", cameraThread.getLeft().x2);
+      // SmartDashboard.putNumber("'right' x", cameraThread.getRight().x2);
     }
     if(Parameters.COMPRESSOR_AVAILABLE){
       // FIXME
@@ -361,5 +363,6 @@ public class Telepath extends TimedRobot {
     //if (Parameters.LIFTER_AVAILABLE) {
       //lifter.process();
     //}
+    // drive.testMotors();
   }
 }

@@ -37,6 +37,7 @@ public class CargoHandler{
 
   public void loadCargo() {
     rollers.set(ControlMode.PercentOutput, Parameters.CARGO_HANDLER_INTAKE_SPEED);
+      // rollers.set(ControlMode.PercentOutput, -0.4);
   }
 
   public void shootCargo() {
@@ -45,8 +46,18 @@ public class CargoHandler{
 
   public void stopMotor() {
     rollers.set(ControlMode.PercentOutput, 0);
+    
   }
 
+  public void setCargo(double speed)
+  {
+    rollers.set(ControlMode.PercentOutput, speed);
+  }
+  public double getPercentage()
+  {
+    return rollers.getMotorOutputPercent();
+  }
+    
   public boolean isCargoHeld() {
     // FIXME Get current state from sensor
     return cargoSensor.get();

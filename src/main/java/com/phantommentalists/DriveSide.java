@@ -8,9 +8,12 @@ import com.phantommentalists.Parameters;
 import com.phantommentalists.Parameters.DriveGearbox;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveSide {
+
+    private Timer timer;
 
     /** Reference to master motor controller */
     private TalonSRX master;
@@ -35,6 +38,7 @@ public class DriveSide {
     public DriveSide(boolean left, DriveGearbox gearbox, Telepath robot) {
         gearboxType = gearbox;
         this.robot = robot;
+        timer = new Timer();
         Parameters.CanId masterCanId = null;
         if (left) {
             masterCanId = Parameters.CanId.LEFT_MASTER_CAN_ID;
@@ -115,6 +119,33 @@ public class DriveSide {
     public void setPercentOutput(double speed)
     {
         master.set(ControlMode.PercentOutput, speed);
+    }
+
+    public void testMotors()
+    {
+        timer.start();
+        if(timer.get() < 5){
+        competitionFollower1.set(ControlMode.PercentOutput, 0.5);
+        }
+        else if (timer.get() < 10){
+        competitionFollower1.set(ControlMode.PercentOutput, 0);
+        competitionFollower2.set(ControlMode.PercentOutput, 0.5);
+        }
+        else if (timer.get() < 15){
+            competitionFollower2.set(ControlMode.PercentOutput, 0);
+        competitionFollower3.set(ControlMode.PercentOutput, 0.5);
+        }
+        else if (timer.get() < 20){
+            competitionFollower3.set(ControlMode.PercentOutput, 0);
+            master.set(ControlMode.PercentOutput, 0.5);
+        }
+        else
+        {
+            competitionFollower1.set(ControlMode.PercentOutput, 0);
+            competitionFollower2.set(ControlMode.PercentOutput, 0);
+            competitionFollower3.set(ControlMode.PercentOutput, 0);
+            master.set(ControlMode.PercentOutput, 0);
+        }
     }
 
     public void process() {

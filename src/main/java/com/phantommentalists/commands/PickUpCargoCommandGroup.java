@@ -38,27 +38,30 @@ public PickUpCargoCommandGroup(Telepath r) {
     // a CommandGroup containing them would require both the chassis and the
     // arm.
 
-    requires(r.getElevator());
+    // requires(r.getElevator());
     if (Parameters.INTAKE_AVAILABLE){
       requires(r.getCargoIntake());
     }
     requires(r.getHandler());
 
     //Move the elevator to the zero position
-    addSequential(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.LOWER_LIMIT, r, 0));
+    // addSequential(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.LOWER_LIMIT, r, 0));
     //Deploy and runs the Cargo Intake
     // TODO Test interrupt mechanisms of CommandGroups
     //While the Cargo Intake is being deployed, run the Cargo Handler
     if (Parameters.INTAKE_AVAILABLE){
-      addParallel(new DeployCargoIntakeCommand(r));
+      // addParallel(new DeployCargoIntakeCommand(r));
     }
     //Run Cargo Handler until we have a ball
     if (Parameters.CARGO_HANDLER_AVAILABLE){
-      addSequential(new CargoHandlerLoadCommand(r));
+      addParallel(new CargoHandlerLoadCommand(r));
+      if(Parameters.INTAKE_AVAILABLE){
+        addSequential(new CargoIntakeLoadCommand(r));
+      }
     }
     //retract Cargo Intake
     if (Parameters.INTAKE_AVAILABLE){
-      addSequential(new RetractCargoIntakeCommand(r));
+      // addSequential(new RetractCargoIntakeCommand(r));
     }
   }
 }

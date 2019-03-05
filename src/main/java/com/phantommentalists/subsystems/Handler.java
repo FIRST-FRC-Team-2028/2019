@@ -68,11 +68,11 @@ public class Handler extends Subsystem {
     // leadScrewMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
     // leadScrewMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
     leadScrewMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-    leadScrewMotor.setSensorPhase(true);
+    leadScrewMotor.setSensorPhase(false);
     leadScrewMotor.setInverted(true);
     // leadScrewMotor.configForwardSoftLimitThreshold(Parameters.HANDLER_LIMIT);
-    leadScrewMotor.configForwardSoftLimitThreshold(Parameters.HATCHHANDLER_DEPLOY_POSITION);
-    leadScrewMotor.configReverseSoftLimitThreshold(Parameters.HATCHHANDLER_ZERO_POSITION);
+    leadScrewMotor.configForwardSoftLimitThreshold(Parameters.HATCHHANDLER_ZERO_POSITION);
+    leadScrewMotor.configReverseSoftLimitThreshold(Parameters.HATCHHANDLER_DEPLOY_POSITION);
     leadScrewMotor.configForwardSoftLimitEnable(false);
     leadScrewMotor.configReverseSoftLimitEnable(false);
     // TODO set actual encoder values for limit
@@ -81,7 +81,7 @@ public class Handler extends Subsystem {
 
     mode = AutoMode.ZEROING;
     //FIXME Manual mode is only for testing, zeroing mode is for competition
-    mode = AutoMode.MANUAL;
+    // mode = AutoMode.MANUAL;
     zeroed = false;
   }
 
@@ -108,7 +108,9 @@ public class Handler extends Subsystem {
             zeroPosition();
           }
         }
+        
 
+        SmartDashboard.putNumber("Hatch Handler: Voltage", leadScrewMotor.getMotorOutputVoltage());
         SmartDashboard.putNumber("Hatch Handler: Current", leadScrewMotor.getOutputCurrent());
         SmartDashboard.putNumber("Hatch Handler: Position", leadScrewMotor.getSensorCollection().getQuadraturePosition());
         SmartDashboard.putString("Hatch Handler: Mode", mode.toString());
@@ -170,6 +172,7 @@ public class Handler extends Subsystem {
     if (Parameters.HANDLER_AVAILABLE) {
       if (mode == AutoMode.AUTO) {
         leadScrewMotor.set(ControlMode.Position, Parameters.HATCHHANDLER_DEPLOY_POSITION);
+        System.out.println("I am trying to move?");
       }
     }
   }
@@ -199,30 +202,54 @@ public class Handler extends Subsystem {
       zeroed = true;
       mode = AutoMode.MANUAL;
       leadScrewMotor.setSelectedSensorPosition(0);
+      leadScrewMotor.configForwardSoftLimitEnable(true);
+      leadScrewMotor.configReverseSoftLimitEnable(true);
     }
   }
 
   public boolean isHatchDeployed()
   {
+    if(mode == AutoMode.AUTO){
     if (Math.abs(leadScrewMotor.getSelectedSensorPosition() - Parameters.HATCHHANDLER_DEPLOY_POSITION) <= Parameters.HATCHHANDLER_SET_POINT_CLOSE) {
       return true;
     }
     return false;
+    }
+    else
+    {
+      return false;
+    }
     // FIXME please
     // return true;
   }
 
   public boolean isHatchRetracted()
   {
-    if (Math.abs(leadScrewMotor.getSelectedSensorPosition() - Parameters.HATCHHANDLER_ZERO_POSITION) <= Parameters.HATCHHANDLER_SET_POINT_CLOSE) {
-      return true;
+    if (mode == AutoMode.AUTO) {
+      if (Math.abs(leadScrewMotor.getSelectedSensorPosition() - Parameters.HATCHHANDLER_ZERO_POSITION) <= Parameters.HATCHHANDLER_SET_POINT_CLOSE) {
+        return true;
+      }
+      return false;
     }
-    return false;
+    else
+    {
+      return false;
+    }
+    
   }
 
+  public void setCargoSpeed(double speed)
+  {
+    cargoHandler.setCargo(speed);
+  }
+  public double getPercentage()
+  {
+    return cargoHandler.getPercentage();
+  }
   public void stopHatchHandler()
   {
     leadScrewMotor.set(ControlMode.PercentOutput, 0);
+    mode = AutoMode.MANUAL;
   }
   /** 
    * Get a cargo from the cargo intake
