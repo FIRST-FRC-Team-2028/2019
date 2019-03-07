@@ -12,6 +12,7 @@ import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
 import com.phantommentalists.subsystems.CargoIntake;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -22,6 +23,7 @@ public class DefaultCargoIntakeCommand extends Command {
    */
   private CargoIntake cargoIntake;
   private OI oi;
+  Joystick buttons;
 
   public DefaultCargoIntakeCommand(Telepath r) {
     if(Parameters.INTAKE_AVAILABLE){
@@ -39,6 +41,7 @@ public class DefaultCargoIntakeCommand extends Command {
     if(Parameters.INTAKE_AVAILABLE){
       cargoIntake.turnOffRollers();
     }
+    buttons = oi.getButtonBoxleft();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -51,6 +54,14 @@ public class DefaultCargoIntakeCommand extends Command {
       // cargoIntake.setPowerExtender(-oi.getSlider());
       //cargoIntake.setPowerExtender(0.);
       SmartDashboard.putNumber("OI Slider: ", oi.getSlider());
+    }
+    if(buttons.getRawButton(6))
+    {
+      cargoIntake.turnOnRollers();
+    }
+    else
+    {
+      cargoIntake.turnOffRollers();
     }
   }
 

@@ -8,6 +8,7 @@
 package com.phantommentalists.commands;
 
 import com.phantommentalists.Telepath;
+import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.subsystems.Handler;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -28,7 +29,7 @@ public class DeployHatchHandlerCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    
+    handler.setMode(AutoMode.AUTO);
   }
 
   // Called repeatedly when this Command is scheduled to run

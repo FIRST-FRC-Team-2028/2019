@@ -107,7 +107,7 @@ public class Elevator extends Subsystem
         }
         if(getPosition() < Parameters.ElevatorPosition.HATCH_LOW.getSetPoint())
         {
-            upDown.set(ControlMode.Velocity, 80);
+            upDown.set(ControlMode.PercentOutput, 0.3);
         }
     }
     /**

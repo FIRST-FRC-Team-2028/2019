@@ -8,6 +8,7 @@
 package com.phantommentalists.commands;
 
 import com.phantommentalists.Telepath;
+import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.subsystems.Handler;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -27,6 +28,7 @@ public class HatchHandlerRetractCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    handler.setMode(AutoMode.AUTO);
     
   }
 
@@ -45,12 +47,13 @@ public class HatchHandlerRetractCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    
+    handler.stopHatchHandler();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    handler.stopHatchHandler();
   }
 }

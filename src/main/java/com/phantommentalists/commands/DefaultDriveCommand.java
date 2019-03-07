@@ -39,7 +39,7 @@ public class DefaultDriveCommand extends Command {
   protected void execute() {
     double multiplier = Parameters.DRIVE_SPEED_LIMITER_ELEVATOR_CG
      + (1.0 - Parameters.DRIVE_SPEED_LIMITER_ELEVATOR_CG)*(1.0 - robot.getElevator().getCGHeight());
-    robot.getDrive().tankDrive(multiplier*oi.getLeftStick(), multiplier*oi.getRightStick());
+    robot.getDrive().tankDrive(Parameters.DRIVE_LIMITER_MULTIPLIER*multiplier*oi.getLeftStick(), Parameters.DRIVE_LIMITER_MULTIPLIER*multiplier*oi.getRightStick());
   }
 
   // Make this return true when this Command no longer needs to run execute()

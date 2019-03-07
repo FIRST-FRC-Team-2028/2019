@@ -10,6 +10,7 @@ package com.phantommentalists.commands;
 //import com.phantommentalists.OI;
 //import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
+import com.phantommentalists.Parameters.AutoMode;
 //import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.subsystems.Elevator;
 
@@ -44,9 +45,10 @@ public class DefaultElevatorCommand extends Command {
   //Use buttons to move up or down if held
   @Override
   protected void execute() {
-    /*
+    
     if(elevator.getMode() == AutoMode.ZEROING) return;
     //TODO Interact with a hatch check
+    /*
     Button buttonUp=oi.getElevatorUp();
     if (buttonUp.get()) {
       elevator.setPower(Parameters.ELEVATOR_MANUAL_SPEED);
@@ -58,13 +60,15 @@ public class DefaultElevatorCommand extends Command {
     }else
     {
       elevator.stopMotor();
-    }*/
+    }
+    */
     elevator.stopMotor();
 
     // if ( !robot.getHandler().isHatchRetracted() )
     // {
     //   elevator.dontDestroyHatchHandler();
     // }
+    
     // elevator.setPower(oi.getSlider());
     // SmartDashboard.putNumber("Elevator Position", elevator.getPosition());
   }

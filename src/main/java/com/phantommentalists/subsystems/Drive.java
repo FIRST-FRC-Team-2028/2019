@@ -22,6 +22,8 @@ import com.phantommentalists.DriveSide;
  */
 public class Drive extends Subsystem {
 
+      private Timer timer2;
+
       private DriveSide left;
       private DriveSide right;
 
@@ -44,6 +46,7 @@ public class Drive extends Subsystem {
       right = new DriveSide(false, Parameters.DRIVE_GEAR_BOX_TYPE, r);
       shifter = new DoubleSolenoid(Parameters.PneumaticChannel.DRIVE_SHIFT_HIGH.getChannel(),Parameters.PneumaticChannel.DRIVE_SHIFT_LOW.getChannel());
       timer = new Timer();
+      timer2= new Timer();
       timer.start();
   }
 
@@ -221,6 +224,21 @@ public class Drive extends Subsystem {
     // {
     //   left.setPercentOutput(0.25);
     //   right.setPercentOutput(-0.3);
+    // }
+
+  }
+
+
+  public void testMotors()
+  {
+    // timer2.start();
+    // if(timer2.get() < 21)
+    // {
+    //   left.testMotors();
+    // }
+    // else if (timer2.get() < 42)
+    // {
+    //   right.testMotors();
     // }
 
   }

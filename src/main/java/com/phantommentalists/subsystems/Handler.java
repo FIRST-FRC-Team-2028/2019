@@ -73,7 +73,6 @@ public class Handler extends Subsystem {
      public void process()
     {
       if (Parameters.HANDLER_AVAILABLE) {
-
       }
     }
 

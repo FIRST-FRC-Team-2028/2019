@@ -10,8 +10,10 @@ package com.phantommentalists;
 import com.phantommentalists.commands.AlignReflectCommand;
 import com.phantommentalists.commands.CargoHandlerLoadCommand;
 import com.phantommentalists.commands.CargoIntakeLoadCommand;
+import com.phantommentalists.commands.DeployHatchHandlerCommand;
 import com.phantommentalists.commands.GoToElevatorPositionCommand;
 import com.phantommentalists.commands.GrabHatchCommand;
+import com.phantommentalists.commands.HatchHandlerRetractCommand;
 import com.phantommentalists.commands.PickUpCargoCommandGroup;
 import com.phantommentalists.commands.PlaceCargoCommandGroup;
 import com.phantommentalists.commands.PlaceHatchCommandGroup;
@@ -45,7 +47,7 @@ public class OI {
   public Joystick buttonBoxLeft = new Joystick(1);
   public Joystick buttonBoxRight = new Joystick(2);
   //private Parameters.MultiController controllerType;
-  private Parameters.MultiController controllerType = Parameters.MultiController.PS_CONTROLLER;
+  private Parameters.MultiController controllerType = Parameters.MultiController.LOGITECH_EXTREME;
   
   // Button button = new JoystickButton(stick, buttonNumber);
   Button button = new JoystickButton(stick, 1);
@@ -56,10 +58,12 @@ public class OI {
   Button buttonCargoIntakeExtend = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_INTAKE_EXTEND);
   Button buttonCargoIntakeRetract = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_INTAKE_RETRACT);
  
+  Button buttonCargoIntakeRollers = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_INTAKE_ROLLERS);
+
   Button buttonHatchExtend = new JoystickButton(buttonBoxRight, 10);
-  Button buttonCargoLoad = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_RUN_BOTH_ROLLERS);
+  // Button buttonCargoLoad = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_RUN_BOTH_ROLLERS);
   Button buttonCargoShoot = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_HANDLER_INTAKE);
-  Button buttonCargoHandlerSuck = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_HANDLER_INTAKE);
+  // Button buttonCargoHandlerSuck = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_CARGO_HANDLER_INTAKE);
   Button buttonHatch1get = new JoystickButton(buttonBoxRight, Parameters.BUTTON_HATCH_1);
   Button buttonCargo1get = new JoystickButton(buttonBoxRight, Parameters.BUTTON_CARGO_1);
   Button buttonHatch2 = new JoystickButton(buttonBoxRight, Parameters.BUTTON_HATCH_2);
@@ -94,13 +98,17 @@ public class OI {
       // buttonHatchExtend.whenPressed(new DeployHatchHandlerCommand(r));
       // buttonHatchExtend.whenReleased(new HatchHandlerRetractCommand(r));
 
+      // buttonCargoIntakeRollers.whileHeld(new CargoIntakeLoadCommand(r));
 
       // buttonCargoLoad.whileHeld(new CargoHandlerLoadCommand(r));
       // buttonCargoLoad.whileHeld(new PickUpCargoCommandGroup(r));
       // buttonCargoLoad.whenReleased(new RetractCargoIntakeCommand(r));
 
-      buttonCargoHandlerSuck.whileHeld(new CargoHandlerLoadCommand(r));
-      buttonCargoLoad.whileHeld(new CargoIntakeLoadCommand(r));
+      buttonHatchExtend.whenPressed(new DeployHatchHandlerCommand(r));
+      buttonHatchExtend.whenReleased(new HatchHandlerRetractCommand(r));
+
+      // buttonCargoHandlerSuck.whileHeld(new CargoHandlerLoadCommand(r));
+      // buttonCargoLoad.whileHeld(new PickUpCargoCommandGroup(r));
       buttonCargoShoot.whileHeld(new ShootCargoCommand(r));
 
       buttonCargoIntakeExtend.whileHeld(new ExtendCargoIntakeTestCommand(r));
@@ -113,7 +121,7 @@ public class OI {
     String type = DriverStation.getInstance().getJoystickName(0);
     SmartDashboard.putString("controller name ", type);
     SmartDashboard.putNumber("controller type",  DriverStation.getInstance().getJoystickType(0));
-    controllerType = Parameters.multiContFromNum(DriverStation.getInstance().getJoystickType(0));
+    // controllerType = Parameters.multiContFromNum(DriverStation.getInstance().getJoystickType(0));
     //try
     //{
     if(controllerType != null){
@@ -153,6 +161,11 @@ public class OI {
     }
   }
 
+  public Joystick getButtonBoxleft()
+  {
+    return buttonBoxLeft;
+  }
+
   public double getLeftStick()
   {
     double throt;
@@ -163,7 +176,7 @@ public class OI {
         yaw   = -stick.getRawAxis(Parameters.LOGITECH_TWIST);
         //return  throt + yaw; MrG says BAD - see logitechControl.xlms
         yaw *= Math.abs(yaw);  // finer control at small yaw
-        return leftTankFromThrotYaw(throt, yaw);
+        return leftTankFromThrotYaw(throt, yaw*0.75);
       case CUBE_STEERING_WHEEL:
         throt = stick.getRawAxis(Parameters.CUBE_RIGHT_PEDAL);
         boolean pad= stick.getRawButton(Parameters.CUBE_RIGHT_PADDLE);
