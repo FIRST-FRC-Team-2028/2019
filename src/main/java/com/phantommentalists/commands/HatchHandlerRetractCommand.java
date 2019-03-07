@@ -12,6 +12,9 @@ import com.phantommentalists.subsystems.Handler;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Retracts the Hatch Handler
+ */
 public class HatchHandlerRetractCommand extends Command {
   private Handler handler;
   public HatchHandlerRetractCommand(Telepath r) {
@@ -30,13 +33,13 @@ public class HatchHandlerRetractCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    handler.retractHatch();
+    handler.retractHatchHandler();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return handler.isHatchRetracted();
+    return handler.isHatchHandlerRetracted();
   }
 
   // Called once after isFinished returns true

@@ -7,56 +7,44 @@
 
 package com.phantommentalists.commands;
 
-import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
-import com.phantommentalists.subsystems.Lifter;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DeployLifterCommand extends Command {
+public class RetractHatchHandlerCommand extends Command {
   /**
-   * Gets lifter to the floor by deploying the lifter
-   * Lifter goes down
-   * Lifter stops going down when a time limit is reached
+   * It releases the hatch panel onto the hatch
+   * By either retracting the hatch handler or moving the elevator down then retracting the Hatch Handler
    */
-  Timer timer;
-  private Lifter lifter;
-
-  public DeployLifterCommand(Telepath r) {
-    lifter = r.getLifter();
+  private Telepath robot;
+  
+  public RetractHatchHandlerCommand(Telepath r) {
+    robot = r;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(lifter);
-    timer = new Timer();
+    requires(robot.getHandler());
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    timer.reset();
-    timer.start();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    lifter.deploy();
+    robot.getHandler().retractHatchHandler();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (timer.get() >= Parameters.LIFT_DEPLOY_TIME) {
-      return true;
-    }
-    return false;
+    return robot.getHandler().isHatchHandlerRetracted();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    lifter.stopLifting();
   }
 
   // Called when another command which requires one or more of the same

@@ -9,28 +9,31 @@ package com.phantommentalists.commands;
 
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
-import com.phantommentalists.subsystems.Handler;
+import com.phantommentalists.subsystems.Drive;
+import com.phantommentalists.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class GrabHatchCommand extends Command {
   /**
    * Retrives the hatch from either the Cargo ship or the Loading Station
+   * 
    */
-  private Handler handler;
+  private Elevator elevator;
+  private Drive drive;
   
   public GrabHatchCommand(Telepath r) {
-    handler = r.getHandler();
+    elevator = r.getElevator();
+    drive = r.getDrive();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(handler);
+    requires(elevator);
+    requires(drive);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    handler.closeVent();
-    this.setTimeout(Parameters.HATCHHANDLER_VACCUUM_DELAY);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -42,13 +45,12 @@ public class GrabHatchCommand extends Command {
   @Override
   protected boolean isFinished() {
     // return handler.isHatchLoaded();
-    return isTimedOut();
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    handler.applyVaccuum();
   }
 
   // Called when another command which requires one or more of the same

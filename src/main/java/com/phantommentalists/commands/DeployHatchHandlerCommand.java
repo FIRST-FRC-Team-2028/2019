@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DeployHatchHandlerCommand extends Command {
   /**
-   * Deploys the Hatch Handler
+   * Extends the Hatch Handler
    */
   private Handler handler;
 
@@ -40,20 +40,17 @@ public class DeployHatchHandlerCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return handler.isHatchDeployed();
+    return !handler.isHatchHandlerRetracted();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    handler.stopHatchHandler();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    handler.retractHatch();
-    //TODO If interrupted is the Hatch Handler in the way
   }
 }

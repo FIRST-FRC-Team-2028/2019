@@ -7,6 +7,7 @@
 
 package com.phantommentalists;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 /**
@@ -26,7 +27,7 @@ public class Parameters {
   public static final boolean COMPRESSOR_AVAILABLE = true;
   public static final boolean ELEVATOR_AVAILABLE = true;
   public static final boolean HANDLER_AVAILABLE = true;
-  public static final boolean HATCH_HANDLER_AVAILABLE = true;
+  public static final boolean HATCH_HANDLER_AVAILABLE = false;
   public static final boolean CARGO_HANDLER_AVAILABLE = true;
   public static final boolean LIFTER_AVAILABLE = false;
   public static final boolean GYRO_AVAILABLE = false;
@@ -162,8 +163,10 @@ public class Parameters {
   
   /** Enum to hold all information about pneumatic solenoids */
   public enum PneumaticChannel {
-    HANDLER_CREATE_VACUUM(0),
-    HANDLER_RELEASE_VACUUM(1),
+    // HANDLER_CREATE_VACUUM(0),
+    // HANDLER_RELEASE_VACUUM(1),
+    HANDLER_RETRACT(0), 
+    HANDLER_DEPLOY(1),
     DRIVE_SHIFT_HIGH(3), 
     DRIVE_SHIFT_LOW(4), 
     HANDLER_CLIMBER_ARM(5),
@@ -171,6 +174,7 @@ public class Parameters {
     //CARGO_INTAKE_RETRACT(7), 
     HANDLER_VENT_CLOSED(6), 
     HANDLER_VENT_OPEN(7);
+
 
     private int channel;
 
@@ -278,9 +282,9 @@ public class Parameters {
 
   public static final double HATCHHANDLER_MOTOR_SPEED = 0.0;
   public static final int HATCHHANDLER_ZERO_POSITION = 0;
-  public static final int HATCHHANDLER_DEPLOY_POSITION = 110;
+  public static final DoubleSolenoid.Value HATCHHANDLER_DEPLOY_POSITION = Value.kForward;
   public static final double HATCHHANDLER_ZEROING_SPEED = -0.2;
-  public static final double HATCHHANDLER_RETRACTED_POSITION = 10;
+  public static final DoubleSolenoid.Value HATCHHANDLER_RETRACTED_POSITION = Value.kReverse;
   public static final double HATCHHANDLER_ZEROING_CURRENT_LIMIT = 2.0;  //amps
   public static final double HATCHHANDLER_SET_POINT_CLOSE = 100;
   public static final double HATCHHANDLER_VACCUUM_DELAY = 1.0;  //seconds

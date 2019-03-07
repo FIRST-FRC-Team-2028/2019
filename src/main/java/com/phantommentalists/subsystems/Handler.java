@@ -16,6 +16,7 @@ import com.phantommentalists.Telepath;
 import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.commands.DefaultHandlerCommand;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -34,16 +35,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Handler extends Subsystem {
   
-  private HatchHandler hatchHandler;
   private CargoHandler cargoHandler;
-  private TalonSRX leadScrewMotor;  // to position HatchHandler
+  private DoubleSolenoid hatchPositioner;  // to position HatchHandler
 
-  private Solenoid solenoid;
+  private Solenoid solenoid; // To deploy climbing arm
 
   private AutoMode mode;
   
   private boolean zeroed;
   Telepath robot;
+  private boolean isRetracted;
 
   /**
    * Default constructor. This method initializes all data members of the class
@@ -53,36 +54,9 @@ public class Handler extends Subsystem {
     if (Parameters.CARGO_HANDLER_AVAILABLE){
      cargoHandler = new CargoHandler();
     }
-    if(Parameters.HATCH_HANDLER_AVAILABLE){
-      hatchHandler = new HatchHandler();
-    }
     robot=r;
+    hatchPositioner = new DoubleSolenoid(Parameters.PneumaticChannel.HANDLER_DEPLOY.getChannel(), Parameters.PneumaticChannel.HANDLER_RETRACT.getChannel());
 
-    leadScrewMotor = new TalonSRX(Parameters.CanId.HATCH_LEAD_SCREW_MOTOR.getCanId());
-    leadScrewMotor.config_kP(0, Parameters.Pid.HATCH_LEADSCREW.getP(), 0);
-    leadScrewMotor.config_kI(0, Parameters.Pid.HATCH_LEADSCREW.getI(), 0);
-    leadScrewMotor.config_kD(0, Parameters.Pid.HATCH_LEADSCREW.getD(), 0);
-    leadScrewMotor.config_kF(0, Parameters.Pid.HATCH_LEADSCREW.getF(), 0);
-    leadScrewMotor.setNeutralMode(NeutralMode.Brake);
-    leadScrewMotor.selectProfileSlot(0, 0);
-    // leadScrewMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
-    // leadScrewMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
-    leadScrewMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-    leadScrewMotor.setSensorPhase(true);
-    leadScrewMotor.setInverted(true);
-    // leadScrewMotor.configForwardSoftLimitThreshold(Parameters.HANDLER_LIMIT);
-    leadScrewMotor.configForwardSoftLimitThreshold(Parameters.HATCHHANDLER_DEPLOY_POSITION);
-    leadScrewMotor.configReverseSoftLimitThreshold(Parameters.HATCHHANDLER_ZERO_POSITION);
-    leadScrewMotor.configForwardSoftLimitEnable(false);
-    leadScrewMotor.configReverseSoftLimitEnable(false);
-    // TODO set actual encoder values for limit
-    //
-    solenoid = new Solenoid(Parameters.PneumaticChannel.HANDLER_CLIMBER_ARM.getChannel());
-
-    mode = AutoMode.ZEROING;
-    //FIXME Manual mode is only for testing, zeroing mode is for competition
-    mode = AutoMode.MANUAL;
-    zeroed = false;
   }
 
   /** 
@@ -99,19 +73,7 @@ public class Handler extends Subsystem {
      public void process()
     {
       if (Parameters.HANDLER_AVAILABLE) {
-        if (mode == AutoMode.ZEROING) {
-          leadScrewMotor.set(ControlMode.PercentOutput, Parameters.HATCHHANDLER_ZEROING_SPEED);
-          Double leadScrewMotorCurrent = leadScrewMotor.getOutputCurrent();
-          //FIXME Make sure 2.0 is a good threshold for current
-          if (leadScrewMotorCurrent >= Parameters.HATCHHANDLER_ZEROING_CURRENT_LIMIT) {
-            leadScrewMotor.set(ControlMode.PercentOutput, 0.0);
-            zeroPosition();
-          }
-        }
 
-        SmartDashboard.putNumber("Hatch Handler: Current", leadScrewMotor.getOutputCurrent());
-        SmartDashboard.putNumber("Hatch Handler: Position", leadScrewMotor.getSensorCollection().getQuadraturePosition());
-        SmartDashboard.putString("Hatch Handler: Mode", mode.toString());
       }
     }
 
@@ -129,101 +91,32 @@ public class Handler extends Subsystem {
     this.mode = mode;
   }
   
-  /** 
-   * Create a vacuum for each of the 3 hatch handlers.
-   * Note: There is currently no way to know if a hatch handler is sealed on the hatch.
-   * Loading a hatch is a 2 step process
-   * Close the vent
-   * After a small delay apply a vaccuum
-   */
-  public void applyVaccuum() 
-  {
-    hatchHandler.applyVaccuum();
-  }
-
-  /**
-   * Loading a hatch is a 2 step process
-   * Close the vent
-   * After a small delay apply a vaccuum
-   */
-  public void closeVent()
-  {
-    hatchHandler.closeVent();
-  }
-
-  /**
-   * Release the vacuum for each of the 3 hatch handlers.
-   */
-  public void releaseHatch() 
-  {
-    hatchHandler.releaseHatch();
-  }
-
-  public boolean isHatchLoaded()
-  {
-    return hatchHandler.hasVacuum();
-  }
-
   public void deployHatchHandler()
   {
     // Need speed for lead screw motor
     if (Parameters.HANDLER_AVAILABLE) {
       if (mode == AutoMode.AUTO) {
-        leadScrewMotor.set(ControlMode.Position, Parameters.HATCHHANDLER_DEPLOY_POSITION);
+        hatchPositioner.set(Parameters.HATCHHANDLER_DEPLOY_POSITION);
+        isRetracted = false;
       }
     }
   }
 
-  public void retractHatch()
+  public void retractHatchHandler()
   {
     if (Parameters.HANDLER_AVAILABLE) {
       if (mode == AutoMode.AUTO) {
-        leadScrewMotor.set(ControlMode.Position, Parameters.HATCHHANDLER_RETRACTED_POSITION);
+        hatchPositioner.set(Parameters.HATCHHANDLER_RETRACTED_POSITION);
+        isRetracted = true;
       }
     }
   }
 
-  public void setLeadScrewPower(double power) 
+  public boolean isHatchHandlerRetracted()
   {
-    if (Parameters.HANDLER_AVAILABLE) {
-      if (mode == AutoMode.MANUAL) {
-        leadScrewMotor.set(ControlMode.PercentOutput, power);
-      }
-    }
+    return isRetracted;
   }
 
-  public void zeroPosition() 
-  {
-    if (Parameters.HANDLER_AVAILABLE) 
-    {
-      zeroed = true;
-      mode = AutoMode.MANUAL;
-      leadScrewMotor.setSelectedSensorPosition(0);
-    }
-  }
-
-  public boolean isHatchDeployed()
-  {
-    if (Math.abs(leadScrewMotor.getSelectedSensorPosition() - Parameters.HATCHHANDLER_DEPLOY_POSITION) <= Parameters.HATCHHANDLER_SET_POINT_CLOSE) {
-      return true;
-    }
-    return false;
-    // FIXME please
-    // return true;
-  }
-
-  public boolean isHatchRetracted()
-  {
-    if (Math.abs(leadScrewMotor.getSelectedSensorPosition() - Parameters.HATCHHANDLER_ZERO_POSITION) <= Parameters.HATCHHANDLER_SET_POINT_CLOSE) {
-      return true;
-    }
-    return false;
-  }
-
-  public void stopHatchHandler()
-  {
-    leadScrewMotor.set(ControlMode.PercentOutput, 0);
-  }
   /** 
    * Get a cargo from the cargo intake
    */
@@ -257,8 +150,4 @@ public class Handler extends Subsystem {
     //FIXME There is no sensor for the Cargo Handler
   }
 
-  public void extendClimbingArms() 
-  {
-    solenoid.set(true);
-  }
 }

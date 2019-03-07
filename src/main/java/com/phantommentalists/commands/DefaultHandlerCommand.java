@@ -7,7 +7,6 @@
 
 package com.phantommentalists.commands;
 
-import com.phantommentalists.OI;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
 import com.phantommentalists.subsystems.Handler;
@@ -17,18 +16,16 @@ import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Default Command to be run by the Handler subsystem
- * 
+ * Retracts the Hatch Handler before the end of the match
  */
 public class DefaultHandlerCommand extends Command {
   private Handler handler;
-  private OI oi;
   private Timer timer;
   
   public DefaultHandlerCommand(Telepath r) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     handler=r.getHandler();
-    oi=r.getOI();
     requires(handler);
   }
 
@@ -40,16 +37,11 @@ public class DefaultHandlerCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    //handler.setLeadScrewPower(oi.getSlider());
-    //FIXME switch to a button or such for competition
     //make sure that the hatch handler is retracted 
     //before the end of the match
     double matchTime = timer.getMatchTime();
     if (matchTime < Parameters.HATCH_RETURN_BEFORE_END_MATCH) {
-      handler.retractHatch();
-      if (handler.isHatchRetracted() == true) {
-        handler.stopHatchHandler();
-      }
+      handler.retractHatchHandler();
     }
   }
 
@@ -62,13 +54,11 @@ public class DefaultHandlerCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    handler.stopHatchHandler();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    handler.stopHatchHandler();
   }
 }

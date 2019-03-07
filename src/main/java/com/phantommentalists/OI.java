@@ -14,6 +14,7 @@ import com.phantommentalists.commands.GoToElevatorPositionCommand;
 import com.phantommentalists.commands.GrabHatchCommand;
 import com.phantommentalists.commands.PickUpCargoCommandGroup;
 import com.phantommentalists.commands.PlaceCargoCommandGroup;
+import com.phantommentalists.commands.PlaceHatchCommandGroup;
 import com.phantommentalists.commands.ReleaseHatchCommand;
 import com.phantommentalists.commands.RetractCargoIntakeCommand;
 import com.phantommentalists.commands.ElevatorRunUpCommand;
@@ -88,7 +89,7 @@ public class OI {
       buttonCargo3.whenPressed(new PlaceCargoCommandGroup(Parameters.ElevatorPosition.CARGO_HIGH, r));
 
       buttonHatchSuck.whenPressed(new GrabHatchCommand(r));
-      buttonHatchBlow.whenPressed(new ReleaseHatchCommand(r));
+      buttonHatchBlow.whenPressed(new PlaceHatchCommandGroup(r));
 
       // buttonHatchExtend.whenPressed(new DeployHatchHandlerCommand(r));
       // buttonHatchExtend.whenReleased(new HatchHandlerRetractCommand(r));
