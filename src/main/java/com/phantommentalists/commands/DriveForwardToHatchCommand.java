@@ -7,49 +7,52 @@
 
 package com.phantommentalists.commands;
 
-import com.phantommentalists.Telepath;
-import com.phantommentalists.Parameters.AutoMode;
-import com.phantommentalists.subsystems.Handler;
+import com.phantommentalists.Parameters;
+import com.phantommentalists.subsystems.Drive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- * Retracts the Hatch Handler
- */
-public class HatchHandlerRetractCommand extends Command {
-  private Handler handler;
-  public HatchHandlerRetractCommand(Telepath r) {
-    handler = r.getHandler();
+public class DriveForwardToHatchCommand extends Command {
+  /**
+   * Drives forward to place hatch
+   * Runs by a timer at a set speed
+   */
+  Drive d;
+  public DriveForwardToHatchCommand(Drive d) {
+    this.d = d;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(handler);
+    requires(d);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    setTimeout(Parameters.DRIVE_TO_HATCH_TIMER);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    handler.retractHatchHandler();
+    d.goStraight(Parameters.DRIVE_TO_HATCH_SPEED);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return handler.isHatchHandlerRetracted();
+    return isTimedOut();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    d.goStraight(0.0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    d.goStraight(0.0);
   }
 }

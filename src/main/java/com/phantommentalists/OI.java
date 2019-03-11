@@ -16,8 +16,7 @@ import com.phantommentalists.commands.GrabHatchCommand;
 import com.phantommentalists.commands.HatchHandlerRetractCommand;
 import com.phantommentalists.commands.PickUpCargoCommandGroup;
 import com.phantommentalists.commands.PlaceCargoCommandGroup;
-import com.phantommentalists.commands.PlaceHatchCommandGroup;
-import com.phantommentalists.commands.ReleaseHatchCommand;
+import com.phantommentalists.commands.ReleaseHatchCommandGroup;
 import com.phantommentalists.commands.RetractCargoIntakeCommand;
 import com.phantommentalists.commands.ElevatorRunUpCommand;
 import com.phantommentalists.commands.ElevatorRunDownCommand;
@@ -72,8 +71,8 @@ public class OI {
   Button buttonCargo3 = new JoystickButton(buttonBoxRight, Parameters.BUTTON_CARGO_3);
   Button switchBlue = new JoystickButton(buttonBoxRight, Parameters.SWITCH_BLUE);
 
-  Button buttonHatchSuck = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_HATCHHANDLER_SUCK);
-  Button buttonHatchBlow = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_HATCHHANDLER_BLOW);
+  Button buttonHatchGet = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_HATCHHANDLER_GET);
+  Button buttonHatchPut = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_HATCHHANDLER_PUT);
 
   // public Button buttonLifterRetract = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_LIFTER_RETRACT);
   // public Button buttonLifterDeploy = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_LIFTER_DEPLOY);
@@ -92,8 +91,8 @@ public class OI {
       buttonHatch3.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_HIGH, r));
       buttonCargo3.whenPressed(new PlaceCargoCommandGroup(Parameters.ElevatorPosition.CARGO_HIGH, r));
 
-      buttonHatchSuck.whenPressed(new GrabHatchCommand(r));
-      buttonHatchBlow.whenPressed(new PlaceHatchCommandGroup(r));
+      buttonHatchGet.whenPressed(new GrabHatchCommand(r));
+      buttonHatchPut.whenPressed(new ReleaseHatchCommandGroup(r));
 
       // buttonHatchExtend.whenPressed(new DeployHatchHandlerCommand(r));
       // buttonHatchExtend.whenReleased(new HatchHandlerRetractCommand(r));

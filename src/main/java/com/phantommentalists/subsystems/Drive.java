@@ -66,6 +66,10 @@ public class Drive extends Subsystem {
     right.setPercentOutput(-0.5);
   }
 
+  public void goStraight(double speed) {
+    left.setPercentOutput(speed);
+    right.setPercentOutput(speed);
+  }
 
   public void reflectiveAlignDrive(double x)
   {

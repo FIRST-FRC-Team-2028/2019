@@ -89,7 +89,7 @@ public class Parameters {
   public static final int BUTTON_ELEVATOR_UP = 4; // 7 doesn't work, use 4 on left button box
   public static final int BUTTON_CARGO_INTAKE_EXTEND = 5;
   public static final int BUTTON_CARGO_INTAKE_RETRACT = 10;
-  // public static final int BUTTON_CARGO_RUN_BOTH_ROLLERS = 6;
+  public static final int BUTTON_CARGO_RUN_BOTH_ROLLERS = 6;
   //public static final int BUTTON_CARGO_INTAKE_RETRACT = 6; 
   //buttons on Dual Arcade 1
   public static final int BUTTON_ELEVATOR_DOWN = 8;
@@ -116,6 +116,7 @@ public class Parameters {
     HATCH_LOW(6105),
     HATCH_MIDDLE(16500),
     HATCH_HIGH(26700),
+    HATCH_SAFE(5300),
     CARGO_LOW(5300),
     CARGO_MIDDLE(16500),
     CARGO_HIGH(26500),
@@ -155,6 +156,8 @@ public class Parameters {
   public static final boolean DRIVE_SHIFTER_ENABLE = true;
   public static final double DRIVE_SHIFT_TIME_INTERVAL = 1.0;
   public static final double DRIVE_SPEED_LIMITER_ELEVATOR_CG = 0.3;
+  public static final double DRIVE_TO_HATCH_TIMER = 1.0;  //seconds
+  public static final double DRIVE_TO_HATCH_SPEED = 0.3;
 
   public enum DriveGearbox {
     /** We're deploying on practice robot with dual CIM motor gearbox */
@@ -324,7 +327,7 @@ public class Parameters {
   public static final double LIFT_LEVELER_TOLERANCE = 3.0;
   public static final boolean ULTRASONIC_AVAILABLE = false;
   
-public static final int BUTTON_HATCHHANDLER_SUCK = 1;
-public static final int BUTTON_HATCHHANDLER_BLOW = 2;
+public static final int BUTTON_HATCHHANDLER_GET = 1;
+public static final int BUTTON_HATCHHANDLER_PUT = 2;
 public static final int BUTTON_INTAKE_ROLLERS = 7;
 }

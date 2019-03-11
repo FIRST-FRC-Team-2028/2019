@@ -25,6 +25,7 @@ public class DefaultHandlerCommand extends Command {
   private Timer timer;
   Joystick buttons;
   public DefaultHandlerCommand(Telepath r) {
+    buttons = r.getOI().getButtonBoxleft();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     handler=r.getHandler();
@@ -46,7 +47,7 @@ public class DefaultHandlerCommand extends Command {
     if (matchTime < Parameters.HATCH_RETURN_BEFORE_END_MATCH) {
       handler.retractHatchHandler();
     }
-    if(buttons.getRawButton(6))
+    if(buttons.getRawButton(Parameters.BUTTON_CARGO_RUN_BOTH_ROLLERS))
     {
       handler.loadCargo();
     }
@@ -55,8 +56,7 @@ public class DefaultHandlerCommand extends Command {
       handler.stopCargoHandler();
     }
     // handler.setCargoSpeed(oi.getSlider());
-    SmartDashboard.putNumber("Cargo Handler Percent", handler.getPercentage());
-
+    //SmartDashboard.putNumber("Cargo Handler Percent", handler.getPercentage());
   }
 
   // Make this return true when this Command no longer needs to run execute()
