@@ -55,7 +55,7 @@ public class DefaultCargoIntakeCommand extends Command {
       //cargoIntake.setPowerExtender(0.);
       SmartDashboard.putNumber("OI Slider: ", oi.getSlider());
     }
-    if(buttons.getRawButton(6))
+    if(buttons.getRawButton(Parameters.BUTTON_CARGO_RUN_BOTH_ROLLERS))
     {
       cargoIntake.turnOnRollers();
     }

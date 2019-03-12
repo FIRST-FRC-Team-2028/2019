@@ -7,17 +7,11 @@
 
 package com.phantommentalists.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
-import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.commands.DefaultHandlerCommand;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -37,12 +31,7 @@ public class Handler extends Subsystem {
   
   private CargoHandler cargoHandler;
   private DoubleSolenoid hatchPositioner;  // to position HatchHandler
-
-  private Solenoid solenoid; // To deploy climbing arm
-
-  private AutoMode mode;
   
-  private boolean zeroed;
   Telepath robot;
   private boolean isRetracted;
 
@@ -75,39 +64,20 @@ public class Handler extends Subsystem {
       if (Parameters.HANDLER_AVAILABLE) {
       }
     }
-
-  /** 
-   * TBD TODO
-   * 
-   * @param AutoMode sets the auto pilot mode for the handler
-   */
-  public void setMode(AutoMode mode) 
-  {
-    if (mode == AutoMode.AUTO && !zeroed)
-    {
-      return;
-    }
-    this.mode = mode;
-  }
   
   public void deployHatchHandler()
   {
-    // Need speed for lead screw motor
     if (Parameters.HANDLER_AVAILABLE) {
-      if (mode == AutoMode.AUTO) {
-        hatchPositioner.set(Parameters.HATCHHANDLER_DEPLOY_POSITION);
-        isRetracted = false;
-      }
+      hatchPositioner.set(Parameters.HATCHHANDLER_DEPLOY_POSITION);
+      isRetracted = false;
     }
   }
 
   public void retractHatchHandler()
   {
     if (Parameters.HANDLER_AVAILABLE) {
-      if (mode == AutoMode.AUTO) {
-        hatchPositioner.set(Parameters.HATCHHANDLER_RETRACTED_POSITION);
-        isRetracted = true;
-      }
+      hatchPositioner.set(Parameters.HATCHHANDLER_RETRACTED_POSITION);
+      isRetracted = true;
     }
   }
 

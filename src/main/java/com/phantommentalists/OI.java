@@ -16,6 +16,7 @@ import com.phantommentalists.commands.GrabHatchCommand;
 import com.phantommentalists.commands.HatchHandlerRetractCommand;
 import com.phantommentalists.commands.PickUpCargoCommandGroup;
 import com.phantommentalists.commands.PlaceCargoCommandGroup;
+import com.phantommentalists.commands.PlaceHatchCommandGroup;
 import com.phantommentalists.commands.ReleaseHatchCommandGroup;
 import com.phantommentalists.commands.RetractCargoIntakeCommand;
 import com.phantommentalists.commands.ElevatorRunUpCommand;
@@ -30,6 +31,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -42,6 +44,28 @@ public class OI {
   //// joystick.
   // You create one by telling it which joystick it's on and which button
   // number it is.
+
+  /**
+   * Uses the switch to change the behavior of a button
+   */
+  class SwitchedButton extends Trigger
+  {
+    Button button;
+    Button modeSwitch;
+    boolean mode;
+
+    public SwitchedButton(Button button, Button modeSwitch, boolean mode) {
+      this.button = button;
+      this.modeSwitch = modeSwitch;
+      this.mode = mode;
+    }
+
+    @Override
+    public boolean get() {
+      return (button.get() && (modeSwitch.get() == mode));
+    }
+  }
+
   public Joystick stick = new Joystick(0);
   public Joystick buttonBoxLeft = new Joystick(1);
   public Joystick buttonBoxRight = new Joystick(2);
@@ -71,6 +95,19 @@ public class OI {
   Button buttonCargo3 = new JoystickButton(buttonBoxRight, Parameters.BUTTON_CARGO_3);
   Button switchBlue = new JoystickButton(buttonBoxRight, Parameters.SWITCH_BLUE);
 
+  SwitchedButton switchedHatch1ButtonOn = new SwitchedButton(buttonHatch1get, switchBlue, true);
+  SwitchedButton switchedHatch1ButtonOff = new SwitchedButton(buttonHatch1get, switchBlue, false);
+  SwitchedButton switchedHatch2ButtonOn = new SwitchedButton(buttonHatch2, switchBlue, true);
+  SwitchedButton switchedHatch2ButtonOff = new SwitchedButton(buttonHatch2, switchBlue, false);
+  SwitchedButton switchedHatch3ButtonOn = new SwitchedButton(buttonHatch3, switchBlue, true);
+  SwitchedButton switchedHatch3ButtonOff = new SwitchedButton(buttonHatch3, switchBlue, false);
+  SwitchedButton switchedCargo1ButtonOn = new SwitchedButton(buttonCargo1get, switchBlue, true);
+  SwitchedButton switchedCargo1ButtonOff = new SwitchedButton(buttonCargo1get, switchBlue, false);
+  SwitchedButton switchedCargo2ButtonOn = new SwitchedButton(buttonCargo2, switchBlue, true);
+  SwitchedButton switchedCargo2ButtonOff = new SwitchedButton(buttonCargo2, switchBlue, false);
+  SwitchedButton switchedCargo3ButtonOn = new SwitchedButton(buttonCargo3, switchBlue, true);
+  SwitchedButton switchedCargo3ButtonOff = new SwitchedButton(buttonCargo3, switchBlue, false);
+
   Button buttonHatchGet = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_HATCHHANDLER_GET);
   Button buttonHatchPut = new JoystickButton(buttonBoxLeft, Parameters.BUTTON_HATCHHANDLER_PUT);
 
@@ -82,14 +119,27 @@ public class OI {
     button.whileHeld(new SpinCommand(r));
     button2.whileHeld(new AlignReflectCommand(r));
     if ( Parameters.BUTTONBOX_AVAILABLE) {
-      buttonElevatorUp.whileHeld(new ElevatorRunUpCommand(r));
-      buttonElevatorDown.whileHeld(new ElevatorRunDownCommand(r));
-      buttonHatch1get.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_LOW, r));
-      buttonCargo1get.whenPressed(new PlaceCargoCommandGroup(Parameters.ElevatorPosition.CARGO_LOW, r));
-      buttonHatch2.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_MIDDLE, r));
-      buttonCargo2.whenPressed(new PlaceCargoCommandGroup(Parameters.ElevatorPosition.CARGO_MIDDLE, r));
-      buttonHatch3.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_HIGH, r));
-      buttonCargo3.whenPressed(new PlaceCargoCommandGroup(Parameters.ElevatorPosition.CARGO_HIGH, r));
+      // buttonElevatorUp.whileHeld(new ElevatorRunUpCommand(r));
+      // buttonElevatorDown.whileHeld(new ElevatorRunDownCommand(r));
+      // buttonHatch1get.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_LOW, r));
+      // buttonCargo1get.whenPressed(new PlaceCargoCommandGroup(Parameters.ElevatorPosition.CARGO_LOW, r));
+      // buttonHatch2.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_MIDDLE, r));
+      // buttonCargo2.whenPressed(new PlaceCargoCommandGroup(Parameters.ElevatorPosition.CARGO_MIDDLE, r));
+      // buttonHatch3.whileHeld(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_HIGH, r));
+      // buttonCargo3.whenPressed(new PlaceCargoCommandGroup(Parameters.ElevatorPosition.CARGO_HIGH, r));
+      
+      switchedHatch1ButtonOn.whenActive(new PlaceHatchCommandGroup(Parameters.ElevatorPosition.HATCH_LOW, r));
+      switchedHatch1ButtonOff.whileActive(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_LOW, r));
+      switchedCargo1ButtonOn.whenActive(new PlaceCargoCommandGroup(Parameters.ElevatorPosition.CARGO_LOW, r));
+      switchedCargo1ButtonOff.whenActive(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_LOW, r));
+      switchedHatch2ButtonOn.whenActive(new PlaceHatchCommandGroup(Parameters.ElevatorPosition.HATCH_MIDDLE, r));
+      switchedHatch2ButtonOff.whileActive(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_MIDDLE, r));
+      switchedCargo2ButtonOn.whenActive(new PlaceCargoCommandGroup(Parameters.ElevatorPosition.CARGO_MIDDLE, r));
+      switchedCargo2ButtonOff.whenActive(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_MIDDLE, r));
+      switchedHatch3ButtonOn.whenActive(new PlaceHatchCommandGroup(Parameters.ElevatorPosition.HATCH_HIGH, r));
+      switchedHatch3ButtonOff.whileActive(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_HIGH, r));
+      switchedCargo3ButtonOn.whenActive(new PlaceCargoCommandGroup(Parameters.ElevatorPosition.CARGO_HIGH, r));
+      switchedCargo3ButtonOff.whenActive(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.CARGO_HIGH, r));
 
       buttonHatchGet.whenPressed(new GrabHatchCommand(r));
       buttonHatchPut.whenPressed(new ReleaseHatchCommandGroup(r));
