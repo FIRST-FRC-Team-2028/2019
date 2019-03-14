@@ -216,7 +216,7 @@ public class Parameters {
     RIGHT_MASTER_CAN_ID(10, true, 12),
     RIGHT_2_FOLLOWER_CAN_ID(11, true, 13), 
     RIGHT_4_FOLLOWER_CAN_ID_1(11, true, 14),
-    RIGHT_4_FOLLOWER_CAN_ID_2(12,true, 13),
+    RIGHT_4_FOLLOWER_CAN_ID_2(12,true, 13), 
     RIGHT_4_FOLLOWER_CAN_ID_3(13,true, 12),
 
     ELEVATOR(40, true, 4),
