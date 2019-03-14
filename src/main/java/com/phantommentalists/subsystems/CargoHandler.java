@@ -26,11 +26,9 @@ public class CargoHandler{
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private TalonSRX rollers;
-  private DigitalInput cargoSensor;
 
   public CargoHandler() {
     rollers = new TalonSRX(Parameters.CanId.CARGO_HANDLER.getCanId());
-    cargoSensor = new DigitalInput(Parameters.CARGO_HANDLER_SENSOR);
     rollers.setInverted(Parameters.CanId.CARGO_HANDLER.isInverted());
     rollers.set(ControlMode.PercentOutput, 0.0);
   }
@@ -53,13 +51,10 @@ public class CargoHandler{
   {
     rollers.set(ControlMode.PercentOutput, speed);
   }
+  
   public double getPercentage()
   {
     return rollers.getMotorOutputPercent();
   }
     
-  public boolean isCargoHeld() {
-    // FIXME Get current state from sensor
-    return cargoSensor.get();
-  } 
 }

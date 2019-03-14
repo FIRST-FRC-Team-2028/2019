@@ -24,7 +24,9 @@ public class DefaultHandlerCommand extends Command {
   private Handler handler;
   private Timer timer;
   Joystick buttons;
+  Telepath robot;
   public DefaultHandlerCommand(Telepath r) {
+    robot=r;
     buttons = r.getOI().getButtonBoxleft();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -44,19 +46,25 @@ public class DefaultHandlerCommand extends Command {
     //make sure that the hatch handler is retracted 
     //before the end of the match
     double matchTime = timer.getMatchTime();
-    if (matchTime < Parameters.HATCH_RETURN_BEFORE_END_MATCH) {
-      handler.retractHatchHandler();
+    if (!robot.getDebug()){
+      if (matchTime < Parameters.HATCH_RETURN_BEFORE_END_MATCH && !handler.isHatchHandlerRetracted()) {
+        handler.retractHatchHandler();
+      }
     }
-    if(buttons.getRawButton(Parameters.BUTTON_CARGO_RUN_BOTH_ROLLERS))
-    {
-      handler.loadCargo();
+    // FIXME RawButton interaction just for debug
+    System.out.println("Handler DefCom");
+    if (robot.getDebug()){
+      if(buttons.getRawButton(Parameters.BUTTON_CARGO_RUN_BOTH_ROLLERS))
+      {
+        handler.loadCargo();
+      }
+      else
+      {
+        handler.stopCargoHandler();
+      }
+      // handler.setCargoSpeed(oi.getSlider());
+      //SmartDashboard.putNumber("Cargo Handler Percent", handler.getPercentage());
     }
-    else
-    {
-      handler.stopCargoHandler();
-    }
-    // handler.setCargoSpeed(oi.getSlider());
-    //SmartDashboard.putNumber("Cargo Handler Percent", handler.getPercentage());
   }
 
   // Make this return true when this Command no longer needs to run execute()

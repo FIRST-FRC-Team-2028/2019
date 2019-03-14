@@ -18,8 +18,7 @@ public class PickUpHatchCommandGroup extends CommandGroup {
    * To pickup the hatch the command extend/deploys Hatch Handler
    * Deploying it runs in parallel with the elevator
    * Drive to hatch (sensed somehow or viewed by camera)
-   * Collapse vacuum cups by extending a pneumatic cylinder that pulls
-   * on other pneumatic cylinders (only one solenoid operated valve is needed)
+   * Lift the elevator and back up to get the hatch out
    */
   public PickUpHatchCommandGroup(Telepath r) {
     // Add Commands here:
@@ -51,11 +50,9 @@ public class PickUpHatchCommandGroup extends CommandGroup {
     addSequential(new DeployHatchHandlerCommand(r));
     //Deploying it runs in parallel with the elevator
     //Drive to hatch (sensed somehow or viewed by camera)
-    addSequential(new DriveToHatchCommand(r));
-    //FIXME ensure DriveToHatchCommand exists
-    //Collapse vacuum cups by extending a pneumatic cylinder that pulls
-    //on other pneumatic cylinders (only one solenoid operated valve is needed)
-    addSequential(new GrabHatchCommand(r));
+    addSequential(new DriveForwardToHatchCommand(r.getDrive()));
+    //Lift the elevator and back up to get the hatch out
+    addSequential(new GrabHatchCommandGroup(r));
     //TODO Do we need to drive backwards just a bit to check if grabbed?
   }
 }

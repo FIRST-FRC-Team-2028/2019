@@ -83,22 +83,23 @@ public class Parameters {
   public static final int CUBE_RIGHT_PADDLE = 5;
   public static final int CUBE_RIGHT_PEDAL = 1;
   //buttons on Dual Arcade 0
-  // public static final int BUTTON_LIFTER_RETRACT = 10;
-  // public static final int BUTTON_LIFTER_DEPLOY = 9;
-  public static final int BUTTON_CARGO_HANDLER_INTAKE = 8;
-  public static final int BUTTON_ELEVATOR_UP = 4; // 7 doesn't work, use 4 on left button box
+  public static final int BUTTON_HATCHHANDLER_GET = 1;
+  public static final int BUTTON_HATCHHANDLER_PUT = 2;
+  public static final int BUTTON_ELEVATOR_UP = 4;
   public static final int BUTTON_CARGO_INTAKE_EXTEND = 5;
+  public static final int BUTTON_CARGO_RUN_BOTH_ROLLERS = 6; 
+  public static final int BUTTON_INTAKE_ROLLERS = 7;
+  public static final int BUTTON_CARGO_HANDLER_INTAKE = 8;
   public static final int BUTTON_CARGO_INTAKE_RETRACT = 10;
-  public static final int BUTTON_CARGO_RUN_BOTH_ROLLERS = 6;
-  //public static final int BUTTON_CARGO_INTAKE_RETRACT = 6; 
   //buttons on Dual Arcade 1
-  public static final int BUTTON_ELEVATOR_DOWN = 8;
-  public static final int BUTTON_HATCH_1 = 5;
-  public static final int BUTTON_CARGO_1 = 6;
-  public static final int BUTTON_HATCH_2 = 3;
-  public static final int BUTTON_CARGO_2 = 4;
   public static final int BUTTON_HATCH_3 = 1;
   public static final int BUTTON_CARGO_3 = 2;
+  public static final int BUTTON_HATCH_2 = 3;
+  public static final int BUTTON_CARGO_2 = 4;
+  public static final int BUTTON_HATCH_1 = 5;
+  public static final int BUTTON_CARGO_1 = 6;
+  public static final int BUTTON_ELEVATOR_DOWN = 8;
+  public static final int SWITCH_GREEN_HATCH_EXTEND = 10;
   public static final int SWITCH_BLUE = 11;
 
   
@@ -108,18 +109,20 @@ public class Parameters {
   public static final int ELEVATOR_PID_CRUISE_ACCEL_DOWN = 1000;
   public static final double ELEVATOR_ZEROING_SPEED = -0.25;
   public static final int ELEVATOR_POSITION_ERROR = 1500;
-  public static final double ELEVATOR_MANUAL_SPEED = 0.6;
+  public static final double ELEVATOR_MANUAL_SPEED = 0.7;
   public static final double ELEVATOR_ZEROING_CURRENT_LIMIT = 3.5;
   public static final int ELEVATOR_ZEROING_ENCODER_LIMIT = 10;
   public enum ElevatorPosition {
     LOWER_LIMIT(200),
-    HATCH_LOW(6105),
-    HATCH_MIDDLE(16500),
-    HATCH_HIGH(26700),
+    HATCH_LOW(6700),
+    HATCH_MIDDLE(16700),
+    HATCH_HIGH(26000),
     HATCH_SAFE(5300),
-    CARGO_LOW(5300),
-    CARGO_MIDDLE(16500),
+    HATCH_OUT(7000),
+    CARGO_LOW(5650),
+    CARGO_MIDDLE(17000),
     CARGO_HIGH(26500),
+    CARGO_SHIP(15000),
     HAB_ZONE_LEVEL_2(400),
     HAB_ZONE_LEVEL_3(5000),
     UPPER_LIMIT(27000);
@@ -219,7 +222,7 @@ public class Parameters {
     ELEVATOR(40, true, 4),
     
     CARGO_INTAKE(52, true, 10),
-    CARGO_INTAKE_EXT(30, true, 8),
+    CARGO_INTAKE_EXT(30, false, 8),
     //CARGO_INTAKE_EXT(28, true, 9),
     CARGO_HANDLER(50, false, 6),
 
@@ -289,9 +292,9 @@ public class Parameters {
 
   public static final double HATCHHANDLER_MOTOR_SPEED = 0.0;
   public static final int HATCHHANDLER_ZERO_POSITION = 0;
-  public static final DoubleSolenoid.Value HATCHHANDLER_DEPLOY_POSITION = Value.kForward;
   public static final double HATCHHANDLER_ZEROING_SPEED = -0.2;
-  public static final DoubleSolenoid.Value HATCHHANDLER_RETRACTED_POSITION = Value.kReverse;
+  public static final DoubleSolenoid.Value HATCHHANDLER_DEPLOY_POSITION = Value.kReverse;
+  public static final DoubleSolenoid.Value HATCHHANDLER_RETRACTED_POSITION = Value.kForward;
   public static final double HATCHHANDLER_ZEROING_CURRENT_LIMIT = 2.0;  //amps
   public static final double HATCHHANDLER_SET_POINT_CLOSE = 100;
   public static final double HATCHHANDLER_VACCUUM_DELAY = 0.65;  //seconds
@@ -326,8 +329,4 @@ public class Parameters {
   public static final double LIFT_LEVELER_Kd = 0.0;
   public static final double LIFT_LEVELER_TOLERANCE = 3.0;
   public static final boolean ULTRASONIC_AVAILABLE = false;
-  
-public static final int BUTTON_HATCHHANDLER_GET = 1;
-public static final int BUTTON_HATCHHANDLER_PUT = 2;
-public static final int BUTTON_INTAKE_ROLLERS = 7;
 }

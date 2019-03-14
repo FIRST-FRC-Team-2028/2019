@@ -18,8 +18,17 @@ public class DriveForwardToHatchCommand extends Command {
    * Runs by a timer at a set speed
    */
   Drive d;
+  boolean backwards;
   public DriveForwardToHatchCommand(Drive d) {
     this.d = d;
+    backwards = false;
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    requires(d);
+  }
+  public DriveForwardToHatchCommand(Drive d, boolean backwards) {
+    this.d = d;
+    this.backwards = backwards;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(d);
@@ -34,7 +43,12 @@ public class DriveForwardToHatchCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    d.goStraight(Parameters.DRIVE_TO_HATCH_SPEED);
+    if (backwards) {
+      d.goStraight(-1.0 * Parameters.DRIVE_TO_HATCH_SPEED);
+    }
+    else {
+      d.goStraight(Parameters.DRIVE_TO_HATCH_SPEED);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

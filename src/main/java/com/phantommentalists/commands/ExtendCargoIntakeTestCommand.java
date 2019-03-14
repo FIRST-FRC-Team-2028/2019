@@ -59,6 +59,7 @@ public class ExtendCargoIntakeTestCommand extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    System.out.println("extendCargoIntakeCommand interrupt method");
     cargoIntake.stopExtendMotor();
   }
 }

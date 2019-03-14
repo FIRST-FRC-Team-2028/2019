@@ -8,7 +8,6 @@
 package com.phantommentalists.commands;
 
 import com.phantommentalists.Telepath;
-import com.phantommentalists.Parameters.AutoMode;
 import com.phantommentalists.subsystems.Handler;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -33,13 +32,15 @@ public class HatchHandlerRetractCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    System.out.println("RetractHatchHandler running");
     handler.retractHatchHandler();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return handler.isHatchHandlerRetracted();
+    // return handler.isHatchHandlerRetracted();
+    return true;
   }
 
   // Called once after isFinished returns true

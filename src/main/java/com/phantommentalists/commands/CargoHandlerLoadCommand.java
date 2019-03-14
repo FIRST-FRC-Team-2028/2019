@@ -34,7 +34,8 @@ public class CargoHandlerLoadCommand extends CommandGroup {
   protected void initialize() {
     if(Parameters.HANDLER_AVAILABLE)
     {
-      handler.stopCargoHandler();
+      // FIXME ask why this is here; 
+      //handler.stopCargoHandler();
     }
   }
 

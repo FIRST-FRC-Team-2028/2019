@@ -48,7 +48,7 @@ public class CargoIntake extends Subsystem {
 
       extender.set(ControlMode.PercentOutput, 0.0);
       extender.setNeutralMode(NeutralMode.Brake);
-      extender.setInverted(Parameters.CanId.CARGO_INTAKE.isInverted());
+      extender.setInverted(Parameters.CanId.CARGO_INTAKE_EXT.isInverted());
     }
   }
 

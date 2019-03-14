@@ -55,8 +55,12 @@ public class Telepath extends TimedRobot {
   UsbCamera cam2;
   VideoSink server;
   CvSink sink;
-  boolean blueSwitch;
   
+  /**
+   * FIXME
+   * global debug flag should be set false for competition
+   */
+  boolean debug=true;
 
   /**
    * Default constructor
@@ -104,14 +108,9 @@ public class Telepath extends TimedRobot {
     }
   }
 
-  public void setBlue(boolean state)
+  public boolean getDebug()
   {
-    blueSwitch = state;
-  }
-
-  public boolean getBlue()
-  {
-    return blueSwitch;
+    return debug;
   }
 
   /**
@@ -281,9 +280,9 @@ public class Telepath extends TimedRobot {
      * FIXME For debugging only. Remove before comp
      * 
      */
-    if(Parameters.ELEVATOR_AVAILABLE) {
-      elevator.setMode(AutoMode.ZEROING);
-    }
+    // if(Parameters.ELEVATOR_AVAILABLE) {
+    //   elevator.setMode(AutoMode.ZEROING);
+    // }
   }
 
   /**

@@ -56,12 +56,16 @@ public class Handler extends Subsystem {
   {
     setDefaultCommand(new DefaultHandlerCommand(robot));
   }
+
   /**
    * Updates all the internal variables
    */
      public void process()
     {
+      
+      //System.out.println("Handler process");
       if (Parameters.HANDLER_AVAILABLE) {
+        SmartDashboard.putNumber("CargoHandlerRollers Percent", cargoHandler.getPercentage());
       }
     }
   
@@ -105,18 +109,6 @@ public class Handler extends Subsystem {
   public void shootCargo() 
   {
     cargoHandler.shootCargo();
-  }
-
-  /** 
-   * Determines if cargo is held
-   * 
-   * @return boolean true if cargo held, false otherwise
-   */
-  public boolean isCargoHeld() 
-  {
-    boolean held = cargoHandler.isCargoHeld();
-    return held;
-    //FIXME There is no sensor for the Cargo Handler
   }
 
 }

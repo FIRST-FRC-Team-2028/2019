@@ -9,18 +9,22 @@ package com.phantommentalists.commands;
 
 import com.phantommentalists.Parameters;
 import com.phantommentalists.Telepath;
+import com.phantommentalists.subsystems.Drive;
+import com.phantommentalists.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class ReleaseHatchCommandGroup extends CommandGroup {
+public class GrabHatchCommandGroup extends CommandGroup {
   /**
-   *  Places the hatch on the velcro
-   * Steps include:
-   *  Drives forward to place the hatch
-   *  Bring down elevator and in parallel retract the Hatch Handler
+   * Retrives the hatch from either the Cargo ship or the Loading Station
+   * Lift the elevator and back up to get the hatch out
    */
+  private Elevator elevator;
+  private Drive drive;
 
-  public ReleaseHatchCommandGroup(Telepath r) {
+  public GrabHatchCommandGroup(Telepath r) {
+    elevator = r.getElevator();
+    drive = r.getDrive();
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -37,16 +41,12 @@ public class ReleaseHatchCommandGroup extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
+    requires(elevator);
+    requires(drive);
 
-    requires(r.getDrive());
-    requires(r.getElevator());
-    requires(r.getHandler());
-
-   //Drives forward to place the hatch
-   addSequential(new DriveForwardToHatchCommand(r.getDrive()));
-   //Bring down elevator
-   addParallel(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_SAFE, r));
-   // and in parallel retract the Hatch Handler
-   addSequential(new HatchHandlerRetractCommand(r));
+    //lift the elevator
+    addSequential(new GoToElevatorPositionCommand(Parameters.ElevatorPosition.HATCH_OUT, r));
+    //back up to get the hatch out
+    addSequential(new DriveForwardToHatchCommand(drive, true));
   }
 }
